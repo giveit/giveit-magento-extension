@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Synocom_GiveIt>
+            <version>1.0.0</version>
+        </Synocom_GiveIt>
+    </modules>
+    <global>
+        <blocks>
+            <synocom_giveit>
+                <class>Synocom_GiveIt_Block</class>
+            </synocom_giveit>
+        </blocks>
+        <helpers>
+            <synocom_giveit>
+                <class>Synocom_GiveIt_Helper</class>
+            </synocom_giveit>
+        </helpers>
+        <models>
+            <synocom_giveit>
+                <class>Synocom_GiveIt_Model</class>
+            </synocom_giveit>
+        </models>
+    </global>
+</config>
