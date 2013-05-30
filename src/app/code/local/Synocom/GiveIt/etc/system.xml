@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <sections>
+        <synocom_giveit>
+            <label>Give It</label>
+            <sort_order>10000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <tab>catalog</tab>
+            <groups>
+                <account_settings>
+                    <label>Account Settings</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <public_key>
+                            <label>Public Key</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </public_key>
+                        <private_key>
+                            <label>Private Key</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </private_key>
+                        <data_key>
+                            <label>Data Key</label>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </data_key>
+                    </fields>
+                </account_settings>
+
+
+
+                <button_settings>
+                    <label>Button Settings</label>
+                    <sort_order>15</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <button_color>
+                            <label> Key</label>
+                            <frontend_type>select</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_type>text</frontend_type>
+                        </button_color>
+                    </fields>
+                </button_settings>
+
+
+
+                <delivery_option_1>
+                    <label>Delivery Option 1</label>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+
+                        <delivery_option_id>
+                            <label>ID</label>
+                            <sort_order>10</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_id>
+                        <delivery_option_name>
+                            <label>Name</label>
+                            <sort_order>20</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_name>
+
+                        <delivery_option_choice_1>
+                            <label>Option ID 1</label>
+                            <sort_order>30</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_choice_1>
+                        <delivery_option_name_1>
+                            <label>Option Name 1</label>
+                            <sort_order>40</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_name_1>
+                        <delivery_option_price_1>
+                            <label>Option Price 1</label>
+                            <sort_order>50</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_price_1>
+
+                        <delivery_option_choice_2>
+                            <label>Option ID 2</label>
+                            <sort_order>130</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_choice_2>
+                        <delivery_option_name_2>
+                            <label>Option Name 2</label>
+                            <sort_order>140</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_name_2>
+                        <delivery_option_price_2>
+                            <label>Option Price 2</label>
+                            <sort_order>150</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_price_2>
+
+                        <delivery_option_choice_3>
+                            <label>Option ID 3</label>
+                            <sort_order>230</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_choice_3>
+                        <delivery_option_name_3>
+                            <label>Option Name 3</label>
+                            <sort_order>240</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_name_3>
+                        <delivery_option_price_3>
+                            <label>Option Price 3</label>
+                            <sort_order>250</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_price_3>
+
+                    </fields>
+                </delivery_option_1>
+
+                <delivery_option_2>
+                    <label>Delivery Option 2</label>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+
+                        <delivery_option_id>
+                            <label>ID</label>
+                            <sort_order>10</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_id>
+                        <delivery_option_name>
+                            <label>Name</label>
+                            <sort_order>20</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_name>
+
+                        <delivery_option_choice_1>
+                            <label>Option ID 1</label>
+                            <sort_order>30</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_choice_1>
+                        <delivery_option_name_1>
+                            <label>Option Name 1</label>
+                            <sort_order>40</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_name_1>
+                        <delivery_option_price_1>
+                            <label>Option Price 1</label>
+                            <sort_order>50</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_price_1>
+
+                        <delivery_option_choice_2>
+                            <label>Option ID 2</label>
+                            <sort_order>130</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_choice_2>
+                        <delivery_option_name_2>
+                            <label>Option Name 2</label>
+                            <sort_order>140</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_name_2>
+                        <delivery_option_price_2>
+                            <label>Option Price 2</label>
+                            <sort_order>150</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_price_2>
+
+                        <delivery_option_choice_3>
+                            <label>Option ID 3</label>
+                            <sort_order>230</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_choice_3>
+                        <delivery_option_name_3>
+                            <label>Option Name 3</label>
+                            <sort_order>240</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_name_3>
+                        <delivery_option_price_3>
+                            <label>Option Price 3</label>
+                            <sort_order>250</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_price_3>
+
+                    </fields>
+                </delivery_option_2>
+
+
+                <delivery_option_3>
+                    <label>Delivery Option 3</label>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+
+                        <delivery_option_id>
+                            <label>ID</label>
+                            <sort_order>10</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_id>
+                        <delivery_option_name>
+                            <label>Name</label>
+                            <sort_order>20</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_name>
+
+                        <delivery_option_choice_1>
+                            <label>Option ID 1</label>
+                            <sort_order>30</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_choice_1>
+                        <delivery_option_name_1>
+                            <label>Option Name 1</label>
+                            <sort_order>40</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_name_1>
+                        <delivery_option_price_1>
+                            <label>Option Price 1</label>
+                            <sort_order>50</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_price_1>
+
+                        <delivery_option_choice_2>
+                            <label>Option ID 2</label>
+                            <sort_order>130</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_choice_2>
+                        <delivery_option_name_2>
+                            <label>Option Name 2</label>
+                            <sort_order>140</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_name_2>
+                        <delivery_option_price_2>
+                            <label>Option Price 2</label>
+                            <sort_order>150</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_price_2>
+
+                        <delivery_option_choice_3>
+                            <label>Option ID 3</label>
+                            <sort_order>230</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_choice_3>
+                        <delivery_option_name_3>
+                            <label>Option Name 3</label>
+                            <sort_order>240</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_name_3>
+                        <delivery_option_price_3>
+                            <label>Option Price 3</label>
+                            <sort_order>250</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_option_price_3>
+
+                    </fields>
+                </delivery_option_3>
+
+            </groups>
+        </synocom_giveit>
+    </sections>
+</config>
