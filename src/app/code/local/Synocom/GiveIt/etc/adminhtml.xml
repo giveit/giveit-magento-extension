@@ -9,7 +9,7 @@
                             <config>
                                 <children>
                                     <synocom_giveit translate="title">
-                                        <title>An Example Section</title>
+                                        <title>Give It</title>
                                         <sort_order>100</sort_order>
                                     </synocom_giveit>
                                 </children>
