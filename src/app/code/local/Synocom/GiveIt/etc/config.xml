@@ -22,4 +22,13 @@
             </synocom_giveit>
         </models>
     </global>
+    <frontend>
+        <layout>
+            <updates>
+                <synocom_giveit>
+                    <file>giveit.xml</file>
+                </synocom_giveit>
+            </updates>
+        </layout>
+    </frontend>
 </config>
