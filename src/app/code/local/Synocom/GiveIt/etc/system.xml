@@ -9,8 +9,8 @@
             <show_in_store>1</show_in_store>
             <tab>catalog</tab>
             <groups>
-                <account_settings>
-                    <label>Account Settings</label>
+                <settings>
+                    <label>Settings</label>
                     <sort_order>10</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -18,6 +18,7 @@
                     <fields>
                         <public_key>
                             <label>Public Key</label>
+                            <sort_order>10</sort_order>
                             <frontend_type>text</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -25,6 +26,7 @@
                         </public_key>
                         <private_key>
                             <label>Private Key</label>
+                            <sort_order>20</sort_order>
                             <frontend_type>text</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -32,13 +34,32 @@
                         </private_key>
                         <data_key>
                             <label>Data Key</label>
+                            <sort_order>30</sort_order>
                             <frontend_type>text</frontend_type>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </data_key>
+                        <environment>
+                            <label>Environment</label>
+                            <sort_order>40</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>synocom_giveit/system_config_source_environment</source_model>
+                        </environment>
+                        <debug>
+                            <label>Debug</label>
+                            <sort_order>50</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </debug>
                     </fields>
-                </account_settings>
+                </settings>
 
 
 
