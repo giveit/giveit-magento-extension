@@ -2,5 +2,3 @@ src/app/code/local/Synocom/GiveIt                           app/code/local/Synoc
 src/app/etc/modules/*                                       app/etc/modules/
 src/lib/giveit                                              lib/giveit
 src/app/design/frontend/base/default/layout/giveit.xml      app/design/frontend/base/default/layout/giveit.xml
-src/app/design/frontend/base/default/layout/giveit.xml      app/design/frontend/enterprise/default/layout/giveit.xml
-src/app/design/frontend/base/default/template/giveit        app/design/frontend/base/default/template/giveit
