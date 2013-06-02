@@ -55,13 +55,16 @@ class Synocom_GiveIt_Block_Button
     protected function _setProductDetails()
     {
         $product = $this->getProduct();
+        /* @var $product Mage_Catalog_Model_Product */
+
         if (!$product) {
             return false;
         }
 
+
         if ($product->getId()) {
             $code  = $product->getSku();
-            $price = (int) round($product->getPrice() * 100, 0);
+            $price = (int) round($product->getFinalPrice() * 100, 0);
             $name  = $product->getName();
             $image = $product->getImageUrl();
 
