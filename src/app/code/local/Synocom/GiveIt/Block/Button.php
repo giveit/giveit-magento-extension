@@ -38,6 +38,10 @@ class Synocom_GiveIt_Block_Button
     {
         $html = '';
 
+        if(!$this->isActive()){
+           return $html;
+        }
+
         $this->_setProductDetails();
         $this->_addDeliveryOptions();
 
