@@ -12,11 +12,15 @@ class Synocom_GiveIt_Block_Button
     extends Mage_Core_Block_Template
 {
 
+    const MAX_DELIVERY_OPTIONS        = 8;
+    const MAX_DELIVERY_OPTION_CHOICES = 8;
+
     protected function _construct()
     {
         parent::_construct();
         $this->_getSdk();
     }
+
     /**
      * Get give it SDK
      */
@@ -112,13 +116,12 @@ class Synocom_GiveIt_Block_Button
 
         if ($product->getId()) {
             $code  = $product->getSku();
-            $price = (int) round($product->getFinalPrice() * 100, 0);
+            $price = $this->_roundPrice($product->getFinalPrice());
             $name  = $product->getName();
             $image = $product->getImageUrl();
 
             $this->_getSdkProduct()->setProductDetails($code, $price, $name, $image);
         }
-
     }
 
     /**
@@ -141,11 +144,36 @@ class Synocom_GiveIt_Block_Button
      */
     protected function _addDeliveryOptions()
     {
+        $xmlPathTemplate = 'synocom_giveit/delivery_option_%s';
+
         $sdkProduct = $this->_getSdkProduct();
 
         $delivery = $sdkProduct->addDeliveryOption('delivery', 'Delivery Option');
-        $sdkProduct->addChoice($delivery, 'europe', 'Europe', 900);
-        $sdkProduct->addChoice($delivery, 'usa', 'United States', 499);
+        foreach (range(1, self::MAX_DELIVERY_OPTIONS) as $i) {
+
+            $xmlPath = sprintf($xmlPathTemplate, $i);
+            $config  = Mage::getStoreConfig($xmlPath);
+
+            if ($config) {
+                $id    = $config['delivery_option_choice'];
+                $name  = $config['delivery_option_name'];
+                $price = $this->_roundPrice($config['delivery_option_price']);
+
+                if (empty($id)) {
+                    return false;
+                }
+
+                if (empty($name)) {
+                    return false;
+                }
+
+                if (empty($price)) {
+                    return false;
+                }
+
+                $sdkProduct->addChoice($delivery, $id, $name, $price);
+            }
+        }
     }
 
     /**
@@ -160,6 +188,21 @@ class Synocom_GiveIt_Block_Button
             Mage::log($this->_getSdkProduct()->getErrorsHTML());
         }
         return $result;
+    }
+
+    /**
+     * Round price to thousands
+     *
+     * @param $price float
+     *
+     * @return int
+     */
+    protected function _roundPrice($price)
+    {
+        $currency = Mage::getModel('core/store')->getCurrentCurrency();
+        $price    = $currency->format($price, array('symbol' => ''), false);
+        $price   = (int) ($price * 100);
+        return $price;
     }
 
 }
