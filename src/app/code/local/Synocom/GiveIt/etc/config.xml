@@ -31,4 +31,12 @@
             </updates>
         </layout>
     </frontend>
+    <default>
+        <synocom_giveit>
+            <button_settings>
+                <button_active>1</button_active>
+                <button_color>blue_rect_sm</button_color>
+            </button_settings>
+        </synocom_giveit>
+    </default>
 </config>
