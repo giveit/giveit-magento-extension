@@ -57,7 +57,9 @@ class Synocom_GiveIt_Block_Button
     {
         $html = '';
 
-        $buttonHtml = $this->_getSdkProduct()->getButtonHTML();
+        $buttonType  = Mage::getStoreConfig('synocom_giveit/button_settings/button_color');
+
+        $buttonHtml = $this->_getSdkProduct()->getButtonHTML($buttonType);
         $buttonJs   = $this->outputButtonJS();
         $html       = $buttonHtml . $buttonJs;
 
@@ -203,6 +205,15 @@ class Synocom_GiveIt_Block_Button
         $price    = $currency->format($price, array('symbol' => ''), false);
         $price   = (int) ($price * 100);
         return $price;
+    }
+
+    /**
+     * Is button active global
+     */
+    protected function isActive()
+    {
+        $isActive = Mage::getStoreConfigFlag('synocom_giveit/button_settings/button_active');
+        return $isActive;
     }
 
 }
