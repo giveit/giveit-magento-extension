@@ -33,6 +33,10 @@
     </frontend>
     <default>
         <synocom_giveit>
+            <settings>
+                <environment>sandbox</environment>
+                <debug>1</debug>
+            </settings>
             <button_settings>
                 <button_active>1</button_active>
                 <button_color>blue_rect_sm</button_color>
