@@ -216,7 +216,13 @@ class Synocom_GiveIt_Block_Button
      */
     protected function isActive()
     {
-        $isActive = Mage::getStoreConfigFlag('synocom_giveit/button_settings/button_active');
+        $product = $this->getProduct();
+        $isActive = $product->getGiveitButtonActive();
+
+        if($isActive == Synocom_GiveIt_Model_Product_Attribute_Source_Button_Active::BUTTON_ACTIVE_USE_CONFIG || $isActive === null){
+            $isActive = Mage::getStoreConfigFlag('synocom_giveit/button_settings/button_active');
+        }
+
         return $isActive;
     }
 
