@@ -21,6 +21,15 @@
                 <class>Synocom_GiveIt_Model</class>
             </synocom_giveit>
         </models>
+        <resources>
+            <synocom_giveit_setup>
+                <setup>
+                    <module>Synocom_GiveIt</module>
+                    <class>Synocom_GiveIt_Model_Resource_Setup</class>
+                </setup>
+            </synocom_giveit_setup>
+        </resources>
+
     </global>
     <frontend>
         <layout>
