@@ -126,7 +126,14 @@ class Synocom_GiveIt_Block_Button
             $name  = $product->getName();
             $image = $product->getImageUrl();
 
-            $this->_getSdkProduct()->setProductDetails($code, $price, $name, $image);
+            $productOptions = array(
+                'code'  => $code,
+                'price' => $price,
+                'name'  => $name,
+                'image' => $image
+            );
+
+            $this->_getSdkProduct()->setProductDetails($productOptions);
         }
     }
 
@@ -144,6 +151,43 @@ class Synocom_GiveIt_Block_Button
     }
 
     /**
+     * Get an instance of the Give it SDK option object
+     *
+     * @param string $id
+     * @param string $type
+     * @param string $name
+     * @return \GiveIt\SDK\Option
+     */
+    protected function _getSdkOption($id, $type, $name)
+    {
+        return new \GiveIt\SDK\Option(array(
+                'id'           => $id,
+                'type'         => $type,
+                'name'         => $name,
+                'tax_delivery' => true
+                )
+        );
+    }
+
+    /**
+     * Get an instance of the Give it SDK choice object
+     *
+     * @param string $id
+     * @param string $name
+     * @param int $price
+     * @return \GiveIt\SDK\Choice
+     */
+    protected function _getSdkChoice($id, $name, $price)
+    {
+        return new \GiveIt\SDK\Choice(array(
+                'id'    => $id,
+                'name'  => $name,
+                'price' => $price
+                )
+        );
+    }
+
+    /**
      * Add delivery options to product
      *
      * @return void
@@ -154,7 +198,8 @@ class Synocom_GiveIt_Block_Button
 
         $sdkProduct = $this->_getSdkProduct();
 
-        $delivery = $sdkProduct->addDeliveryOption('delivery', 'Delivery Option');
+        $delivery = $this->_getSdkOption('giveit', 'delivery', 'Delivery Option');
+        $choices = array();
         foreach (range(1, self::MAX_DELIVERY_OPTIONS) as $i) {
 
             $xmlPath = sprintf($xmlPathTemplate, $i);
@@ -166,20 +211,22 @@ class Synocom_GiveIt_Block_Button
                 $price = $this->_roundPrice($config['delivery_option_price']);
 
                 if (empty($id)) {
-                    return false;
+                    continue;
                 }
 
                 if (empty($name)) {
-                    return false;
+                    continue;
                 }
 
                 if (empty($price)) {
-                    return false;
+                    continue;
                 }
 
-                $sdkProduct->addChoice($delivery, $id, $name, $price);
+                $choices[] = $this->_getSdkChoice($id, $name, $price);
             }
         }
+        $delivery->addChoices($choices);
+        $sdkProduct->addBuyerOption($delivery);
     }
 
     /**
