@@ -44,14 +44,10 @@ class Collection
         $this->filters[] = "$name=$value";
     }
 
-    public function nextPage()
+    public function getPage($pageNumber = 1)
     {
-        if (! $this->pages->next) {
-            return false;
-        }
-
         $options = array(
-            'page'      => $this->pages->next,
+            'page'      => $pageNumber,
         );
 
         $url            = $this->buildURL($options);
@@ -61,17 +57,22 @@ class Collection
 
     }
 
+    public function nextPage()
+    {
+        if (! $this->pages->next) {
+            return false;
+        }
+
+        return $this->getPage($this->pages->next);
+    }
+
     public function previousPage()
     {
         $options = array(
             'page'      => $this->pages->previous,
         );
 
-        $url            = $this->buildURL($options);
-        $response       = $this->client->sendGET($url);
-
-        return $this->parseCollectionResponse($response);
-
+        return $this->getPage($this->pages->previous);
     }
 
     public function buildURL($overrideOptions = array())
