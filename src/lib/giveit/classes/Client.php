@@ -19,6 +19,11 @@ class Client extends Base
         $this->setupCurl();
     }
 
+    public function __destruct()
+    {
+
+    }
+
    /**
     * Get the singleton
     *

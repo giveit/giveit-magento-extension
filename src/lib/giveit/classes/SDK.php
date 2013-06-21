@@ -15,7 +15,7 @@ namespace GiveIt;
 
 class SDK extends SDK\Base
 {
-    const   VERSION          = '1.0.0';
+    const   VERSION          = '1.1.0';
 
     public  $dataKey         = null;
     public  $publicKey       = null;
