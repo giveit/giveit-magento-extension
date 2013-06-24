@@ -121,19 +121,15 @@ class Synocom_GiveIt_Block_Button
         /* @var $product Mage_Catalog_Model_Product */
 
         if ($product->getId()) {
-            $code  = $product->getSku();
-            $price = $this->_roundPrice($product->getFinalPrice());
-            $name  = $product->getName();
-            $image = $product->getImageUrl();
-
-            $productOptions = array(
-                'code'  => $code,
-                'price' => $price,
-                'name'  => $name,
-                'image' => $image
-            );
-
-            $this->_getSdkProduct()->setProductDetails($productOptions);
+            $typeId = $product->getTypeId();
+            switch ($typeId) {
+                case Mage_Catalog_Model_Product_Type::TYPE_SIMPLE:
+                    $this->_setSimpleProduct($product);
+                    break;
+                default:
+                    $this->_setSimpleProduct($product);
+                    break;
+            }
         }
     }
 
@@ -156,17 +152,24 @@ class Synocom_GiveIt_Block_Button
      * @param string $id
      * @param string $type
      * @param string $name
+     * @param array $optional optional options. Optional key is used as index, its value as value
      * @return \GiveIt\SDK\Option
      */
-    protected function _getSdkOption($id, $type, $name)
+    protected function _getSdkOption($id, $type, $name, $optional = array())
     {
-        return new \GiveIt\SDK\Option(array(
-                'id'           => $id,
-                'type'         => $type,
-                'name'         => $name,
-                'tax_delivery' => true
-                )
+        $options = array(
+            'id'   => $id,
+            'type' => $type,
+            'name' => $name
         );
+
+        if(!empty($optional)){
+            foreach($optional as $key => $value){
+                $options[$key] = $value;
+            }
+        }
+
+        return new \GiveIt\SDK\Option($options);
     }
 
     /**
@@ -198,7 +201,7 @@ class Synocom_GiveIt_Block_Button
 
         $sdkProduct = $this->_getSdkProduct();
 
-        $delivery = $this->_getSdkOption('giveit', 'delivery', 'Delivery Option');
+        $delivery = $this->_getSdkOption('giveit', 'delivery', 'Delivery Option', array('tax_delivery' => true));
         $choices = array();
         foreach (range(1, self::MAX_DELIVERY_OPTIONS) as $i) {
 
@@ -271,6 +274,28 @@ class Synocom_GiveIt_Block_Button
         }
 
         return $isActive;
+    }
+
+    /**
+     * Set SDK product details for a simple product
+     *
+     * @param Mage_Catalog_Model_Product $product
+     */
+    protected function _setSimpleProduct($product)
+    {
+        $code = $product->getSku();
+        $price = $this->_roundPrice($product->getFinalPrice());
+        $name = $product->getName();
+        $image = $product->getImageUrl();
+
+        $productOptions = array(
+            'code'  => $code,
+            'price' => $price,
+            'name'  => $name,
+            'image' => $image
+        );
+
+        $this->_getSdkProduct()->setProductDetails($productOptions);
     }
 
 }
