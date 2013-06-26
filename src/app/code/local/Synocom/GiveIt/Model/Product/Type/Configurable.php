@@ -49,8 +49,8 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
 
         foreach ($productOptions['attributes'] as $attribute) {
             $sdkOption = $helper->getSdkOption($attribute['code'], 'single_choice', $attribute['label']);
-            foreach ($attribute['options'] as $option) {
-                $sdkChoice = $helper->getSdkChoice($option['id'], $option['label'], $this->_roundPrice($option['price']));
+            foreach ($attribute['options'] as $id => $option) {
+                $sdkChoice = $helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']));
                 $sdkOption->addChoice($sdkChoice);
             }
             $this->addBuyerOption($sdkOption);

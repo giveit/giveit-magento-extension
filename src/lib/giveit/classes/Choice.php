@@ -6,7 +6,7 @@ class Choice extends Option {
 
     public function valid()
     {
-        if ($this->id == null) {
+        if ($this->id === null) {
             return false;
         }
 

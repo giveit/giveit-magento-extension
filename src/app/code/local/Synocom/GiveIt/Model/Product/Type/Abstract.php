@@ -50,7 +50,7 @@ class Synocom_GiveIt_Model_Product_Type_Abstract
                     continue;
                 }
 
-                if (empty($price)) {
+                if (empty($price) && $price !== 0) {
                     continue;
                 }
 

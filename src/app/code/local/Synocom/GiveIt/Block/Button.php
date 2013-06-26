@@ -119,7 +119,7 @@ class Synocom_GiveIt_Block_Button
         $product = $this->getProduct();
         /* @var $product Mage_Catalog_Model_Product */
 
-        if ($product->getId()) {
+        if ($product->getId() && $product->isSalable()) {
             $typeId = $product->getTypeId();
             switch ($typeId) {
                 case Mage_Catalog_Model_Product_Type::TYPE_SIMPLE:
