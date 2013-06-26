@@ -16,6 +16,11 @@ class Synocom_GiveIt_Model_Product_Type_Simple
     extends Synocom_GiveIt_Model_Product_Type_Abstract
 {
 
+    /**
+     * Gets data from the simple product and sets it on the SDK product
+     *
+     * @param Mage_Catalog_Model_Product $product
+     */
     public function setProductDetails($product)
     {
         $code = $product->getSku();

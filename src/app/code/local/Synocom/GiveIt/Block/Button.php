@@ -7,6 +7,7 @@
  * @package    Synocom_GiveIt
  * @copyright  Copyright (c) 2013 Synocom BV (http://www.synocom.nl)
  * @author     Brennon Blokland <info@synocom.nl>
+ * @author     Mike Bijnsdorp <info@synocom.nl>
  */
 class Synocom_GiveIt_Block_Button
     extends Mage_Core_Block_Template
@@ -125,6 +126,10 @@ class Synocom_GiveIt_Block_Button
                     $sdkProduct = Mage::getModel('synocom_giveit/product_type_simple');
                     $sdkProduct->setProductDetails($product);
                     break;
+                case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
+                    $sdkProduct = Mage::getModel('synocom_giveit/product_type_configurable');
+                    $sdkProduct->setProductDetails($product);
+                    break;
                 default:
                     $sdkProduct = Mage::getModel('synocom_giveit/product_type_simple');
                     $sdkProduct->setProductDetails($product);
@@ -142,7 +147,7 @@ class Synocom_GiveIt_Block_Button
     protected function _getSdkProduct()
     {
         if (!$this->hasSdkProduct()) {
-            $this->setSdkProduct(new \GiveIt\SDK\Product());
+            $this->setSdkProduct(Mage::getModel('synocom_giveit/product_type_abstract'));
         }
         return $this->getData('sdk_product');
     }
