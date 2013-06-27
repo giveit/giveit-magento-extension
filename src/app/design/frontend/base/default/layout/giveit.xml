@@ -5,4 +5,10 @@
             <block type="synocom_giveit/button" name="giveit_button" as="giveit_button" />
         </reference>
     </PRODUCT_TYPE_simple>
+
+    <PRODUCT_TYPE_configurable>
+        <reference name="product.info.extrahint">
+            <block type="synocom_giveit/button" name="giveit_button" as="giveit_button" />
+        </reference>
+    </PRODUCT_TYPE_configurable>
 </layout>
