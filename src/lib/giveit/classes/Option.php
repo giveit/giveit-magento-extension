@@ -44,8 +44,6 @@ class Option extends Object {
             return false;
         }
 
-        echo "$choice->id\n";
-
         $this->choices[$choice->id] = $choice;
 
         return $this;
