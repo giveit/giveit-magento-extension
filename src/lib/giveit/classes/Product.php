@@ -14,12 +14,12 @@ namespace GiveIt\SDK;
 class Product extends Base
 {
 
-    public      $renderErrors       = true;
-    private     $data               = array();
+    public      $renderErrors       = false;
+    public      $data               = array();
     private     $requiredFields     = array(
-                    'details:code'     => 'string:25',
+                    'details:code'     => 'string:40',
                     'details:price'    => 'integer',
-                    'details:name'     => 'string:50',
+                    'details:name'     => 'string:200',
                     'details:image'    => 'string',
                  );
 
@@ -37,65 +37,49 @@ class Product extends Base
      * Set data for the product. This can be instead of the __construct function
      * to be able to set the product step by step
      */
-    public function setProductDetails($code, $price, $name, $image)
+    public function setProductDetails($data = Array())
     {
-        $this->data['details']['code'] = $code;
-        $this->data['details']['price'] = $price;
-        $this->data['details']['name'] = $name;
-        $this->data['details']['image'] = $image;
+        foreach ($data as $key => $value){
+            $this->data['details'][$key] = $value;
+        }
+
+        return $this;
     }
-    
-    /**
-     * Add a delivery option. Shortcut for buyer option so
-     * the developer implementing this SDK cannot accidentally add it for the recipient
-    */ 
-    public function addDeliveryOption($id, $name){
-        return $this->addOption('buyer', $id, 'delivery', $name, null, true);
-    }
-    
+
     /**
      * Add an option for the buyer
      * @return reference
      */
-    public function addBuyerOption($id, $type, $name, $description = '', $mandatory = false){
-        return $this->addOption('buyer', $id, $type, $name, $description, $mandatory);
+    public function addBuyerOption($option){
+        return $this->addOption('buyer', $option);
     }
-    
+
     /**
      * Add an option for the recipient
      * @return reference
      */
-    public function addRecipientOption($id, $type, $name, $description = '', $mandatory = false){
-        return $this->addOption('recipient', $id, $type, $name, $description, $mandatory);
+    public function addRecipientOption($option){
+        return $this->addOption('recipient', $option);
     }
-    
-    // add a choice to an option, provide reference returned by an 'add option' function
-    public function addChoice($ref, $id, $name, $price = 0){
-    
-        if (!$this->data['options'][$ref[0]][$ref[1]]){
-            $this->errors[] = "Could not add choice '$name' because referenced option does not exist";
-            return false;
+
+
+    private function addOption($type, $option){
+        if (is_array($option)){
+            foreach ($option as $o) {
+                $this->addOption($type, $o);
+            }
+        } else {
+            if (isset($this->data['options'][$type][$option->id])) {
+                $this->addError("cannot add option with duplicate id $option->id");
+                return false;
+            }
+
+            $this->data['options'][$type][$option->id] = $option;
         }
-        
-        $this->data['options'][$ref[0]][$ref[1]]['choices'][$id]['id'] = $id;
-        $this->data['options'][$ref[0]][$ref[1]]['choices'][$id]['name'] = $name;
-        
-        // only set price if price is set, and the option is for the buyer
-        if ($price && $ref[0] == 'buyer'){
-            $this->data['options'][$ref[0]][$ref[1]]['choices'][$id]['price'] = $price;
-        }
+
+        return $this;
     }
-    
-    private function addOption($br, $id, $type, $name, $description, $mandatory){
-        $this->data['options'][$br][$id]['id'] = $id;
-        $this->data['options'][$br][$id]['type'] = $type;
-        $this->data['options'][$br][$id]['name'] = $name;
-        $this->data['options'][$br][$id]['description'] = $description;
-        // convert the boolean into a string
-        $this->data['options'][$br][$id]['mandatory'] = $mandatory ? "true" : "false";
-        return array($br,$id);
-    }
-    
+
     /**
      * Validate that the product data is being given in a valid format
      * Flatten the array and check for the existence of required fields
@@ -196,6 +180,7 @@ class Product extends Base
         $encrypted  = $crypt->encode(json_encode($this->data), $parent->dataKey);
 
         if ($encrypted == false) {
+
             if (! $this->renderErrors) {
                 return false;
             }

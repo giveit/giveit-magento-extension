@@ -29,15 +29,15 @@ class Synocom_GiveIt_Model_Product_Attribute_Source_Button_Active
         if (!$this->_options) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('enterprise_rma')->__('Yes'),
+                    'label' => Mage::helper('synocom_giveit')->__('Yes'),
                     'value' => self::BUTTON_ACTIVE_YES
                 ),
                 array(
-                    'label' => Mage::helper('enterprise_rma')->__('No'),
+                    'label' => Mage::helper('synocom_giveit')->__('No'),
                     'value' => self::BUTTON_ACTIVE_NO
                 ),
                 array(
-                    'label' => Mage::helper('enterprise_rma')->__('Use config'),
+                    'label' => Mage::helper('synocom_giveit')->__('Use config'),
                     'value' => self::BUTTON_ACTIVE_USE_CONFIG
                 )
             );

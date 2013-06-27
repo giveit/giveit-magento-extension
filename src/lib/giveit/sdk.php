@@ -21,6 +21,8 @@ require_once __DIR__ . '/classes/Collection.php';
 require_once __DIR__ . '/classes/Object.php';
 require_once __DIR__ . '/classes/Sale.php';
 require_once __DIR__ . '/classes/Payment.php';
+require_once __DIR__ . '/classes/Option.php';
+require_once __DIR__ . '/classes/Choice.php';
 
 
 
