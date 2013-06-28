@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Synocom_GiveIt>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends></depends>
+        </Synocom_GiveIt>
+    </modules>
+</config>

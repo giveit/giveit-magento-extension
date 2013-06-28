@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <PRODUCT_TYPE_simple>
+        <reference name="product.info.extrahint">
+            <block type="synocom_giveit/button" name="giveit_button" as="giveit_button" />
+        </reference>
+    </PRODUCT_TYPE_simple>
+
+    <PRODUCT_TYPE_configurable>
+        <reference name="product.info.extrahint">
+            <block type="synocom_giveit/button" name="giveit_button" as="giveit_button" />
+        </reference>
+    </PRODUCT_TYPE_configurable>
+</layout>
