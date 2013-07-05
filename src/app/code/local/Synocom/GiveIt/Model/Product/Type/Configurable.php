@@ -19,10 +19,13 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
     /**
      * Gets data from the configurable product and sets it on the SDK product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param array $productArray containing the product
      */
-    public function setProductDetails($product)
+    public function setProductDetails($productArray = array())
     {
+        $product = reset($productArray);
+        /* @var $product Mage_Catalog_Model_Product */
+
         $code = $product->getSku();
         $price = $this->_roundPrice($product->getFinalPrice());
         $name = $product->getName();

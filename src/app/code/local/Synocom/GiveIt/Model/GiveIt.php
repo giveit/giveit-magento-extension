@@ -17,6 +17,13 @@ class Synocom_GiveIt_Model_GiveIt
     extends \GiveIt\SDK
 {
 
+    /**
+     * If true, js has been output
+     *
+     * @var bool
+     */
+    protected $_jsOutput = false;
+
     const XML_PATH_GIVEIT_SETTINGS = 'synocom_giveit/settings';
 
     protected $_settings = array();
@@ -45,11 +52,33 @@ class Synocom_GiveIt_Model_GiveIt
         $configSettings = Mage::getStoreConfig(self::XML_PATH_GIVEIT_SETTINGS);
 
         foreach ($configSettings as $underscoredSettingName => $value) {
-            $camelizedSettingName            = lcfirst(uc_words($underscoredSettingName, ''));
+            $camelizedSettingName = lcfirst(uc_words($underscoredSettingName, ''));
             $settings[$camelizedSettingName] = $value;
         }
 
         return $settings;
+    }
+
+    /**
+     * Getter
+     *
+     * @return bool
+     */
+    public function getJsOutput()
+    {
+        return $this->_jsOutput;
+    }
+
+    /**
+     * Setter
+     *
+     * @param bool $value
+     */
+    public function setJsOutput($value)
+    {
+        if(is_bool($value)){
+            $this->_jsOutput = $value;
+        }
     }
 
 }

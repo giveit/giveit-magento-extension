@@ -77,8 +77,8 @@ class Synocom_GiveIt_Block_Button
     public function outputButtonJS()
     {
         $sdk = $this->_getSdk();
-        if (!$sdk->jsOutput) {
-            $sdk->jsOutput = true;
+        if ($sdk->getJsOutput() == false) {
+            $sdk->setJsOutput(true);
             return $sdk->getButtonJS();
         }
     }
@@ -124,15 +124,15 @@ class Synocom_GiveIt_Block_Button
             switch ($typeId) {
                 case Mage_Catalog_Model_Product_Type::TYPE_SIMPLE:
                     $sdkProduct = Mage::getModel('synocom_giveit/product_type_simple');
-                    $sdkProduct->setProductDetails($product);
+                    $sdkProduct->setProductDetails(array($product));
                     break;
                 case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
                     $sdkProduct = Mage::getModel('synocom_giveit/product_type_configurable');
-                    $sdkProduct->setProductDetails($product);
+                    $sdkProduct->setProductDetails(array($product));
                     break;
                 default:
                     $sdkProduct = Mage::getModel('synocom_giveit/product_type_simple');
-                    $sdkProduct->setProductDetails($product);
+                    $sdkProduct->setProductDetails(array($product));
                     break;
             }
             $this->setSdkProduct($sdkProduct);
