@@ -22,14 +22,16 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
     public $helper;
 
     /**
+     * Products associated with the first options of the configurable product
      *
-     * @var type
+     * @var array
      */
     protected $_products = array();
 
     /**
+     * The 'main' or first choices of a product. Other choices are nested within these.
      *
-     * @var type
+     * @var array
      */
     protected $_mainChoices = array();
 
