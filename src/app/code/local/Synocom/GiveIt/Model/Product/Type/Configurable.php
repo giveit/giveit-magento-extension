@@ -17,6 +17,23 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
 {
 
     /**
+     * @var $helper Synocom_GiveIt_Helper_Data
+     */
+    public $helper;
+
+    /**
+     *
+     * @var type
+     */
+    protected $_products = array();
+
+    /**
+     *
+     * @var type
+     */
+    protected $_mainChoices = array();
+
+    /**
      * Gets data from the configurable product and sets it on the SDK product
      *
      * @param array $productArray containing the product
@@ -48,15 +65,47 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
     protected function _addProductOptions()
     {
         $productOptions = $this->_getProductOptions();
-        $helper = Mage::helper('synocom_giveit');
+        $this->helper = Mage::helper('synocom_giveit');
 
-        foreach ($productOptions['attributes'] as $attribute) {
-            $sdkOption = $helper->getSdkOption($attribute['code'], 'single_choice', $attribute['label']);
-            foreach ($attribute['options'] as $id => $option) {
-                $sdkChoice = $helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']));
-                $sdkOption->addChoice($sdkChoice);
+        $firstAttribute = reset($productOptions['attributes']);
+
+        $sdkOption = $this->helper->getSdkOption('product_options', 'layered', $this->helper->__('Product options'),
+            array('choices_title' => $firstAttribute['label']));
+
+        foreach ($firstAttribute['options'] as $id => $option) {
+            $sdkChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']));
+            $this->_mainChoices[] = $sdkChoice;
+            $this->_products[$id] = $option['products'];
+        }
+
+        unset($productOptions['attributes'][$firstAttribute['id']]);
+
+        if (!empty($productOptions['attributes'])) {
+            $this->_addDependantChoices($productOptions);
+        }
+
+        $sdkOption->addChoices($this->_mainChoices);
+
+        $this->addBuyerOption($sdkOption);
+    }
+
+    /**
+     * Add option depandable choices
+     *
+     * @param array $productOptions
+     */
+    protected function _addDependantChoices($productOptions)
+    {
+        foreach ($this->_mainChoices as $choice) {
+            foreach ($productOptions['attributes'] as $attribute) {
+                foreach ($attribute['options'] as $id => $option) {
+                    if (!array_intersect($option['products'], $this->_products[$choice->id])) {
+                        continue;
+                    }
+                    $sdkChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']));
+                    $choice->addChoice($sdkChoice);
+                }
             }
-            $this->addBuyerOption($sdkOption);
         }
     }
 
