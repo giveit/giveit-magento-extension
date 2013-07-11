@@ -67,15 +67,17 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
         $sdkOption = $this->helper->getSdkOption('product_options', 'layered', $this->helper->__('Product options'),
             array('choices_title' => $firstAttribute['label']));
 
+        /*
+         * We use the first attribute as main choice. The products of each option are saved with their choice object
+         * as a reference for the nested choices.
+         */
         foreach ($firstAttribute['options'] as $id => $option) {
             $sdkChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']),
                 array('choice_products' => $option['products']));
             $this->_mainChoices[] = $sdkChoice;
         }
 
-        unset($productOptions['attributes'][$firstAttribute['id']]);
-
-        if (!empty($productOptions['attributes'])) {
+        if (next($productOptions['attributes'])) {
             $this->_addNestedChoices($productOptions['attributes'], $this->_mainChoices);
         }
 
@@ -93,21 +95,23 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
     protected function _addNestedChoices($productAttributes, $parentChoices)
     {
         $choices = array();
-        $attribute = reset($productAttributes);
+        $attribute = current($productAttributes);
         foreach ($parentChoices as $parentChoice) {
             foreach ($attribute['options'] as $id => $option) {
-                if (!array_intersect($option['products'], $parentChoice->choice_products)) {
+                $choiceProducts = array_intersect($option['products'], $parentChoice->choice_products);
+                if (empty($choiceProducts)) {
                     continue;
                 }
+                //The title of this (nested) choice has to be added to its parent
                 $parentChoice->choices_title = $attribute['label'];
                 $nestedChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']),
-                    array('choice_products' => array_intersect($option['products'], $parentChoice->choice_products)));
+                    array('choice_products' => $choiceProducts));
                 $parentChoice->addChoice($nestedChoice);
                 $choices[] = $nestedChoice;
             }
         }
-        unset($productAttributes[$attribute['id']]);
-        if (!empty($productAttributes)) {
+
+        if (next($productAttributes)) {
             $this->_addNestedChoices($productAttributes, $choices);
         }
     }
