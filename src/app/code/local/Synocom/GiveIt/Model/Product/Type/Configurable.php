@@ -22,13 +22,6 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
     public $helper;
 
     /**
-     * Products associated with the first options of the configurable product
-     *
-     * @var array
-     */
-    protected $_products = array();
-
-    /**
      * The 'main' or first choices of a product. Other choices are nested within these.
      *
      * @var array
@@ -75,15 +68,15 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
             array('choices_title' => $firstAttribute['label']));
 
         foreach ($firstAttribute['options'] as $id => $option) {
-            $sdkChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']));
+            $sdkChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']),
+                array('choice_products' => $option['products']));
             $this->_mainChoices[] = $sdkChoice;
-            $this->_products[$id] = $option['products'];
         }
 
         unset($productOptions['attributes'][$firstAttribute['id']]);
 
         if (!empty($productOptions['attributes'])) {
-            $this->_addDependantChoices($productOptions);
+            $this->_addNestedChoices($productOptions['attributes'], $this->_mainChoices);
         }
 
         $sdkOption->addChoices($this->_mainChoices);
@@ -92,22 +85,30 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
     }
 
     /**
-     * Add option depandable choices
+     * Add nested choices to the main choices
      *
-     * @param array $productOptions
+     * @param array $productAttributes
+     * @param array $parentChoices
      */
-    protected function _addDependantChoices($productOptions)
+    protected function _addNestedChoices($productAttributes, $parentChoices)
     {
-        foreach ($this->_mainChoices as $choice) {
-            foreach ($productOptions['attributes'] as $attribute) {
-                foreach ($attribute['options'] as $id => $option) {
-                    if (!array_intersect($option['products'], $this->_products[$choice->id])) {
-                        continue;
-                    }
-                    $sdkChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']));
-                    $choice->addChoice($sdkChoice);
+        $choices = array();
+        $attribute = reset($productAttributes);
+        foreach ($parentChoices as $parentChoice) {
+            foreach ($attribute['options'] as $id => $option) {
+                if (!array_intersect($option['products'], $parentChoice->choice_products)) {
+                    continue;
                 }
+                $parentChoice->choices_title = $attribute['label'];
+                $nestedChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']),
+                    array('choice_products' => array_intersect($option['products'], $parentChoice->choice_products)));
+                $parentChoice->addChoice($nestedChoice);
+                $choices[] = $nestedChoice;
             }
+        }
+        unset($productAttributes[$attribute['id']]);
+        if (!empty($productAttributes)) {
+            $this->_addNestedChoices($productAttributes, $choices);
         }
     }
 
