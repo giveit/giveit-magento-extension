@@ -45,17 +45,24 @@ class Synocom_GiveIt_Helper_Data
      * @param string $id
      * @param string $name
      * @param int $price
+     * @param array $optional optional options. Optional key is used as index, its value as value
      * @return \GiveIt\SDK\Choice
      */
-    public function getSdkChoice($id, $name, $price)
+    public function getSdkChoice($id, $name, $price, $optional = array())
     {
-        return Mage::getModel('synocom_giveit/choice',
-                array(
-                'id'    => $id,
-                'name'  => $name,
-                'price' => $price
-                )
+        $options = array(
+            'id'   => $id,
+            'name' => $name,
+            'price' => $price
         );
+
+        if (!empty($optional)) {
+            foreach ($optional as $key => $value) {
+                $options[$key] = $value;
+            }
+        }
+
+        return Mage::getModel('synocom_giveit/choice', $options);
     }
 
 }

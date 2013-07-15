@@ -17,12 +17,27 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
 {
 
     /**
+     * @var $helper Synocom_GiveIt_Helper_Data
+     */
+    public $helper;
+
+    /**
+     * The 'main' or first choices of a product. Other choices are nested within these.
+     *
+     * @var array
+     */
+    protected $_mainChoices = array();
+
+    /**
      * Gets data from the configurable product and sets it on the SDK product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param array $productArray containing the product
      */
-    public function setProductDetails($product)
+    public function setProductDetails($productArray = array())
     {
+        $product = reset($productArray);
+        /* @var $product Mage_Catalog_Model_Product */
+
         $code = $product->getSku();
         $price = $this->_roundPrice($product->getFinalPrice());
         $name = $product->getName();
@@ -45,15 +60,59 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
     protected function _addProductOptions()
     {
         $productOptions = $this->_getProductOptions();
-        $helper = Mage::helper('synocom_giveit');
+        $this->helper = Mage::helper('synocom_giveit');
 
-        foreach ($productOptions['attributes'] as $attribute) {
-            $sdkOption = $helper->getSdkOption($attribute['code'], 'single_choice', $attribute['label']);
+        $firstAttribute = reset($productOptions['attributes']);
+
+        $sdkOption = $this->helper->getSdkOption('product_options', 'layered', $this->helper->__('Product options'),
+            array('choices_title' => $firstAttribute['label']));
+
+        /*
+         * We use the first attribute as main choice. The products of each option are saved with their choice object
+         * as a reference for the nested choices.
+         */
+        foreach ($firstAttribute['options'] as $id => $option) {
+            $sdkChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']),
+                array('choice_products' => $option['products']));
+            $this->_mainChoices[] = $sdkChoice;
+        }
+
+        if (next($productOptions['attributes'])) {
+            $this->_addNestedChoices($productOptions['attributes'], $this->_mainChoices);
+        }
+
+        $sdkOption->addChoices($this->_mainChoices);
+
+        $this->addBuyerOption($sdkOption);
+    }
+
+    /**
+     * Add nested choices to the main choices
+     *
+     * @param array $productAttributes
+     * @param array $parentChoices
+     */
+    protected function _addNestedChoices($productAttributes, $parentChoices)
+    {
+        $choices = array();
+        $attribute = current($productAttributes);
+        foreach ($parentChoices as $parentChoice) {
             foreach ($attribute['options'] as $id => $option) {
-                $sdkChoice = $helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']));
-                $sdkOption->addChoice($sdkChoice);
+                $choiceProducts = array_intersect($option['products'], $parentChoice->choice_products);
+                if (empty($choiceProducts)) {
+                    continue;
+                }
+                //The title of this (nested) choice has to be added to its parent
+                $parentChoice->choices_title = $attribute['label'];
+                $nestedChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']),
+                    array('choice_products' => $choiceProducts));
+                $parentChoice->addChoice($nestedChoice);
+                $choices[] = $nestedChoice;
             }
-            $this->addBuyerOption($sdkOption);
+        }
+
+        if (next($productAttributes)) {
+            $this->_addNestedChoices($productAttributes, $choices);
         }
     }
 
