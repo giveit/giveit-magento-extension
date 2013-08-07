@@ -43,7 +43,7 @@
     <default>
         <synocom_giveit>
             <settings>
-                <!--<enabled>1</enabled>-->
+                <enabled>1</enabled>
                 <environment>sandbox</environment>
                 <debug>1</debug>
             </settings>
