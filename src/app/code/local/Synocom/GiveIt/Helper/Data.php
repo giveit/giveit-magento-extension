@@ -13,6 +13,8 @@ class Synocom_GiveIt_Helper_Data
     extends Mage_Core_Helper_Data
 {
 
+    const XPATH_IS_MODULE_ENABLED = 'synocom_giveit/settings/enabled';
+
     /**
      * Get an instance of the Give it SDK option object
      *
@@ -65,4 +67,12 @@ class Synocom_GiveIt_Helper_Data
         return Mage::getModel('synocom_giveit/choice', $options);
     }
 
+    /**
+     * Check if module is enabled
+     *
+     * @return bool|mixed
+     */
+    public function isModuleEnabledPerStore() {
+        return Mage::getStoreConfig(self::XPATH_IS_MODULE_ENABLED);
+    }
 }

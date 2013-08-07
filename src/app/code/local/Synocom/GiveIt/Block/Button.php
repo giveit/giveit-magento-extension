@@ -157,6 +157,10 @@ class Synocom_GiveIt_Block_Button
      */
     protected function isActive()
     {
+        if (!$this->_helper()->isModuleEnabledPerStore()) {
+            return false;
+        }
+
         $product = $this->getProduct();
         $isActive = $product->getGiveitButtonActive();
 
@@ -167,4 +171,12 @@ class Synocom_GiveIt_Block_Button
         return $isActive;
     }
 
+    /**
+     * Get data helper
+     *
+     * @return Synocom_GiveIt_Helper_Data
+     */
+    protected function _helper() {
+        return Mage::helper('synocom_giveit');
+    }
 }
