@@ -13,6 +13,8 @@ class Synocom_GiveIt_Block_Button
     extends Mage_Core_Block_Template
 {
 
+    protected $_isEnabled = false;
+
     protected function _construct()
     {
         parent::_construct();
@@ -157,7 +159,7 @@ class Synocom_GiveIt_Block_Button
      */
     protected function isActive()
     {
-        if (!$this->_helper()->isModuleEnabledPerStore()) {
+        if (!$this->_helper()->isModuleEnabledPerStore() || !$this->_isEnabled) {
             return false;
         }
 
@@ -172,11 +174,22 @@ class Synocom_GiveIt_Block_Button
     }
 
     /**
+     * Set xpath to enable/disable button
+     *
+     * @param $xpathConfig
+     */
+    public function setIsEnabled($xpathConfig)
+    {
+        $this->_isEnabled = Mage::getStoreConfigFlag($xpathConfig);
+    }
+
+    /**
      * Get data helper
      *
      * @return Synocom_GiveIt_Helper_Data
      */
-    protected function _helper() {
+    protected function _helper()
+    {
         return Mage::helper('synocom_giveit');
     }
 }
