@@ -75,4 +75,21 @@ class Synocom_GiveIt_Helper_Data
     public function isModuleEnabledPerStore() {
         return Mage::getStoreConfig(self::XPATH_IS_MODULE_ENABLED);
     }
+
+    /**
+     * Check if $minorVersion match minor part of Magento installation
+     *
+     * @param int $minorVersion
+     * @return bool
+     */
+    public function isMagentoMinorVersion($minorVersion)
+    {
+        $magentoVersion = Mage::getVersionInfo();
+
+        if ($magentoVersion['minor'] == $minorVersion) {
+            return true;
+        }
+
+        return false;
+    }
 }
