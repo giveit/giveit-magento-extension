@@ -68,4 +68,36 @@ class Synocom_GiveIt_Model_Observer
         return Mage::helper('synocom_giveit');
     }
 
+
+    public function adminhtmlBlockHtmlBefore($observer) {
+        $event = $observer->getEvent();
+        $block = $event->getBlock();
+
+        if ($block->getId() == 'productGrid') {
+            $giveItOptions = Mage::getModel('synocom_giveit/product_attribute_source_button_active')->getOptionArray();
+
+            $block->addColumnAfter('giveit',
+                array(
+                    'header'    => Mage::helper('catalog')->__('Give It'),
+                    'width'     => '80px',
+                    'index'     => 'giveit_button_active',
+                    'type'      => 'options',
+                    'options'   => $giveItOptions,
+                ), 'type');
+
+            $block->sortColumnsByOrder();
+        }
+    }
+
+    public function catalogProductCollectionLoadBefore($observer) {
+        $event = $observer->getEvent();
+        $productCollection = $event->getCollection();
+
+        $request = Mage::app()->getRequest();
+
+        if ($request->getModuleName() == 'admin' && $request->getControllerName() == 'catalog_product' && $request->getActionName() == 'index') {
+            $productCollection->addAttributeToSelect('giveit_button_active');
+        }
+    }
+
 }
