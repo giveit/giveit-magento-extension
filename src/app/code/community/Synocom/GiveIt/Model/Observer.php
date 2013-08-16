@@ -58,31 +58,23 @@ class Synocom_GiveIt_Model_Observer
         }
     }
 
-    /**
-     * Get data helper
-     *
-     * @return Synocom_GiveIt_Helper_Data
-     */
-    protected function _helper()
+    public function adminhtmlBlockHtmlBefore($observer)
     {
-        return Mage::helper('synocom_giveit');
-    }
-
-
-    public function adminhtmlBlockHtmlBefore($observer) {
         $event = $observer->getEvent();
         $block = $event->getBlock();
 
         if ($block->getId() == 'productGrid') {
             $giveItOptions = Mage::getModel('synocom_giveit/product_attribute_source_button_active')->getOptionArray();
 
-            $block->addColumnAfter('giveit',
+            $block->addColumnAfter('giveit_button_active',
                 array(
                     'header'    => Mage::helper('catalog')->__('Give It'),
                     'width'     => '80px',
                     'index'     => 'giveit_button_active',
                     'type'      => 'options',
                     'options'   => $giveItOptions,
+                    'filterable' => true,
+                    'sortable'  => false
                 ), 'type');
 
             $block->sortColumnsByOrder();
@@ -93,11 +85,50 @@ class Synocom_GiveIt_Model_Observer
         $event = $observer->getEvent();
         $productCollection = $event->getCollection();
 
-        $request = Mage::app()->getRequest();
-
-        if ($request->getModuleName() == 'admin' && $request->getControllerName() == 'catalog_product' && $request->getActionName() == 'index') {
+        if ($this->_isCatalogGridRequest()) {
             $productCollection->addAttributeToSelect('giveit_button_active');
+
+            $store = $this->_getStore();
+            if ($store->getId()) {
+                $productCollection->joinAttribute(
+                    'giveit_button_active_alias',
+                    'catalog_product/giveit_button_active',
+                    'entity_id',
+                    null,
+                    'left',
+                    $store->getId()
+                );
+            }
         }
+    }
+
+    protected function _isCatalogGridRequest() {
+        $request = Mage::app()->getRequest();
+        $action = in_array($request->getActionName(), array('index', 'grid'));
+        $moduleName = $request->getModuleName();
+        $controllerName = $request->getControllerName();
+
+        if ($moduleName == 'admin' && $controllerName == 'catalog_product' && $action) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function _getStore()
+    {
+        $storeId = Mage::app()->getRequest()->getParam('store', 0);
+        return Mage::app()->getStore($storeId);
+    }
+
+    /**
+     * Get data helper
+     *
+     * @return Synocom_GiveIt_Helper_Data
+     */
+    protected function _helper()
+    {
+        return Mage::helper('synocom_giveit');
     }
 
 }

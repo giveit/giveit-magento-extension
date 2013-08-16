@@ -39,7 +39,7 @@
                     </synocom_giveit>
                 </observers>
             </controller_action_layout_generate_xml_before>
-            <adminhtml_block_html_before>
+            <core_block_abstract_to_html_before>
                 <observers>
                     <synocom_giveit>
                         <type>singleton</type>
@@ -47,7 +47,7 @@
                         <method>adminhtmlBlockHtmlBefore</method>
                     </synocom_giveit>
                 </observers>
-            </adminhtml_block_html_before>
+            </core_block_abstract_to_html_before>
             <catalog_product_collection_load_before>
                 <observers>
                     <synocom_giveit>
