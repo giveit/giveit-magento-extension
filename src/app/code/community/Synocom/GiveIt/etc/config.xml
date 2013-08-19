@@ -44,7 +44,7 @@
                     <synocom_giveit>
                         <type>singleton</type>
                         <class>synocom_giveit/observer</class>
-                        <method>adminhtmlBlockHtmlBefore</method>
+                        <method>coreBlockAbstractToHtmlBefore</method>
                     </synocom_giveit>
                 </observers>
             </core_block_abstract_to_html_before>

@@ -58,7 +58,12 @@ class Synocom_GiveIt_Model_Observer
         }
     }
 
-    public function adminhtmlBlockHtmlBefore($observer)
+    /**
+     * Add column to Catalog Product grid view with Give It config
+     *
+     * @param $observer
+     */
+    public function coreBlockAbstractToHtmlBefore($observer)
     {
         $event = $observer->getEvent();
         $block = $event->getBlock();
@@ -68,20 +73,26 @@ class Synocom_GiveIt_Model_Observer
 
             $block->addColumnAfter('giveit_button_active',
                 array(
-                    'header'    => Mage::helper('catalog')->__('Give It'),
-                    'width'     => '80px',
-                    'index'     => 'giveit_button_active',
-                    'type'      => 'options',
-                    'options'   => $giveItOptions,
-                    'filterable' => true,
-                    'sortable'  => false
+                    'header'        => Mage::helper('catalog')->__('Give It'),
+                    'width'         => '80px',
+                    'index'         => 'giveit_button_active',
+                    'type'          => 'options',
+                    'options'       => $giveItOptions,
+                    'filterable'    => true,
+                    'sortable'      => false
                 ), 'type');
 
             $block->sortColumnsByOrder();
         }
     }
 
-    public function catalogProductCollectionLoadBefore($observer) {
+    /**
+     * Add giveit_button_active to retrieve in collection for Catalog Product grid
+     *
+     * @param $observer
+     */
+    public function catalogProductCollectionLoadBefore($observer)
+    {
         $event = $observer->getEvent();
         $productCollection = $event->getCollection();
 
@@ -102,19 +113,59 @@ class Synocom_GiveIt_Model_Observer
         }
     }
 
+    /**
+     * Check if is request for Catalog Product grid
+     *
+     * @return bool
+     */
     protected function _isCatalogGridRequest() {
         $request = Mage::app()->getRequest();
         $action = in_array($request->getActionName(), array('index', 'grid'));
         $moduleName = $request->getModuleName();
         $controllerName = $request->getControllerName();
 
-        if ($moduleName == 'admin' && $controllerName == 'catalog_product' && $action) {
+        if ($this->_isAdminModule($moduleName) && $this->_isCatalogProductController($controllerName) && $action) {
             return true;
         }
 
         return false;
     }
 
+    /**
+     * Check if is Admin module
+     *
+     * @param $moduleName
+     * @return bool
+     */
+    protected function _isAdminModule($moduleName)
+    {
+        if ($moduleName == 'admin') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if is catalog_product controller
+     *
+     * @param $controllerName
+     * @return bool
+     */
+    protected function _isCatalogProductController($controllerName)
+    {
+        if ($controllerName == 'catalog_product') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get current store
+     *
+     * @return Mage_Core_Model_Store
+     */
     protected function _getStore()
     {
         $storeId = Mage::app()->getRequest()->getParam('store', 0);

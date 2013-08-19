@@ -23,7 +23,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'giveit_button_acti
     'comparable'       => false,
     'visible_on_front' => false,
     'unique'           => false,
-    'used_in_product_listing'    => true,
+    'used_in_product_listing' => true,
     'apply_to'         => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE.','.Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
     'is_configurable'  => false,
     'input_renderer'   => 'synocom_giveit/adminhtml_product_button_active_renderer',

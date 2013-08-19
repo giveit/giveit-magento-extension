@@ -45,6 +45,11 @@ class Synocom_GiveIt_Model_Product_Attribute_Source_Button_Active
         return $this->_options;
     }
 
+    /**
+     * Retrieve flat column definition
+     *
+     * @return array
+     */
     public function getFlatColums()
     {
         $attributeCode = $this->getAttribute()->getAttributeCode();
@@ -54,7 +59,9 @@ class Synocom_GiveIt_Model_Product_Attribute_Source_Button_Active
             'extra'     => null
         );
 
-        if (Mage::helper('core')->useDbCompatibleMode()) {
+        $helper = Mage::helper('synocom_giveit');
+
+        if ($helper->useDbCompatibleMode()) {
             $column['type'] = 'int';
             $column['is_null'] = true;
         } else {
@@ -65,6 +72,12 @@ class Synocom_GiveIt_Model_Product_Attribute_Source_Button_Active
         return array($attributeCode => $column);
     }
 
+    /**
+     * Retrieve Select for update Attribute value in flat table
+     *
+     * @param   int $store
+     * @return  Varien_Db_Select|null
+     */
     public function getFlatUpdateSelect($store)
     {
         return Mage::getResourceModel('eav/entity_attribute_option')

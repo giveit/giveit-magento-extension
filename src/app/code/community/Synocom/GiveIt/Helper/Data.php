@@ -92,4 +92,21 @@ class Synocom_GiveIt_Helper_Data
 
         return false;
     }
+
+    /**
+     * Check if db compatible mode must be used
+     *
+     * @return bool
+     */
+    public function useDbCompatibleMode() {
+        $coreHelper = Mage::helper('core');
+
+        if (method_exists($coreHelper, 'useDbCompatibleMode') && $coreHelper->useDbCompatibleMode()) {
+            return true;
+        } else if($this->isMagentoMinorVersion(4)){
+            return true;
+        }
+
+        return false;
+    }
 }
