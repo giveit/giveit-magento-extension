@@ -20,9 +20,9 @@ class Synocom_GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
         try {
             if ($sku = $this->getRequest()->getParam('product_id')) {
                 $response = Mage::getModel('synocom_giveit/product')->getProductStockQty($sku);
+            } else {
+                throw new Mage_Exception('Wrong request, product_id is missing.');
             }
-
-            throw new Mage_Exception('Wrong request, product_id is missing.');
         } catch (Mage_Exception $e) {
             Mage::log('Exception while calling Synocom_GiveIt_ApiController::getProductStockAction()');
             Mage::log('product_id: ' . $sku . ' Error: ' . $e->getMessage());
