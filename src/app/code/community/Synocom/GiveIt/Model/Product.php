@@ -24,7 +24,7 @@ class Synocom_GiveIt_Model_Product extends Mage_Core_Model_Abstract {
         if ($product) {
             switch ($product->getTypeId()) {
                 case Mage_Catalog_Model_Product_Type::TYPE_SIMPLE:
-                    $productQty = $this->getSimpleProductStockQty($product);
+                    $productQty = array($sku => $this->getSimpleProductStockQty($product));
                     break;
                 case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
                     $productQty = $this->getConfigurableProductStockQty($product);

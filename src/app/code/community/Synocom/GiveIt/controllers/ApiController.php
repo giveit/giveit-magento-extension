@@ -8,6 +8,7 @@
  * @author     Szymon Niedziela <office@light4website.com>
  *
  */
+require_once 'lib/giveit/sdk.php';
 
 class Synocom_GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
 
@@ -29,8 +30,11 @@ class Synocom_GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
             $response = array('error' => $e->getMessage());
         }
 
+        $crypt = \GiveIt\SDK\Crypt::getInstance();
+        $encryptedResponse = $crypt->encode($response, Mage::helper('synocom_giveit')->getDataKey());
+
         $this->getResponse()->setHeader('Content-type', 'application/json');
-        $response = Mage::helper('core')->jsonEncode($response);
+        $response = Mage::helper('core')->jsonEncode($encryptedResponse);
         $this->getResponse()->setBody($response);
     }
 

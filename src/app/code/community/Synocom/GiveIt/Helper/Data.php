@@ -109,4 +109,13 @@ class Synocom_GiveIt_Helper_Data
 
         return false;
     }
+
+    /**
+     * Get API Data Key
+     *
+     * @return mixed
+     */
+    public function getDataKey() {
+        return Mage::getStoreConfig('synocom_giveit/settings/data_key');
+    }
 }
