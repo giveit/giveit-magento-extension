@@ -89,5 +89,13 @@
                 <button_color>blue_rect_sm</button_color>
             </button_settings>
         </synocom_giveit>
+        <payment>
+            <giveit_payment>
+                <active>0</active>
+                <model>synocom_giveit/pay</model>
+                <order_status>processing</order_status>
+                <title>Give It Payment</title>
+            </giveit_payment>
+        </payment>
     </default>
 </config>
