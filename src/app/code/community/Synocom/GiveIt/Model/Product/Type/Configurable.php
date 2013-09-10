@@ -61,7 +61,6 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
     {
         $productOptions = $this->_getProductOptions();
         $this->helper = Mage::helper('synocom_giveit');
-
         $firstAttribute = reset($productOptions['attributes']);
 
         $sdkOption = $this->helper->getSdkOption('product_options', 'layered', $this->helper->__('Product options'),
@@ -72,8 +71,8 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
          * as a reference for the nested choices.
          */
         foreach ($firstAttribute['options'] as $id => $option) {
-            $sdkChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']),
-                array('choice_products' => $option['products']));
+            $sdkChoice = $this->helper->getSdkChoice($option['id'], $option['label'], $this->_roundPrice($option['price']),
+                array('choice_products' => $this->_getAssignedProductId($option['products'])));
             $this->_mainChoices[] = $sdkChoice;
         }
 
@@ -84,6 +83,15 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
         $sdkOption->addChoices($this->_mainChoices);
 
         $this->addBuyerOption($sdkOption);
+    }
+
+    protected function _getAssignedProductId(array $options) {
+        if (count($options) == 1) {
+            $options['product_id'] = array_pop($options);
+            array_push($options, $options['product_id']);
+        }
+
+        return $options;
     }
 
     /**
@@ -105,7 +113,7 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
                 //The title of this (nested) choice has to be added to its parent
                 $parentChoice->choices_title = $attribute['label'];
                 $nestedChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']),
-                    array('choice_products' => $choiceProducts));
+                    array('choice_products' => $this->_getAssignedProductId($choiceProducts)));
                 $parentChoice->addChoice($nestedChoice);
                 $choices[] = $nestedChoice;
             }

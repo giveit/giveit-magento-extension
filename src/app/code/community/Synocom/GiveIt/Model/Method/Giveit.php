@@ -9,7 +9,7 @@
  *
  */
 
-class Synocom_GiveIt_Model_Pay extends Mage_Payment_Model_Method_Abstract {
+class Synocom_GiveIt_Model_Method_Giveit extends Mage_Payment_Model_Method_Abstract {
 
     protected $_code = 'giveit_payment';
 

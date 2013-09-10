@@ -92,7 +92,7 @@
         <payment>
             <giveit_payment>
                 <active>0</active>
-                <model>synocom_giveit/pay</model>
+                <model>synocom_giveit/method_giveit</model>
                 <order_status>processing</order_status>
                 <title>Give It Payment</title>
             </giveit_payment>

@@ -32,6 +32,7 @@ class Synocom_GiveIt_Model_Giveit_Sale extends Mage_Core_Model_Abstract {
         if (array_key_exists(self::SALE_ITEMS_KEY, $responseData)) {
             foreach ($responseData[self::SALE_ITEMS_KEY] as $apiItem) {
                 $item = Mage::getModel('synocom_giveit/giveit_sale_item');
+                var_dump($apiItem);die;
                 $this->_items[] = $item->setData($apiItem);
             }
         }
@@ -75,6 +76,10 @@ class Synocom_GiveIt_Model_Giveit_Sale extends Mage_Core_Model_Abstract {
      */
     public function getShippingAddress() {
         return $this->_shippingAddress;
+    }
+
+    public function getRecipient() {
+        return $this->_recipient;
     }
 
     /**

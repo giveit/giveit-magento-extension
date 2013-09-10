@@ -10,66 +10,57 @@
  */
 class Synocom_GiveIt_Model_Order extends Mage_Core_Model_Abstract {
 
-    /**
-     * Prepare Quote order for logged in customers
-     *
-     * @param int $customerId
-     * @param array $shoppingCart
-     * @param array $shippingAddress
-     * @param array $billingAddress
-     * @param string $shippingMethod eg. fedexground_fedexground
-     * @param string $couponCode
-     * @return int $quoteId
-     */
-    public function prepareCustomerOrder($customerId, array $shoppingCart, array $shippingAddress, array $billingAddress,
-                                         $shippingMethod, $couponCode = null)
-    {
-        // create quote
-        $customerObj = Mage::getModel('customer/customer')->load($customerId);
-        $storeId = $customerObj->getStoreId();
-        $quoteObj = Mage::getModel('sales/quote')->assignCustomer($customerObj);
-        $storeObj = $quoteObj->getStore()->load($storeId);
-        $quoteObj->setStore($storeObj);
+    public function createGiveItOrder(Synocom_GiveIt_Model_Giveit_Sale $sale) {
 
-        // add products to quote
-        $productModel = Mage::getModel('catalog/product');
-        foreach($shoppingCart as $cart_item) {
-            $productObj = $productModel->load($cart_item['PartId']);
-            $quoteItem = Mage::getModel('sales/quote_item')->setProduct($productObj);
-            $quoteItem->setQuote($quoteObj);
-            $quoteItem->setQty($cart_item['Quantity']);
-            if (isset($cart_item['Price']) && $cart_item['Price']) {
-                $quoteItem->setOriginalPrice($cart_item['Price']);
-            }
-            $quoteObj->addItem($quoteItem);
+        var_dump($sale);
+        $email = $sale->getBuyer()->getEmail();
+
+        $shoppingCart = array();
+        foreach ($sale->getItems() as $item) {
+            $product = array();
+//            if ($item->getSelectedOptions()) {
+//                $options = $item->getProduct()->getOptions();
+//                $product['product_id'] = $options->get{ucfirst($options->getId())}();
+//            } else {
+            var_dump($item);
+                $product['product_id'] = $item->getProduct()->getCode();
+//            }
+
+            $shoppingCart[] = $product['qty'] = $item->getQuantity();
         }
 
-        // addresses
-        $quoteBillingAddress = new Mage_Sales_Model_Quote_Address();
-        $quoteBillingAddress->setData($billingAddress);
-        $quoteObj->setBillingAddress($quoteBillingAddress);
+        $saleShippingAddress = $sale->getShippingAddress();
 
-        if($quoteObj->isVirtual() == 0) {
-            $quoteShippingAddress = new Mage_Sales_Model_Quote_Address();
-            $quoteShippingAddress->setData($shippingAddress);
-            $quoteObj->setShippingAddress($quoteShippingAddress);
-        }
+        $shippingAddress = array(
+            'firstname'             => $saleShippingAddress->getFirstName(),
+            'lastname'              => $saleShippingAddress->getLastName(),
+            'country_id'            => $saleShippingAddress->getCountry(),
+            'region_id'             => '',
+            'region'                => $saleShippingAddress->getProvince(),
+            'city'                  => $saleShippingAddress->getCity(),
+            'street'                => $saleShippingAddress->getStreet(),
+            'telephone'             => $sale->getPhone(),
+            'postcode'              => $sale->getPostalCode(),
+            'save_in_address_book'  => 0,
+            'is_default_billing'    => false,
+            'is_default_shipping'   => true,
+            'prefix'                => '',
+            'middlename'            => '',
+            'suffix'                => '',
+            'company'               => '',
+            'fax'                   => ''
+        );
 
-        // coupon code
-        if(!empty($couponCode)) $quoteObj->setCouponCode($couponCode);
+        $billingAddress = $shippingAddress;
+        $billingAddress['is_default_billing'] = true;
+        $billingAddress['is_default_shipping'] = false;
 
-        // shipping method and collect
-        if($quoteObj->isVirtual() == 0) {
-            $quoteObj->getShippingAddress()->setShippingMethod($shippingMethod);
-            $quoteObj->getShippingAddress()->setCollectShippingRates(true);
-            $quoteObj->getShippingAddress()->collectShippingRates();
-        }
-        $quoteObj->collectTotals();	// calls $address->collectTotals();
-        $quoteObj->save();
+        $shippingMethod = 'flatrate_flatrate';
 
-        return $quoteObj->getId();
+        var_dump($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod);die;
+        $this->prepareGuestOrder($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod, false);
+
     }
-
 
     /**
      * Prepare Quote order for not logged in customers
@@ -82,47 +73,43 @@ class Synocom_GiveIt_Model_Order extends Mage_Core_Model_Abstract {
     public function prepareGuestOrder($email, array $shoppingCart, array $shippingAddress, array $billingAddress,
                                       $shippingMethod, $couponCode)
     {
-        // create quote
-        $quoteObj = Mage::getModel('sales/quote');
-        $quoteObj->setIsMultiShipping(false);
-        $quoteObj->setCheckoutMethod('guest');
-        $quoteObj->setCustomerId(null);
-        $quoteObj->setCustomerEmail($email);
-        $quoteObj->setCustomerIsGuest(true);
-        $quoteObj->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
+        $quote = Mage::getModel('sales/quote');
+        $quote->setIsMultiShipping(false);
+        $quote->setCheckoutMethod('guest');
+        $quote->setCustomerId(null);
+        $quote->setCustomerEmail($email);
+        $quote->setCustomerIsGuest(true);
+        $quote->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
 
-        // set store
-        $quoteObj->setStore(Mage::app()->getStore());
+        $quote->setStore(Mage::app()->getStore());
 
-        // add products to quote
         $productModel = Mage::getModel('catalog/product');
-        foreach($shoppingCart as $cart_item) {
-            $productObj = $productModel->load($cart_item['PartId']);
-            $quoteItem = Mage::getModel('sales/quote_item')->setProduct($productObj);
-            $quoteItem->setQuote($quoteObj);
-            $quoteItem->setQty($cart_item['Quantity']);
-            $quoteObj->addItem($quoteItem);
+        foreach($shoppingCart as $cartItem) {
+            $product = $productModel->load($cartItem['product_id']);
+            $quoteItem = Mage::getModel('sales/quote_item')->setProduct($product);
+            $quoteItem->setQuote($quote);
+            $quoteItem->setQty($cartItem['qty']);
+            $quote->addItem($quoteItem);
         }
 
-        // addresses
         $quoteShippingAddress = new Mage_Sales_Model_Quote_Address();
         $quoteShippingAddress->setData($shippingAddress);
         $quoteBillingAddress = new Mage_Sales_Model_Quote_Address();
         $quoteBillingAddress->setData($billingAddress);
-        $quoteObj->setShippingAddress($quoteShippingAddress);
-        $quoteObj->setBillingAddress($quoteBillingAddress);
+        $quote->setShippingAddress($quoteShippingAddress);
+        $quote->setBillingAddress($quoteBillingAddress);
 
-        // coupon code
-        if(!empty($couponCode)) $quoteObj->setCouponCode($couponCode);
+        if (!empty($couponCode)) {
+            $quote->setCouponCode($couponCode);
+        }
 
-        // shipping method an collect
-        $quoteObj->getShippingAddress()->setShippingMethod($shippingMethod);
-        $quoteObj->getShippingAddress()->setCollectShippingRates(true);
-        $quoteObj->getShippingAddress()->collectShippingRates();
-        $quoteObj->collectTotals();	// calls $address->collectTotals();
-        $quoteObj->save();
+        $quote->getShippingAddress()->setShippingMethod($shippingMethod);
+        $quote->getShippingAddress()->setCollectShippingRates(true);
+        $quote->getShippingAddress()->collectShippingRates();
+        $quote->collectTotals();	// calls $address->collectTotals();
+        $quote->save();
 
-        return $quoteObj->getId();
+        return $quote->getId();
     }
 
     /**
@@ -134,35 +121,33 @@ class Synocom_GiveIt_Model_Order extends Mage_Core_Model_Abstract {
      * @param stdClass $paymentData
      * @return int $orderId
      */
-    public function createOrder($quoteId, $paymentMethod, $paymentData)
-    {
-        $quoteObj = Mage::getModel('sales/quote')->load($quoteId); // Mage_Sales_Model_Quote
-        $items = $quoteObj->getAllItems();
-        $quoteObj->reserveOrderId();
+    public function createOrder($quoteId, $paymentMethod, $paymentData) {
+        $quote = Mage::getModel('sales/quote')->load($quoteId);
+        $items = $quote->getAllItems();
+        $quote->reserveOrderId();
 
-        // set payment method
-        $quotePaymentObj = $quoteObj->getPayment(); // Mage_Sales_Model_Quote_Payment
-        $quotePaymentObj->setMethod($paymentMethod);
-        $quoteObj->setPayment($quotePaymentObj);
+        $quotePayment = $quote->getPayment();
+        $quotePayment->setMethod($paymentMethod);
+        $quote->setPayment($quotePayment);
 
         // convert quote to order
         $convertQuoteObj = Mage::getSingleton('sales/convert_quote');
 
-        if($quoteObj->isVirtual() == 0) {
-            $orderObj = $convertQuoteObj->addressToOrder($quoteObj->getShippingAddress());
+        if($quote->isVirtual() == 0) {
+            $orderObj = $convertQuoteObj->addressToOrder($quote->getShippingAddress());
         } else {
-            $orderObj = $convertQuoteObj->addressToOrder($quoteObj->getBillingAddress());
+            $orderObj = $convertQuoteObj->addressToOrder($quote->getBillingAddress());
         }
 
-        $orderPaymentObj = $convertQuoteObj->paymentToOrderPayment($quotePaymentObj);
+        $orderPaymentObj = $convertQuoteObj->paymentToOrderPayment($quotePayment);
 
         // convert quote addresses
-        $orderObj->setBillingAddress($convertQuoteObj->addressToOrderAddress($quoteObj->getBillingAddress()));
-        if($quoteObj->isVirtual() == 0) {
-            $orderObj->setShippingAddress($convertQuoteObj->addressToOrderAddress($quoteObj->getShippingAddress()));
+        $orderObj->setBillingAddress($convertQuoteObj->addressToOrderAddress($quote->getBillingAddress()));
+        if($quote->isVirtual() == 0) {
+            $orderObj->setShippingAddress($convertQuoteObj->addressToOrderAddress($quote->getShippingAddress()));
         }
         // set payment options
-        $orderObj->setPayment($convertQuoteObj->paymentToOrderPayment($quoteObj->getPayment()));
+        $orderObj->setPayment($convertQuoteObj->paymentToOrderPayment($quote->getPayment()));
         if ($paymentData) {
             $orderObj->getPayment()->setCcNumber($paymentData->ccNumber);
             $orderObj->getPayment()->setCcType($paymentData->ccType);
@@ -192,9 +177,8 @@ class Synocom_GiveIt_Model_Order extends Mage_Core_Model_Abstract {
         $orderObj->save();
         //$orderObj->sendNewOrderEmail();
         return $orderObj->getId();
-        unset ($orderObj, $quoteObj);
+        unset ($orderObj, $quote);
     }
-
 
     /**
      * Create invoice for selected order
@@ -245,19 +229,14 @@ class Synocom_GiveIt_Model_Order extends Mage_Core_Model_Abstract {
     }
 
     public function createShippingForOrder($orderId, $commentToShipping, $notifyCustomer = false) {
-        // Load Order
         $order = Mage::getModel('sales/order')->load($orderId);
 
-        /**
-         * Check shipment create availability
-         */
         if (!$order->canShip()) {
             return false;
         }
 
-        // Convert order to shipping
-        $convertor  = Mage::getModel('sales/convert_order');
-        $shipment    = $convertor->toShipment($order);
+        $convertor = Mage::getModel('sales/convert_order');
+        $shipment = $convertor->toShipment($order);
 
         foreach ($order->getAllItems() as $orderItem) {
             if (!$orderItem->isDummy(true) && !$orderItem->getQtyToShip()) {
@@ -285,12 +264,25 @@ class Synocom_GiveIt_Model_Order extends Mage_Core_Model_Abstract {
             $shipment->addComment($commentToShipping, $notifyCustomer);
         }
 
-
         $shipment->getOrder()->setIsInProcess(true);
-        $transactionSave = Mage::getModel('core/resource_transaction')
+        Mage::getModel('core/resource_transaction')
             ->addObject($shipment)
             ->addObject($shipment->getOrder())
             ->save();
+    }
+
+    /**
+     * Add order comment action
+     */
+    public function addCommentAction(Mage_Sales_Model_Order $order, $comment, $notify = false, $visible = false) {
+        try {
+            $order->addStatusHistoryComment($comment, $order->getStatus())
+                ->setIsVisibleOnFront($visible)
+                ->setIsCustomerNotified($notify);
+            $order->save();
+        } catch (Exception $e) {
+            Mage::log($e->getMessage());
+        }
     }
 
 }

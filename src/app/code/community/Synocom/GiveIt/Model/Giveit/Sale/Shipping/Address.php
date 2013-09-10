@@ -10,4 +10,41 @@
  */
 class Synocom_GiveIt_Model_Giveit_Sale_Shipping_Address extends Mage_Core_Model_Abstract {
 
+    protected $_firstName;
+    protected $_lastName;
+
+    public function setData($key, $value = null) {
+        parent::setData($key, $value);
+        $this->_initData();
+
+        return $this;
+    }
+
+    public function getStreet() {
+        $street = array();
+
+        foreach (array(1,2,3,4) as $lineNumber) {
+            if ($this->getLine{$lineNumber}()) {
+                array_push($street, $this->getLine{$lineNumber}());
+            }
+        }
+
+        return $street;
+    }
+
+    public function getFirstName() {
+        return $this->_firstName;
+    }
+
+    public function getLastName() {
+        return $this->_lastName;
+    }
+
+    protected function _initData() {
+        $firstLastName = explode(' ', $this->getName(), 1);
+
+        $this->_firstName = array_pop($firstLastName);
+        $this->_lastName = array_pop($firstLastName);
+    }
+
 }
