@@ -8,7 +8,7 @@
  * @author     Szymon Niedziela <office@light4website.com>
  *
  */
-class Synocom_GiveIt_Model_Order extends Mage_Core_Model_Abstract {
+class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
 
     public function createGiveItOrder(Synocom_GiveIt_Model_Giveit_Sale $sale) {
         $email = $sale->getBuyer()->getEmail();
@@ -51,7 +51,7 @@ class Synocom_GiveIt_Model_Order extends Mage_Core_Model_Abstract {
             'company'               => '',
             'fax'                   => ''
         );
-        var_dump($shippingAddress);die;
+//        var_dump($shippingAddress);die;
 
         $billingAddress = $shippingAddress;
         $billingAddress['is_default_billing'] = true;
@@ -140,50 +140,55 @@ class Synocom_GiveIt_Model_Order extends Mage_Core_Model_Abstract {
         $convertQuoteObj = Mage::getSingleton('sales/convert_quote');
 
         if($quote->isVirtual() == 0) {
-            $orderObj = $convertQuoteObj->addressToOrder($quote->getShippingAddress());
+            $order = $convertQuoteObj->addressToOrder($quote->getShippingAddress());
         } else {
-            $orderObj = $convertQuoteObj->addressToOrder($quote->getBillingAddress());
+            $order = $convertQuoteObj->addressToOrder($quote->getBillingAddress());
         }
 
         $orderPaymentObj = $convertQuoteObj->paymentToOrderPayment($quotePayment);
 
         // convert quote addresses
-        $orderObj->setBillingAddress($convertQuoteObj->addressToOrderAddress($quote->getBillingAddress()));
+        $order->setBillingAddress($convertQuoteObj->addressToOrderAddress($quote->getBillingAddress()));
         if($quote->isVirtual() == 0) {
-            $orderObj->setShippingAddress($convertQuoteObj->addressToOrderAddress($quote->getShippingAddress()));
+            $order->setShippingAddress($convertQuoteObj->addressToOrderAddress($quote->getShippingAddress()));
         }
         // set payment options
-        $orderObj->setPayment($convertQuoteObj->paymentToOrderPayment($quote->getPayment()));
+        $order->setPayment($convertQuoteObj->paymentToOrderPayment($quote->getPayment()));
         if ($paymentData) {
-            $orderObj->getPayment()->setCcNumber($paymentData->ccNumber);
-            $orderObj->getPayment()->setCcType($paymentData->ccType);
-            $orderObj->getPayment()->setCcExpMonth($paymentData->ccExpMonth);
-            $orderObj->getPayment()->setCcExpYear($paymentData->ccExpYear);
-            $orderObj->getPayment()->setCcLast4(substr($paymentData->ccNumber,-4));
+            $order->getPayment()->setCcNumber($paymentData->ccNumber);
+            $order->getPayment()->setCcType($paymentData->ccType);
+            $order->getPayment()->setCcExpMonth($paymentData->ccExpMonth);
+            $order->getPayment()->setCcExpYear($paymentData->ccExpYear);
+            $order->getPayment()->setCcLast4(substr($paymentData->ccNumber,-4));
         }
         // convert quote items
         foreach ($items as $item) {
             // @var $item Mage_Sales_Model_Quote_Item
             $orderItem = $convertQuoteObj->itemToOrderItem($item);
             if ($item->getParentItem()) {
-                $orderItem->setParentItem($orderObj->getItemByQuoteItemId($item->getParentItem()->getId()));
+                $orderItem->setParentItem($order->getItemByQuoteItemId($item->getParentItem()->getId()));
             }
-            $orderObj->addItem($orderItem);
+            $order->addItem($orderItem);
         }
 
-        $orderObj->setCanShipPartiallyItem(false);
+        $order->setCanShipPartiallyItem(false);
 
         try {
-            $orderObj->place();
+            $order->place();
         } catch (Exception $e){
             Mage::log($e->getMessage());
             Mage::log($e->getTraceAsString());
         }
 
-        $orderObj->save();
-        //$orderObj->sendNewOrderEmail();
-        return $orderObj->getId();
-        unset ($orderObj, $quote);
+        /** TODO chang with reall data */
+//        $order->setShippingAmount('999');
+//        $order->setShippingDescription('Give it shipping description');
+        $order->save();
+
+        $this->sendNewOrderEmail($order);
+
+        return $order->getId();
+        unset ($order, $quote);
     }
 
     /**
@@ -289,6 +294,71 @@ class Synocom_GiveIt_Model_Order extends Mage_Core_Model_Abstract {
         } catch (Exception $e) {
             Mage::log($e->getMessage());
         }
+    }
+
+    public function sendNewOrderEmail(Mage_Sales_Model_Order $order) {
+        $storeId = $order->getStore()->getId();
+
+        $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
+        $copyMethod = Mage::getStoreConfig(self::XML_PATH_EMAIL_COPY_METHOD, $storeId);
+
+        if (!Mage::helper('sales')->canSendNewOrderEmail($storeId) || empty($copyTo)) {
+            return $order;
+        }
+
+        $appEmulation = Mage::getSingleton('core/app_emulation');
+        $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
+
+        try {
+            $paymentBlock = Mage::helper('payment')->getInfoBlock($order->getPayment())
+                ->setIsSecureMode(true);
+            $paymentBlock->getMethod()->setStore($storeId);
+            $paymentBlockHtml = $paymentBlock->toHtml();
+        } catch (Exception $exception) {
+            $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+            throw $exception;
+        }
+
+        $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+
+        $templateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $storeId);
+        $customerName = $order->getBillingAddress()->getName();
+
+
+        $mailer = Mage::getModel('core/email_template_mailer');
+        $emailInfo = Mage::getModel('core/email_info');
+        $emailInfo->addTo(array_pop($copyTo), $customerName);
+
+        if ($copyTo && $copyMethod == 'bcc') {
+            foreach ($copyTo as $email) {
+                $emailInfo->addBcc($email);
+            }
+        }
+        $mailer->addEmailInfo($emailInfo);
+
+        if ($copyTo && $copyMethod == 'copy') {
+            foreach ($copyTo as $email) {
+                $emailInfo = Mage::getModel('core/email_info');
+                $emailInfo->addTo($email);
+                $mailer->addEmailInfo($emailInfo);
+            }
+        }
+
+        $mailer->setSender(Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId));
+        $mailer->setStoreId($storeId);
+        $mailer->setTemplateId($templateId);
+        $mailer->setTemplateParams(array(
+                'order'        => $order,
+                'billing'      => $order->getBillingAddress(),
+                'payment_html' => $paymentBlockHtml
+            )
+        );
+        $mailer->send();
+
+        $order->setEmailSent(true);
+        $order->_getResource()->saveAttribute($order, 'email_sent');
+
+        return $order;
     }
 
 }
