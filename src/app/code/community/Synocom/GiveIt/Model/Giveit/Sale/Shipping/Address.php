@@ -24,12 +24,13 @@ class Synocom_GiveIt_Model_Giveit_Sale_Shipping_Address extends Mage_Core_Model_
         $street = array();
 
         foreach (array(1,2,3,4) as $lineNumber) {
-            if ($this->getLine{$lineNumber}()) {
+            $propertyName = 'getLine'.$lineNumber;
+            if ($this->{$propertyName}()) {
                 array_push($street, $this->getLine{$lineNumber}());
             }
         }
 
-        return $street;
+        return join(',', $street);
     }
 
     public function getFirstName() {

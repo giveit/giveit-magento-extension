@@ -11,8 +11,6 @@
 class Synocom_GiveIt_Model_Order extends Mage_Core_Model_Abstract {
 
     public function createGiveItOrder(Synocom_GiveIt_Model_Giveit_Sale $sale) {
-
-        var_dump($sale);
         $email = $sale->getBuyer()->getEmail();
 
         $shoppingCart = array();
@@ -22,11 +20,11 @@ class Synocom_GiveIt_Model_Order extends Mage_Core_Model_Abstract {
 //                $options = $item->getProduct()->getOptions();
 //                $product['product_id'] = $options->get{ucfirst($options->getId())}();
 //            } else {
-            var_dump($item);
-                $product['product_id'] = $item->getProduct()->getCode();
+                $product['product_id'] = $item->getProduct()->getDetails()->getCode();
 //            }
 
-            $shoppingCart[] = $product['qty'] = $item->getQuantity();
+            $product['qty'] = $item->getQuantity();
+            $shoppingCart[] = $product;
         }
 
         $saleShippingAddress = $sale->getShippingAddress();
@@ -47,9 +45,13 @@ class Synocom_GiveIt_Model_Order extends Mage_Core_Model_Abstract {
             'prefix'                => '',
             'middlename'            => '',
             'suffix'                => '',
+            /**
+             * TODO fill this field when final JSON sale response will be provided
+             */
             'company'               => '',
             'fax'                   => ''
         );
+        var_dump($shippingAddress);die;
 
         $billingAddress = $shippingAddress;
         $billingAddress['is_default_billing'] = true;
@@ -57,8 +59,12 @@ class Synocom_GiveIt_Model_Order extends Mage_Core_Model_Abstract {
 
         $shippingMethod = 'flatrate_flatrate';
 
-        var_dump($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod);die;
-        $this->prepareGuestOrder($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod, false);
+//        var_dump($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod);die;
+        $quoteId = $this->prepareGuestOrder($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod, false);
+
+        $giveitPaymentMethod = Mage::getModel('synocom_giveit/method_giveit');
+        $paymentMethod = $giveitPaymentMethod->getCode();
+        $this->createOrder($quoteId, $paymentMethod, null);
 
     }
 

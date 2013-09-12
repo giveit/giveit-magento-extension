@@ -20,6 +20,8 @@ class Synocom_GiveIt_Model_Giveit_Sale_Item extends Mage_Core_Model_Abstract {
             $this->_product = Mage::getModel('synocom_giveit/giveit_sale_item_product');
             $this->_product->setData($key[self::PRODUCT_KEY]);
         }
+
+        return $this;
     }
 
     public function getProduct() {
