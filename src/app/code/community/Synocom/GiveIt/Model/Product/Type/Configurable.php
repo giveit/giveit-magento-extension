@@ -71,8 +71,9 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
          * as a reference for the nested choices.
          */
         foreach ($firstAttribute['options'] as $id => $option) {
-            $sdkChoice = $this->helper->getSdkChoice($option['id'], $option['label'], $this->_roundPrice($option['price']),
-                array('choice_products' => $this->_getAssignedProductId($option['products'])));
+            $id = $this->_getSdkChoiceId($option['products'], $option['id']);
+            $sdkChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']),
+                array('choice_products' => $option['products']));
             $this->_mainChoices[] = $sdkChoice;
         }
 
@@ -82,16 +83,9 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
 
         $sdkOption->addChoices($this->_mainChoices);
 
+//        var_dump($this->_mainChoices[0]->choices);
+//        die;
         $this->addBuyerOption($sdkOption);
-    }
-
-    protected function _getAssignedProductId(array $options) {
-        if (count($options) == 1) {
-            $options['product_id'] = array_pop($options);
-            array_push($options, $options['product_id']);
-        }
-
-        return $options;
     }
 
     /**
@@ -112,8 +106,10 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
                 }
                 //The title of this (nested) choice has to be added to its parent
                 $parentChoice->choices_title = $attribute['label'];
+                $id = $this->_getSdkChoiceId($choiceProducts, $id);
+
                 $nestedChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']),
-                    array('choice_products' => $this->_getAssignedProductId($choiceProducts)));
+                    array('choice_products' => $choiceProducts));
                 $parentChoice->addChoice($nestedChoice);
                 $choices[] = $nestedChoice;
             }
@@ -121,6 +117,16 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
 
         if (next($productAttributes)) {
             $this->_addNestedChoices($productAttributes, $choices);
+        }
+    }
+
+    protected function _getSdkChoiceId($options, $id) {
+        if (count($options) == 1) {
+            $productId = array_pop($options);
+            $product = Mage::getModel('catalog/product')->load($productId);
+            return $product->getSku();
+        } else {
+            return 'choice_'.$id;
         }
     }
 
