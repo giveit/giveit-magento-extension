@@ -11,8 +11,6 @@
 class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
 
     public function createGiveItOrder(Synocom_GiveIt_Model_Giveit_Sale $sale) {
-        $email = $sale->getBuyer()->getEmail();
-
         $shoppingCart = array();
         foreach ($sale->getItems() as $item) {
             $product = array();
@@ -28,6 +26,7 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
         }
 
         $saleShippingAddress = $sale->getShippingAddress();
+        $email = $saleShippingAddress->getEmail();
 
         $shippingAddress = array(
             'firstname'             => $saleShippingAddress->getFirstName(),
@@ -181,14 +180,15 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
         }
 
         /** TODO chang with reall data */
-//        $order->setShippingAmount('999');
+        $order->setShippingAmount('9');
 //        $order->setShippingDescription('Give it shipping description');
+
+
+        $order->save();
+        $this->sendNewOrderEmail($order);
         $order->save();
 
-        $this->sendNewOrderEmail($order);
-
         return $order->getId();
-        unset ($order, $quote);
     }
 
     /**
@@ -302,7 +302,7 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
         $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
         $copyMethod = Mage::getStoreConfig(self::XML_PATH_EMAIL_COPY_METHOD, $storeId);
 
-        if (!Mage::helper('sales')->canSendNewOrderEmail($storeId) || empty($copyTo)) {
+        if (!Mage::helper('sales')->canSendNewOrderEmail($storeId)) {
             return $order;
         }
 
@@ -324,18 +324,18 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
         $templateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $storeId);
         $customerName = $order->getBillingAddress()->getName();
 
-
         $mailer = Mage::getModel('core/email_template_mailer');
         $emailInfo = Mage::getModel('core/email_info');
-        $emailInfo->addTo(array_pop($copyTo), $customerName);
-
+        $emailInfo->addTo($order->getCustomerEmail(), $customerName);
         if ($copyTo && $copyMethod == 'bcc') {
+            // Add bcc to customer email
             foreach ($copyTo as $email) {
                 $emailInfo->addBcc($email);
             }
         }
         $mailer->addEmailInfo($emailInfo);
 
+        // Email copies are sent as separated emails if their copy method is 'copy'
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
                 $emailInfo = Mage::getModel('core/email_info');
@@ -344,6 +344,7 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
             }
         }
 
+        // Set all required params and send emails
         $mailer->setSender(Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId));
         $mailer->setStoreId($storeId);
         $mailer->setTemplateId($templateId);

@@ -83,9 +83,37 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
 
         $sdkOption->addChoices($this->_mainChoices);
 
-//        var_dump($this->_mainChoices[0]->choices);
-//        die;
+        $result = $this->_mainChoices;
+        foreach ($result as $key => $options) {
+            $this->prepareBuyerOptions($result);
+        }
+
+//        var_dump($result);
+//        var_dump($result[0]->choices);die;
         $this->addBuyerOption($sdkOption);
+    }
+
+    public function prepareBuyerOptions(& $options) {
+        if (is_array($options)) {
+            foreach ($options as $key => $option) {
+                $this->prepareBuyerOptions($option->choices);
+            }
+        } else if ($options->choices) {
+            foreach ($options as $key => $choices) {
+                $unset = $this->prepareBuyerOptions($options->choices);
+
+                if ($unset) {
+                    unset($options[$key]);
+                }
+            }
+        } else {
+//            var_dump($options);
+            if ($options->price != 0) {
+                return true;
+            }
+
+            return false;
+        }
     }
 
     /**
