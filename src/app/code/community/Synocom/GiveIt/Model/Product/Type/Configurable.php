@@ -63,7 +63,9 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
         $this->helper = Mage::helper('synocom_giveit');
         $firstAttribute = reset($productOptions['attributes']);
 
-        $sdkOption = $this->helper->getSdkOption('product_options', 'layered', $this->helper->__('Product options'),
+        $recipientSdkOption = $this->helper->getSdkOption('product_options', 'layered', $this->helper->__('Product options'),
+            array('choices_title' => $firstAttribute['label']));
+        $buyerSdkOption = $this->helper->getSdkOption('product_options', 'layered', $this->helper->__('Product options'),
             array('choices_title' => $firstAttribute['label']));
 
         /*
@@ -81,38 +83,54 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
             $this->_addNestedChoices($productOptions['attributes'], $this->_mainChoices);
         }
 
-        $sdkOption->addChoices($this->_mainChoices);
+        // prepare buyer options
+        $buyerOptions = $this->_cloneArrayOfObjects($this->_mainChoices);
 
-        $result = $this->_mainChoices;
-        foreach ($result as $key => $options) {
-            $this->prepareBuyerOptions($result);
-        }
+        $this->prepareBuyerOptions($buyerOptions);
+        $buyerSdkOption->addChoices($buyerOptions);
+        $this->addBuyerOption($buyerSdkOption);
 
-//        var_dump($result);
-//        var_dump($result[0]->choices);die;
-        $this->addBuyerOption($sdkOption);
+        // prepare recipient options
+        $recipientOptions = $this->_cloneArrayOfObjects($this->_mainChoices);
+
+        $this->prepareRecipientOptions($recipientOptions);
+        $recipientSdkOption->addChoices($recipientOptions);
+        $this->addRecipientOption($recipientOptions);
     }
 
+    /**
+     * Prepare Recipient options
+     *
+     * @param $options array
+     */
+    public function prepareRecipientOptions(& $options) {
+        foreach ($options as $key => $option) {
+
+            if (is_array($option->choices)) {
+                $this->prepareRecipientOptions($option->choices);
+            }
+
+            if ($option->price != 0) {
+                unset($options[$key]);
+            }
+        }
+    }
+
+    /**
+     * Prepare Buyer options
+     *
+     * @param $options array
+     */
     public function prepareBuyerOptions(& $options) {
-        if (is_array($options)) {
-            foreach ($options as $key => $option) {
+        foreach ($options as $key => $option) {
+
+            if (is_array($option->choices)) {
                 $this->prepareBuyerOptions($option->choices);
             }
-        } else if ($options->choices) {
-            foreach ($options as $key => $choices) {
-                $unset = $this->prepareBuyerOptions($options->choices);
 
-                if ($unset) {
-                    unset($options[$key]);
-                }
+            if (($option->price == 0) && (empty($option->choices))) {
+                unset($options[$key]);
             }
-        } else {
-//            var_dump($options);
-            if ($options->price != 0) {
-                return true;
-            }
-
-            return false;
         }
     }
 
@@ -148,6 +166,13 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
         }
     }
 
+    /**
+     * Get choice ID for SDK
+     *
+     * @param $options
+     * @param $id
+     * @return string
+     */
     protected function _getSdkChoiceId($options, $id) {
         if (count($options) == 1) {
             $productId = array_pop($options);
@@ -168,6 +193,22 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
         $block = Mage::app()->getLayout()->getBlockSingleton('catalog/product_view_type_configurable');
         $jsonConfig = $block->getJsonConfig();
         return Mage::helper('core')->jsonDecode($jsonConfig);
+    }
+
+    /**
+     * Clone array of objects
+     *
+     * @param array $arrayToClone
+     * @return array
+     */
+    protected function _cloneArrayOfObjects(array $arrayToClone) {
+        $clonedArray = array();
+
+        foreach ($arrayToClone as $object) {
+            $clonedArray[] = clone $object;
+        }
+
+        return $clonedArray;
     }
 
 }
