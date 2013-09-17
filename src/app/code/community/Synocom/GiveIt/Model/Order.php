@@ -56,7 +56,7 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
         $billingAddress['is_default_billing'] = true;
         $billingAddress['is_default_shipping'] = false;
 
-        $shippingMethod = 'flatrate_flatrate';
+        $shippingMethod = 'freeshipping_freeshipping';
 
 //        var_dump($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod);die;
         $quoteId = $this->prepareGuestOrder($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod, false);
@@ -94,11 +94,13 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
             $quoteItem = Mage::getModel('sales/quote_item')->setProduct($product);
             $quoteItem->setQuote($quote);
             $quoteItem->setQty($cartItem['qty']);
+
             $quote->addItem($quoteItem);
         }
 
         $quoteShippingAddress = new Mage_Sales_Model_Quote_Address();
         $quoteShippingAddress->setData($shippingAddress);
+        $quoteShippingAddress->setFreeShipping(true);
         $quoteBillingAddress = new Mage_Sales_Model_Quote_Address();
         $quoteBillingAddress->setData($billingAddress);
         $quote->setShippingAddress($quoteShippingAddress);
@@ -180,186 +182,16 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
         }
 
         /** TODO chang with reall data */
-        $order->setShippingAmount('9');
+//        $shippingAmount = 9;
+//        $order->setShippingAmount($shippingAmount);
+//        $order->setBaseShippingAmount($shippingAmount);
+//        $order->setShippingInclTax($shippingAmount);
+//        $order->setBaseShippingInclTax($shippingAmount);
 //        $order->setShippingDescription('Give it shipping description');
 
-
         $order->save();
-        $this->sendNewOrderEmail($order);
-        $order->save();
+        $order->sendNewOrderEmail();
 
         return $order->getId();
     }
-
-    /**
-     * Create invoice for selected order
-     *
-     * @param int $orderId order id
-     */
-    public function createInvoiceForOrder($orderId, $commentToInvoice, $notifyCustomer = false) {
-        // Load Order
-        $order = Mage::getModel('sales/order')->load($orderId);
-
-        // Conver order to invoice
-        $convertor  = Mage::getModel('sales/convert_order');
-        $invoice    = $convertor->toInvoice($order);
-
-        /* @var $orderItem Mage_Sales_Model_Order_Item */
-        foreach ($order->getAllItems() as $orderItem) {
-
-            if (!$orderItem->isDummy() && !$orderItem->getQtyToInvoice() && $orderItem->getLockedDoInvoice()) {
-                continue;
-            }
-
-            if ($order->getForcedDoShipmentWithInvoice() && $orderItem->getLockedDoShip()) {
-                continue;
-            }
-
-            $item = $convertor->itemToInvoiceItem($orderItem);
-
-            if ($orderItem->isDummy()) {
-                $qty = 1;
-            } else {
-                $qty = $orderItem->getQtyToInvoice();
-            }
-
-            $item->setQty($qty);
-            $invoice->addItem($item);
-        }
-        $invoice->collectTotals();
-
-        /* Text, Need Notify customer */
-        $invoice->addComment($commentToInvoice, $notifyCustomer);
-        $invoice->register();
-        $invoice->getOrder()->setIsInProcess(true);
-        $transactionSave = Mage::getModel('core/resource_transaction')
-            ->addObject($invoice)
-            ->addObject($invoice->getOrder());
-
-        $transactionSave->save();
-    }
-
-    public function createShippingForOrder($orderId, $commentToShipping, $notifyCustomer = false) {
-        $order = Mage::getModel('sales/order')->load($orderId);
-
-        if (!$order->canShip()) {
-            return false;
-        }
-
-        $convertor = Mage::getModel('sales/convert_order');
-        $shipment = $convertor->toShipment($order);
-
-        foreach ($order->getAllItems() as $orderItem) {
-            if (!$orderItem->isDummy(true) && !$orderItem->getQtyToShip()) {
-                continue;
-            }
-
-            if ($orderItem->getIsVirtual()) {
-                continue;
-            }
-            $item = $convertor->itemToShipmentItem($orderItem);
-
-            if ($orderItem->isDummy(true)) {
-                $qty = 1;
-            } else {
-                $qty = $orderItem->getQtyToShip();
-            }
-
-            $item->setQty($qty);
-            $shipment->addItem($item);
-        }
-
-        $shipment->register();
-
-        if ($commentToShipping!='') {
-            $shipment->addComment($commentToShipping, $notifyCustomer);
-        }
-
-        $shipment->getOrder()->setIsInProcess(true);
-        Mage::getModel('core/resource_transaction')
-            ->addObject($shipment)
-            ->addObject($shipment->getOrder())
-            ->save();
-    }
-
-    /**
-     * Add order comment action
-     */
-    public function addCommentAction(Mage_Sales_Model_Order $order, $comment, $notify = false, $visible = false) {
-        try {
-            $order->addStatusHistoryComment($comment, $order->getStatus())
-                ->setIsVisibleOnFront($visible)
-                ->setIsCustomerNotified($notify);
-            $order->save();
-        } catch (Exception $e) {
-            Mage::log($e->getMessage());
-        }
-    }
-
-    public function sendNewOrderEmail(Mage_Sales_Model_Order $order) {
-        $storeId = $order->getStore()->getId();
-
-        $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
-        $copyMethod = Mage::getStoreConfig(self::XML_PATH_EMAIL_COPY_METHOD, $storeId);
-
-        if (!Mage::helper('sales')->canSendNewOrderEmail($storeId)) {
-            return $order;
-        }
-
-        $appEmulation = Mage::getSingleton('core/app_emulation');
-        $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
-
-        try {
-            $paymentBlock = Mage::helper('payment')->getInfoBlock($order->getPayment())
-                ->setIsSecureMode(true);
-            $paymentBlock->getMethod()->setStore($storeId);
-            $paymentBlockHtml = $paymentBlock->toHtml();
-        } catch (Exception $exception) {
-            $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
-            throw $exception;
-        }
-
-        $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
-
-        $templateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $storeId);
-        $customerName = $order->getBillingAddress()->getName();
-
-        $mailer = Mage::getModel('core/email_template_mailer');
-        $emailInfo = Mage::getModel('core/email_info');
-        $emailInfo->addTo($order->getCustomerEmail(), $customerName);
-        if ($copyTo && $copyMethod == 'bcc') {
-            // Add bcc to customer email
-            foreach ($copyTo as $email) {
-                $emailInfo->addBcc($email);
-            }
-        }
-        $mailer->addEmailInfo($emailInfo);
-
-        // Email copies are sent as separated emails if their copy method is 'copy'
-        if ($copyTo && $copyMethod == 'copy') {
-            foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('core/email_info');
-                $emailInfo->addTo($email);
-                $mailer->addEmailInfo($emailInfo);
-            }
-        }
-
-        // Set all required params and send emails
-        $mailer->setSender(Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId));
-        $mailer->setStoreId($storeId);
-        $mailer->setTemplateId($templateId);
-        $mailer->setTemplateParams(array(
-                'order'        => $order,
-                'billing'      => $order->getBillingAddress(),
-                'payment_html' => $paymentBlockHtml
-            )
-        );
-        $mailer->send();
-
-        $order->setEmailSent(true);
-        $order->_getResource()->saveAttribute($order, 'email_sent');
-
-        return $order;
-    }
-
 }
