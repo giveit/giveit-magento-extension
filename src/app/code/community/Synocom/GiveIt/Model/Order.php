@@ -12,6 +12,7 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
 
     public function createGiveItOrder(Synocom_GiveIt_Model_Giveit_Sale $sale) {
         $shoppingCart = array();
+
         foreach ($sale->getItems() as $item) {
             $product = array();
 //            if ($item->getSelectedOptions()) {
@@ -44,13 +45,9 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
             'prefix'                => '',
             'middlename'            => '',
             'suffix'                => '',
-            /**
-             * TODO fill this field when final JSON sale response will be provided
-             */
             'company'               => '',
             'fax'                   => ''
         );
-//        var_dump($shippingAddress);die;
 
         $billingAddress = $shippingAddress;
         $billingAddress['is_default_billing'] = true;
@@ -64,7 +61,6 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
         $giveitPaymentMethod = Mage::getModel('synocom_giveit/method_giveit');
         $paymentMethod = $giveitPaymentMethod->getCode();
         $this->createOrder($quoteId, $paymentMethod, null);
-
     }
 
     /**
