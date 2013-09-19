@@ -8,7 +8,7 @@
  * @author     Szymon Niedziela <office@light4website.com>
  *
  */
-class Synocom_GiveIt_Model_Giveit_Sale_Shipping_Address extends Mage_Core_Model_Abstract {
+class Synocom_GiveIt_Model_Giveit_Sale_Address extends Mage_Core_Model_Abstract {
 
     protected $_firstName;
     protected $_lastName;

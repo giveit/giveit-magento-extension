@@ -15,12 +15,10 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
 
         foreach ($sale->getItems() as $item) {
             $product = array();
-//            if ($item->getSelectedOptions()) {
-//                $options = $item->getProduct()->getOptions();
-//                $product['product_id'] = $options->get{ucfirst($options->getId())}();
-//            } else {
-                $product['product_id'] = $item->getProduct()->getDetails()->getCode();
-//            }
+                $product['product_id'] = $item->getSelectedOptions()
+                    ->getRecipient()
+                    ->getVariants()
+                    ->getSku();
 
             $product['qty'] = $item->getQuantity();
             $shoppingCart[] = $product;
@@ -32,7 +30,7 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
         $shippingAddress = array(
             'firstname'             => $saleShippingAddress->getFirstName(),
             'lastname'              => $saleShippingAddress->getLastName(),
-            'country_id'            => $saleShippingAddress->getCountry(),
+            'country'            => $saleShippingAddress->getCountry(),
             'region_id'             => '',
             'region'                => $saleShippingAddress->getProvince(),
             'city'                  => $saleShippingAddress->getCity(),

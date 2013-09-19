@@ -13,12 +13,12 @@ class Synocom_GiveIt_Model_Giveit_Sale extends Mage_Core_Model_Abstract {
     protected $_items = array();
     protected $_buyer;
     protected $_recipient;
-    protected $_shippingAddress;
+    protected $_address;
 
     const SALE_ITEMS_KEY            = 'items';
     const SALE_BUYER_KEY            = 'buyer';
     const SALE_RECIPIENT_KEY        = 'recipient';
-    const SALE_SHIPPING_ADDRESS_KEY = 'shipping_address';
+    const SALE_ADDRESS_KEY = 'address';
 
     /**
      * Set Sale object using API response data
@@ -41,11 +41,8 @@ class Synocom_GiveIt_Model_Giveit_Sale extends Mage_Core_Model_Abstract {
         $this->_recipient = $this->_mapDataToObject(self::SALE_RECIPIENT_KEY, $responseData,
             'synocom_giveit/giveit_sale_recipient');
 
-        $this->_shippingAddress = $this->_mapDataToObject(self::SALE_SHIPPING_ADDRESS_KEY, $responseData,
-            'synocom_giveit/giveit_sale_shipping_address');
-
-        $this->_shippingAddress = $this->_mapDataToObject(self::SALE_SHIPPING_ADDRESS_KEY, $responseData,
-            'synocom_giveit/giveit_sale_shipping_address');
+        $this->_address = $this->_mapDataToObject(self::SALE_ADDRESS_KEY, $responseData,
+            'synocom_giveit/giveit_sale_address');
 
         return $this;
     }
@@ -74,7 +71,7 @@ class Synocom_GiveIt_Model_Giveit_Sale extends Mage_Core_Model_Abstract {
      * @return Synocom_GiveIt_Model_Giveit_Sale_Shipping_Address
      */
     public function getShippingAddress() {
-        return $this->_shippingAddress;
+        return $this->_address;
     }
 
     public function getRecipient() {
