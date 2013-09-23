@@ -18,7 +18,7 @@ class Synocom_GiveIt_Model_Giveit_Sale extends Mage_Core_Model_Abstract {
     const SALE_ITEMS_KEY            = 'items';
     const SALE_BUYER_KEY            = 'buyer';
     const SALE_RECIPIENT_KEY        = 'recipient';
-    const SALE_ADDRESS_KEY = 'address';
+    const SALE_ADDRESS_KEY          = 'shipping_address';
 
     /**
      * Set Sale object using API response data

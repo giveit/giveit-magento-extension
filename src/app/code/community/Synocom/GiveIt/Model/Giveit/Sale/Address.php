@@ -21,7 +21,12 @@ class Synocom_GiveIt_Model_Giveit_Sale_Address extends Mage_Core_Model_Abstract 
     }
 
     public function getStreet() {
-        return $this->getLine1();
+        $street = array(
+            $this->getData('line_1'),
+            $this->getData('line_2')
+        );
+
+        return join(', ', $street);
     }
 
     public function getFirstName() {
@@ -30,16 +35,6 @@ class Synocom_GiveIt_Model_Giveit_Sale_Address extends Mage_Core_Model_Abstract 
 
     public function getLastName() {
         return $this->_lastName;
-    }
-
-    public function getCountryName() {
-        $country = Mage::getModel('directory/country')->loadByCode($this->getCountry());
-
-        if ($country->getName()) {
-            return $country->getName();
-        }
-
-        return '';
     }
 
     protected function _initData() {

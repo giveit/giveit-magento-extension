@@ -43,8 +43,8 @@ class Synocom_GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
 
         $giveit = new \GiveIt\SDK;
         $type   = $giveit->getCallbackType($_POST);
-//        $result = $giveit->parseCallback($_POST);
-
+        $result = $giveit->parseCallback($_POST);
+die;
         $json = '';
         $result = Mage::helper('core')->jsonDecode($json);
 

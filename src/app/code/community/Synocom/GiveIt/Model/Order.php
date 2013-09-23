@@ -30,7 +30,7 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
         $shippingAddress = array(
             'firstname'             => $saleShippingAddress->getFirstName(),
             'lastname'              => $saleShippingAddress->getLastName(),
-            'country'            => $saleShippingAddress->getCountry(),
+            'country_id'            => $saleShippingAddress->getCountryCode(),
             'region_id'             => '',
             'region'                => $saleShippingAddress->getProvince(),
             'city'                  => $saleShippingAddress->getCity(),
@@ -53,12 +53,14 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
 
         $shippingMethod = 'freeshipping_freeshipping';
 
+        $shippingDescription = 'xxx';
+        $shippingPrice = '100';
 //        var_dump($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod);die;
         $quoteId = $this->prepareGuestOrder($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod, false);
 
         $giveitPaymentMethod = Mage::getModel('synocom_giveit/method_giveit');
         $paymentMethod = $giveitPaymentMethod->getCode();
-        $this->createOrder($quoteId, $paymentMethod, null);
+        $this->createOrder($quoteId, $paymentMethod, null, $shippingDescription, $shippingPrice);
     }
 
     /**
@@ -122,7 +124,7 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
      * @param stdClass $paymentData
      * @return int $orderId
      */
-    public function createOrder($quoteId, $paymentMethod, $paymentData) {
+    public function createOrder($quoteId, $paymentMethod, $paymentData, $shippingDescription, $shippingPrice) {
         $quote = Mage::getModel('sales/quote')->load($quoteId);
         $items = $quote->getAllItems();
         $quote->reserveOrderId();
@@ -175,13 +177,11 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
             Mage::log($e->getTraceAsString());
         }
 
-        /** TODO chang with reall data */
-//        $shippingAmount = 9;
-//        $order->setShippingAmount($shippingAmount);
-//        $order->setBaseShippingAmount($shippingAmount);
-//        $order->setShippingInclTax($shippingAmount);
-//        $order->setBaseShippingInclTax($shippingAmount);
-//        $order->setShippingDescription('Give it shipping description');
+        $order->setShippingAmount($shippingPrice);
+        $order->setBaseShippingAmount($shippingPrice);
+        $order->setShippingInclTax($shippingPrice);
+        $order->setBaseShippingInclTax($shippingPrice);
+        $order->setShippingDescription($shippingDescription);
 
         $order->save();
         $order->sendNewOrderEmail();
