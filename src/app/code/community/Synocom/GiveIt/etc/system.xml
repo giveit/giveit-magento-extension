@@ -76,6 +76,15 @@
                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </debug>
+                        <callback_url>
+                            <label>Callback URL</label>
+                            <sort_order>60</sort_order>
+                            <frontend_type>label</frontend_type>
+                            <frontend_model>synocom_giveit/adminhtml_system_config_form_field_notification</frontend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </callback_url>
                     </fields>
                 </settings>
 

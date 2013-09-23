@@ -129,4 +129,14 @@ class Synocom_GiveIt_Helper_Data
     public function isApiOrderEnabled() {
         return Mage::getStoreConfig(self::XPATH_IS_CREATE_API_ORDER_ENABLED);
     }
+
+    /**
+     * Get callback URL
+     *
+     * @return string
+     */
+    public function getCallbackUrl() {
+        $selectedStoreId = Mage::app()->getRequest()->getParam('store');
+        return Mage::getStoreConfig('web/unsecure/base_url', $selectedStoreId) . 'giveit/api/callbackHandler';
+    }
 }
