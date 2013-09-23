@@ -55,7 +55,7 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
 
         $shippingDescription = 'xxx';
         $shippingPrice = '100';
-//        var_dump($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod);die;
+        var_dump($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod);die;
         $quoteId = $this->prepareGuestOrder($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod, false);
 
         $giveitPaymentMethod = Mage::getModel('synocom_giveit/method_giveit');

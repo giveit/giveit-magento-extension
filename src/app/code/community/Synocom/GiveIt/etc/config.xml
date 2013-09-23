@@ -81,6 +81,7 @@
         <synocom_giveit>
             <settings>
                 <enabled>1</enabled>
+                <enabled_api_orders>0</enabled_api_orders>
                 <environment>sandbox</environment>
                 <debug>1</debug>
             </settings>

@@ -25,6 +25,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </enabled>
+                        <enabled_api_orders>
+                            <label>Enabled API Orders</label>
+                            <sort_order>7</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </enabled_api_orders>
                         <public_key>
                             <label>Public Key</label>
                             <sort_order>10</sort_order>
@@ -49,15 +58,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </data_key>
-                        <enabled_api_orders>
-                            <label>Enabled Api Orders</label>
-                            <sort_order>35</sort_order>
-                            <frontend_type>select</frontend_type>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <source_model>synocom_giveit/system_config_source_environment</source_model>
-                        </enabled_api_orders>
                         <environment>
                             <label>Environment</label>
                             <sort_order>40</sort_order>

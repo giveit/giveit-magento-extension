@@ -13,7 +13,9 @@ class Synocom_GiveIt_Helper_Data
     extends Mage_Core_Helper_Data
 {
 
-    const XPATH_IS_MODULE_ENABLED = 'synocom_giveit/settings/enabled';
+    const XPATH_DATA_KEY                    = 'synocom_giveit/settings/data_key';
+    const XPATH_IS_MODULE_ENABLED           = 'synocom_giveit/settings/enabled';
+    const XPATH_IS_CREATE_API_ORDER_ENABLED = 'synocom_giveit/settings/enabled_api_orders';
 
     /**
      * Get an instance of the Give it SDK option object
@@ -116,6 +118,15 @@ class Synocom_GiveIt_Helper_Data
      * @return mixed
      */
     public function getDataKey() {
-        return Mage::getStoreConfig('synocom_giveit/settings/data_key');
+        return Mage::getStoreConfig(self::XPATH_DATA_KEY);
+    }
+
+    /**
+     * Check if creating Orders through API is enabled
+     *
+     * @return bool
+     */
+    public function isApiOrderEnabled() {
+        return Mage::getStoreConfig(self::XPATH_IS_CREATE_API_ORDER_ENABLED);
     }
 }
