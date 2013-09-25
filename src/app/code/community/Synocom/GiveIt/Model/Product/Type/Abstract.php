@@ -41,6 +41,7 @@ class Synocom_GiveIt_Model_Product_Type_Abstract
                 $id = $config['delivery_option_choice'];
                 $name = $config['delivery_option_name'];
                 $price = $this->_roundPrice($config['delivery_option_price']);
+                $taxPercentage = $config['delivery_option_tax_percentage'];
 
                 if (empty($id)) {
                     continue;
@@ -54,9 +55,17 @@ class Synocom_GiveIt_Model_Product_Type_Abstract
                     continue;
                 }
 
-                $choices[] = Mage::helper('synocom_giveit')->getSdkChoice($id, $name, $price);
+                if ($taxPercentage < 0 || $taxPercentage > 100) {
+                    continue;
+                }
+
+                $choices[] = Mage::helper('synocom_giveit')->getSdkChoice($id, $name, $price, array(
+                        'tax_percent' => (int)$taxPercentage,
+                    )
+                );
             }
         }
+
         $delivery->addChoices($choices);
         $this->addBuyerOption($delivery);
     }

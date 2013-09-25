@@ -226,7 +226,6 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-
                         <delivery_option_choice>
                             <label>Option ID</label>
                             <sort_order>30</sort_order>
@@ -250,7 +249,17 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
                         </delivery_option_price>
+                        <delivery_option_tax_percentage>
+                            <label>Tax Percentage</label>
+                            <sort_order>60</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
+                        </delivery_option_tax_percentage>
                     </fields>
                 </delivery_option_1>
 
@@ -261,7 +270,6 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-
                         <delivery_option_choice>
                             <label>Option ID</label>
                             <sort_order>30</sort_order>
@@ -285,7 +293,17 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
                         </delivery_option_price>
+                        <delivery_option_tax_percentage>
+                            <label>Tax Percentage</label>
+                            <sort_order>60</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
+                        </delivery_option_tax_percentage>
                     </fields>
                 </delivery_option_2>
 
@@ -296,7 +314,6 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-
                         <delivery_option_choice>
                             <label>Option ID</label>
                             <sort_order>30</sort_order>
@@ -320,7 +337,17 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
                         </delivery_option_price>
+                        <delivery_option_tax_percentage>
+                            <label>Tax Percentage</label>
+                            <sort_order>60</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
+                        </delivery_option_tax_percentage>
                     </fields>
                 </delivery_option_3>
 
@@ -331,7 +358,6 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-
                         <delivery_option_choice>
                             <label>Option ID</label>
                             <sort_order>30</sort_order>
@@ -355,7 +381,17 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
                         </delivery_option_price>
+                        <delivery_option_tax_percentage>
+                            <label>Tax Percentage</label>
+                            <sort_order>60</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
+                        </delivery_option_tax_percentage>
                     </fields>
                 </delivery_option_4>
 
@@ -366,7 +402,6 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-
                         <delivery_option_choice>
                             <label>Option ID</label>
                             <sort_order>30</sort_order>
@@ -390,7 +425,17 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
                         </delivery_option_price>
+                        <delivery_option_tax_percentage>
+                            <label>Tax Percentage</label>
+                            <sort_order>60</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
+                        </delivery_option_tax_percentage>
                     </fields>
                 </delivery_option_5>
 
@@ -401,7 +446,6 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-
                         <delivery_option_choice>
                             <label>Option ID</label>
                             <sort_order>30</sort_order>
@@ -425,7 +469,17 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
                         </delivery_option_price>
+                        <delivery_option_tax_percentage>
+                            <label>Tax Percentage</label>
+                            <sort_order>60</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
+                        </delivery_option_tax_percentage>
                     </fields>
                 </delivery_option_6>
 
@@ -436,7 +490,6 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-
                         <delivery_option_choice>
                             <label>Option ID</label>
                             <sort_order>30</sort_order>
@@ -460,7 +513,17 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
                         </delivery_option_price>
+                        <delivery_option_tax_percentage>
+                            <label>Tax Percentage</label>
+                            <sort_order>60</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
+                        </delivery_option_tax_percentage>
                     </fields>
                 </delivery_option_7>
 
@@ -471,7 +534,6 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-
                         <delivery_option_choice>
                             <label>Option ID</label>
                             <sort_order>30</sort_order>
@@ -495,7 +557,17 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
                         </delivery_option_price>
+                        <delivery_option_tax_percentage>
+                            <label>Tax Percentage</label>
+                            <sort_order>60</sort_order>
+                            <frontend_type>text</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-digits</validate>
+                        </delivery_option_tax_percentage>
                     </fields>
                 </delivery_option_8>
 
