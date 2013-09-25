@@ -5,14 +5,14 @@ INSTALLATION
 
 GLOBAL CONFIGURATION
 
-1. Login into your Magento backend and goto System > Configuration > Catalog > Give It
+1. Login into your Magento backend and goto System > Configuration > Catalog > Give.it
 2. Configure the module by filling in the public and private keys, button settings, and delivery options
-3. Goto to the frontend and visit a simple product page, you will now see that the give it button is ready for action 
+3. Goto to the frontend and visit a simple product page, you will now see that the Give.it button is ready for action
 
 TURN ON/OFF BUTTON PER PRODUCT
 
 1. Login into your Magento backend and goto Catalog > Manage Products
 2. Choose to edit a simple product
 3. Choose the general tab on the left menu
-4. Configure the "Give It Button Active" setting 
+4. Configure the "Give.it Button Active" setting
 

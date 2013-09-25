@@ -22,7 +22,7 @@ class Synocom_GiveIt_Block_Button
     }
 
     /**
-     * Get give it SDK
+     * Get Give.it SDK
      */
     protected function _getSdk()
     {
@@ -142,7 +142,7 @@ class Synocom_GiveIt_Block_Button
     }
 
     /**
-     * Get an instance of the Give it SDK product object
+     * Get an instance of the Give.it SDK product object
      *
      * @return \GiveIt\SDK\Product
      */

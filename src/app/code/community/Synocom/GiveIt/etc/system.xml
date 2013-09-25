@@ -2,7 +2,7 @@
 <config>
     <sections>
         <synocom_giveit>
-            <label>Give It</label>
+            <label>Give.it</label>
             <sort_order>10000</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
@@ -577,7 +577,7 @@
         <payment>
             <groups>
                 <giveit_payment translate="label" module="synocom_giveit">
-                    <label>Give It Payment</label>
+                    <label>Give.it Payment</label>
                     <sort_order>800</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>

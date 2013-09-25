@@ -59,7 +59,7 @@ class Synocom_GiveIt_Model_Observer
     }
 
     /**
-     * Add column to Catalog Product grid view with Give It config
+     * Add column to Catalog Product grid view with Give.it config
      *
      * @param $observer
      */
@@ -73,7 +73,7 @@ class Synocom_GiveIt_Model_Observer
 
             $block->addColumnAfter('giveit_button_active',
                 array(
-                    'header'        => Mage::helper('catalog')->__('Give It'),
+                    'header'        => Mage::helper('catalog')->__('Give.it'),
                     'width'         => '80px',
                     'index'         => 'giveit_button_active',
                     'type'          => 'options',

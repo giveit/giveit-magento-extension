@@ -12,7 +12,7 @@
 require_once 'lib/giveit/classes/Option.php';
 
 /**
- * Wrapper class for Give It Option
+ * Wrapper class for Give.it Option
  */
 class Synocom_GiveIt_Model_Option
     extends \GiveIt\SDK\Option

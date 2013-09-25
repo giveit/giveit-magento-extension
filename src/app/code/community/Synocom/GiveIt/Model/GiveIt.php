@@ -11,7 +11,7 @@
 require_once 'lib/giveit/sdk.php';
 
 /**
- * Wrapper class for Give It SDK
+ * Wrapper class for Give.it SDK
  */
 class Synocom_GiveIt_Model_GiveIt
     extends \GiveIt\SDK

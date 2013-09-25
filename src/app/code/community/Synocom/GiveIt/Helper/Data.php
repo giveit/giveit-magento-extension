@@ -18,7 +18,7 @@ class Synocom_GiveIt_Helper_Data
     const XPATH_IS_CREATE_API_ORDER_ENABLED = 'synocom_giveit/settings/enabled_api_orders';
 
     /**
-     * Get an instance of the Give it SDK option object
+     * Get an instance of the Give.it SDK option object
      *
      * @param string $id
      * @param string $type
@@ -44,7 +44,7 @@ class Synocom_GiveIt_Helper_Data
     }
 
     /**
-     * Get an instance of the Give it SDK choice object
+     * Get an instance of the Give.it SDK choice object
      *
      * @param string $id
      * @param string $name

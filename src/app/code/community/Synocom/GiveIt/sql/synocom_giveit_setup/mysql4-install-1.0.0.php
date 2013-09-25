@@ -9,7 +9,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'giveit_button_acti
     array(
     'group'            => 'General',
     'frontend'         => '',
-    'label'            => 'Give It Button Active',
+    'label'            => 'Give.it Button Active',
     'input'            => 'select',
     'class'            => '',
     'source'           => 'synocom_giveit/product_attribute_source_button_active',
