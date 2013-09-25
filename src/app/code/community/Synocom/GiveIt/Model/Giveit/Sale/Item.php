@@ -41,14 +41,29 @@ class Synocom_GiveIt_Model_Giveit_Sale_Item extends Mage_Core_Model_Abstract {
         return $this;
     }
 
+    /**
+     * Get API product
+     *
+     * @return Synocom_GiveIt_Model_Giveit_Sale_Item_Product
+     */
     public function getProduct() {
         return $this->_product;
     }
 
+    /**
+     * Get selected options
+     *
+     * @return Synocom_GiveIt_Model_Giveit_Sale_Item_Selectedoptions
+     */
     public function getSelectedOptions() {
         return $this->_selectedOptions;
     }
 
+    /**
+     * Get Delivery
+     *
+     * @return Synocom_GiveIt_Model_Giveit_Sale_Item_Delivery
+     */
     public function getDelivery() {
         return $this->_delivery;
     }

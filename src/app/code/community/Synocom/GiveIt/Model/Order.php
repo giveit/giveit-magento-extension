@@ -10,6 +10,12 @@
  */
 class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
 
+    /**
+     * Create order base on Giveit Sale
+     *
+     * @param Synocom_GiveIt_Model_Giveit_Sale $sale
+     * @return int
+     */
     public function createGiveItOrder(Synocom_GiveIt_Model_Giveit_Sale $sale) {
         $shoppingCart = array();
 
@@ -23,6 +29,9 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
             $product['qty'] = $item->getQuantity();
             $shoppingCart[] = $product;
         }
+
+        $shippingDescription = $item->getDelivery()->getDescription();
+        $shippingPrice = $item->getDelivery()->getFloatPrice();
 
         $saleShippingAddress = $sale->getShippingAddress();
         $email = $saleShippingAddress->getEmail();
@@ -53,14 +62,11 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
 
         $shippingMethod = 'freeshipping_freeshipping';
 
-        $shippingDescription = 'xxx';
-        $shippingPrice = '100';
-        var_dump($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod);die;
         $quoteId = $this->prepareGuestOrder($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod, false);
 
         $giveitPaymentMethod = Mage::getModel('synocom_giveit/method_giveit');
         $paymentMethod = $giveitPaymentMethod->getCode();
-        $this->createOrder($quoteId, $paymentMethod, null, $shippingDescription, $shippingPrice);
+        return $this->createOrder($quoteId, $paymentMethod, null, $shippingDescription, $shippingPrice);
     }
 
     /**

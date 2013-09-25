@@ -12,6 +12,9 @@ require_once 'lib/giveit/sdk.php';
 
 class Synocom_GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
 
+    /**
+     * Check if this methods in this controller are accessible
+     */
     protected function _construct() {
         if (!$this->_helper()->isApiOrderEnabled()) {
             Mage::getModel('synocom_giveit/response')->setMimeType('application/json')
@@ -48,12 +51,16 @@ class Synocom_GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
         $this->getResponse()->setBody($response);
     }
 
+    /**
+     * Callback handler
+     */
     public function callbackHandlerAction() {
         define('GIVEIT_DATA_KEY', $this->_helper()->getDataKey());
 
         $giveit = new \GiveIt\SDK;
         $type   = $giveit->getCallbackType($_POST);
         $result = $giveit->parseCallback($_POST);
+        $result = Zend_Json::decode(Zend_Json::encode($result));
 
         try {
             if ($type == 'sale') {
@@ -63,10 +70,19 @@ class Synocom_GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
             }
         } catch (Exception $e) {
             Mage::log($e->getMessage());
-        }
+            Mage::log(Zend_Json::encode($result));
 
+            $this->getResponse()->setHeader('Content-type', 'application/json');
+            $response = Mage::helper('core')->jsonEncode($e->getMessage());
+            $this->getResponse()->setBody($response);
+        }
     }
 
+    /**
+     * Get data helper
+     *
+     * @return Mage_Core_Helper_Abstract
+     */
     protected function _helper() {
         return Mage::helper('synocom_giveit');
     }

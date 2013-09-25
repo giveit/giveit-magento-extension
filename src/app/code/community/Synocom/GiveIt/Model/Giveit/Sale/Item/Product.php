@@ -25,6 +25,11 @@ class Synocom_GiveIt_Model_Giveit_Sale_Item_Product extends Mage_Core_Model_Abst
         return $this;
     }
 
+    /**
+     * Get product details
+     *
+     * @return Synocom_GiveIt_Model_Giveit_Sale_Item_Product_Details
+     */
     public function getDetails() {
         return $this->_details;
     }

@@ -32,10 +32,20 @@ class Synocom_GiveIt_Model_Giveit_Sale_Item_Selectedoptions extends Mage_Core_Mo
         return $this;
     }
 
+    /**
+     * Get buyer
+     *
+     * @return Synocom_GiveIt_Model_Giveit_Sale_Item_Selectedoptions_Buyer
+     */
     public function getBuyer() {
         return $this->_buyer;
     }
 
+    /**
+     * Get recipient
+     *
+     * @return Synocom_GiveIt_Model_Giveit_Sale_Item_Selectedoptions_Recipient
+     */
     public function getRecipient() {
         return $this->_recipient;
     }

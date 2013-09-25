@@ -20,6 +20,11 @@ class Synocom_GiveIt_Model_Giveit_Sale_Address extends Mage_Core_Model_Abstract 
         return $this;
     }
 
+    /**
+     * Get street
+     *
+     * @return string
+     */
     public function getStreet() {
         $street = array(
             $this->getData('line_1'),
@@ -29,14 +34,27 @@ class Synocom_GiveIt_Model_Giveit_Sale_Address extends Mage_Core_Model_Abstract 
         return join(', ', $street);
     }
 
+    /**
+     * Get first name
+     *
+     * @return string
+     */
     public function getFirstName() {
         return $this->_firstName;
     }
 
+    /**
+     * Get last name
+     *
+     * @return string
+     */
     public function getLastName() {
         return $this->_lastName;
     }
 
+    /**
+     * Init data
+     */
     protected function _initData() {
         $firstLastName = explode(' ', $this->getName(), 1);
 

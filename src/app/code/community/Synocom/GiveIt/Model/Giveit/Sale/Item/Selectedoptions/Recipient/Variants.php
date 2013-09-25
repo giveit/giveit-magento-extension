@@ -14,6 +14,11 @@
  */
 class Synocom_GiveIt_Model_Giveit_Sale_Item_Selectedoptions_Recipient_Variants extends Mage_Core_Model_Abstract {
 
+    /**
+     * Get selected opiton SKU
+     *
+     * @return mixed|null
+     */
     public function getSku() {
         $data = $this->getData();
 
