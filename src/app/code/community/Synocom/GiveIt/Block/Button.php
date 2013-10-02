@@ -63,7 +63,6 @@ class Synocom_GiveIt_Block_Button
         $html = '';
 
         $buttonType = Mage::getStoreConfig('synocom_giveit/button_settings/button_color');
-
         $buttonHtml = $this->_getSdkProduct()->getButtonHTML($buttonType);
         $buttonJs = $this->outputButtonJS();
         $html = $buttonHtml . $buttonJs;

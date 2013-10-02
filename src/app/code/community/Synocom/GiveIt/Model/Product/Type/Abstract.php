@@ -79,10 +79,7 @@ class Synocom_GiveIt_Model_Product_Type_Abstract
      */
     protected function _roundPrice($price)
     {
-        $currency = Mage::getModel('core/store')->getCurrentCurrency();
-        $price = $currency->format($price, array('symbol' => ''), false);
-        $price = (int) ($price * 100);
-        return $price;
+        return (int) round(str_replace(',', '.', $price) * 100);
     }
 
     /**
