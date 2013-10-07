@@ -59,11 +59,12 @@ class Synocom_GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
 
         $giveit = new \GiveIt\SDK;
         $type   = $giveit->getCallbackType($_POST);
-        $result = $giveit->parseCallback($_POST);
-        $result = Zend_Json::decode(Zend_Json::encode($result));
 
         try {
             if ($type == 'sale') {
+                $result = $giveit->parseCallback($_POST);
+                $result = Zend_Json::decode(Zend_Json::encode($result));
+                
                 $sale = Mage::getModel('synocom_giveit/giveit_sale');
                 $sale->setObject($result);
                 Mage::getModel('synocom_giveit/order')->createGiveItOrder($sale);
