@@ -30,7 +30,7 @@ class Synocom_GiveIt_Model_Product_Type_Abstract
     {
         $xmlPathTemplate = 'synocom_giveit/delivery_option_%s';
 
-        $delivery = Mage::helper('synocom_giveit')->getSdkOption('giveit', 'delivery', 'Delivery Option');
+        $delivery = Mage::helper('synocom_giveit')->getSdkOption('delivery', 'delivery', 'Delivery Option');
         $choices = array();
         foreach (range(1, self::MAX_DELIVERY_OPTIONS) as $i) {
 

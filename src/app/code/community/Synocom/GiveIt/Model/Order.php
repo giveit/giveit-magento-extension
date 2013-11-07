@@ -20,16 +20,17 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
         $shoppingCart = array();
 
         foreach ($sale->getItems() as $item) {
-            $product = array();
-                $product['product_id'] = $item->getSelectedOptions()
-                    ->getRecipient()
-                    ->getVariants()
-                    ->getSku();
+            $product = array(
+                            'qty'        => $item->getQuantity(),
+                            'product_id' => $item->getSelectedOptions()
+                                                 ->getRecipient()
+                                                 ->getVariants()
+                                                 ->getSku(),
+                        );
 
-            $product['qty'] = $item->getQuantity();
             $shoppingCart[] = $product;
         }
-
+print_r($shoppingCart);
         $shippingDescription = $item->getDelivery()->getDescription();
         $shippingPrice = $item->getDelivery()->getFloatPrice();
 

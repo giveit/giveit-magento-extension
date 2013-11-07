@@ -26,9 +26,10 @@ class Synocom_GiveIt_Model_Product_Type_Simple
         $product = reset($productArray);
         /* @var $product Mage_Catalog_Model_Product */
 
-        $code = $product->getSku();
+        // $code = $product->getSku();
+        $code  = $product->getId();
         $price = $this->_roundPrice($product->getFinalPrice());
-        $name = $product->getName();
+        $name  = $product->getName();
         $image = $product->getImageUrl();
 
         $productOptions = array(
