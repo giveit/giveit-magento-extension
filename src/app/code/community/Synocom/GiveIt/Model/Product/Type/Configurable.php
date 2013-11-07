@@ -38,9 +38,9 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
         $product = reset($productArray);
         /* @var $product Mage_Catalog_Model_Product */
 
-        $code = $product->getSku();
+        $code  = $product->getSku();
         $price = $this->_roundPrice($product->getFinalPrice());
-        $name = $product->getName();
+        $name  = $product->getName();
         $image = $product->getImageUrl();
 
         $productDetails = array(
@@ -54,92 +54,59 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
         $this->_addProductOptions();
     }
 
-    /**
+     /**
      * Adds the configurable product options to the SDK product as a buyer option
      */
     protected function _addProductOptions()
     {
         $productOptions = $this->_getProductOptions();
         $this->helper = Mage::helper('synocom_giveit');
+
         $firstAttribute = reset($productOptions['attributes']);
 
-        $recipientSdkOption = $this->helper->getSdkOption('product_options', 'layered', $this->helper->__('Product options'),
-            array('choices_title' => $firstAttribute['label']));
-        $buyerSdkOption = $this->helper->getSdkOption('product_options', 'layered', $this->helper->__('Product options'),
-            array('choices_title' => $firstAttribute['label']));
+        $sdkOption = new \GiveIt\SDK\Option(array(
+                                                'id'            => 'product_options',
+                                                'type'          => 'layered',
+                                                'name'          => $this->helper->__('Product options'),
+                                                'choices_title' => $firstAttribute['label'],
+                     ));
 
         /*
          * We use the first attribute as main choice. The products of each option are saved with their choice object
          * as a reference for the nested choices.
          */
         foreach ($firstAttribute['options'] as $id => $option) {
-            $id = $this->_getSdkChoiceId($option['products'], $option['id']);
-            $sdkChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']),
-                array('choice_products' => $option['products']));
-            $this->_mainChoices[] = $sdkChoice;
+
+           $choice = new \GiveIt\SDK\Choice(array(
+                                               'id'         => 'choice_' . $id,
+                                               'product_id' => $id,
+                                               'name'       => $option['label'],
+                                               'price'      => $this->_roundPrice($option['price']),
+                                               'choice_products' => $option['products'],
+                    ));
+
+            $this->_mainChoices[] = $choice;
         }
 
         if (next($productOptions['attributes'])) {
             $this->_addNestedChoices($productOptions['attributes'], $this->_mainChoices);
         }
 
-        // prepare buyer options
-        $buyerOptions = $this->_cloneArrayOfObjects($this->_mainChoices);
+        $sdkOption->addChoices($this->_mainChoices);
 
-        $this->prepareBuyerOptions($buyerOptions);
-        $buyerSdkOption->addChoices($buyerOptions);
-        $this->addBuyerOption($buyerSdkOption);
-
-        // prepare recipient options
-        $recipientOptions = $this->_cloneArrayOfObjects($this->_mainChoices);
-
-        $this->prepareRecipientOptions($recipientOptions);
-        $recipientSdkOption->addChoices($recipientOptions);
-        $this->addRecipientOption($recipientOptions);
-    }
-
-    /**
-     * Prepare Recipient options
-     *
-     * @param $options array
-     */
-    public function prepareRecipientOptions(& $options) {
-        foreach ($options as $key => $option) {
-
-            if (is_array($option->choices)) {
-                $this->prepareRecipientOptions($option->choices);
-            }
-
-            if ($option->price != 0) {
-                unset($options[$key]);
-            }
+        if ($sdkOption->pricesVary()) {
+            $this->addBuyerOption($sdkOption);
+        } else {
+            $this->addRecipientOption($sdkOption);
         }
     }
 
-    /**
-     * Prepare Buyer options
-     *
-     * @param $options array
-     */
-    public function prepareBuyerOptions(& $options) {
-        foreach ($options as $key => $option) {
-
-            if (is_array($option->choices)) {
-                $this->prepareBuyerOptions($option->choices);
-            }
-
-            if (($option->price == 0) && (empty($option->choices))) {
-                unset($options[$key]);
-            }
-        }
-    }
-
-    /**
+     /**
      * Add nested choices to the main choices
      *
      * @param array $productAttributes
      * @param array $parentChoices
-     */
+     *
     protected function _addNestedChoices($productAttributes, $parentChoices)
     {
         $choices = array();
@@ -165,6 +132,50 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
             $this->_addNestedChoices($productAttributes, $choices);
         }
     }
+*/
+
+    /**
+     * Add nested choices to the main choices
+     *
+     * @param array $productAttributes
+     * @param array $parentChoices
+     */
+    protected function _addNestedChoices($productAttributes, $parentChoices)
+    {
+        $choices   = array();
+        $attribute = current($productAttributes);
+
+        foreach ($parentChoices as $parentChoice) {
+            foreach ($attribute['options'] as $id => $option) {
+                $choiceProducts = array_intersect($option['products'], $parentChoice->choice_products);
+
+                if (empty($choiceProducts)) {
+                    continue;
+                }
+
+                //The title of this (nested) choice has to be added to its parent
+                $parentChoice->choices_title = $attribute['label'];
+
+                $choice = new \GiveIt\SDK\Choice(array(
+                                                   'id'              => 'choice_' . $id,
+                                                   'product_id'      => $id,
+                                                   'name'            => $option['label'],
+                                                   'price'           => $this->_roundPrice($option['price']),
+                                                   'choice_products' => $choiceProducts,
+                          ));
+
+
+                $parentChoice->addChoice($choice);
+
+                $choices[] = $nestedChoice;
+            }
+        }
+
+        if (next($productAttributes)) {
+            $this->_addNestedChoices($productAttributes, $choices);
+        }
+    }
+
 
     /**
      * Get choice ID for SDK

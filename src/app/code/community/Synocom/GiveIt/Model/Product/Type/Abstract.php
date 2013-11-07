@@ -30,8 +30,13 @@ class Synocom_GiveIt_Model_Product_Type_Abstract
     {
         $xmlPathTemplate = 'synocom_giveit/delivery_option_%s';
 
-        $delivery = Mage::helper('synocom_giveit')->getSdkOption('giveit', 'delivery', 'Delivery Option');
-        $choices = array();
+        $delivery = new \GiveIt\SDK\Option(array(
+                                                  'id'          => 'delivery',
+                                                  'type'        => 'delivery',
+                                                  'name'        => 'Delivery'
+                    ));
+
+        $choices  = array();
         foreach (range(1, self::MAX_DELIVERY_OPTIONS) as $i) {
 
             $xmlPath = sprintf($xmlPathTemplate, $i);
@@ -59,14 +64,17 @@ class Synocom_GiveIt_Model_Product_Type_Abstract
                     continue;
                 }
 
-                $choices[] = Mage::helper('synocom_giveit')->getSdkChoice($id, $name, $price, array(
-                        'tax_percent' => (int)$taxPercentage,
-                    )
-                );
+                $choice = new \GiveIt\SDK\Choice(array(
+                                                    'id'            => $id,
+                                                    'name'          => $name,
+                                                    'price'         => $price,
+                                                    'tax_percent'   => (int)$taxPercentage,
+                          ));
+
+                $delivery->addChoice($choice);
             }
         }
 
-        $delivery->addChoices($choices);
         $this->addBuyerOption($delivery);
     }
 
