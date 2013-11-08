@@ -54,6 +54,21 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
         $this->_addProductOptions();
     }
 
+    protected function stripChoiceProductsField($option)
+    {
+        if (isset($option->choices)) {
+            foreach ($option->choices as &$choice) {
+                $choice = $this->stripChoiceProductsField($choice);
+            }
+        }
+
+        if (isset($option->choice_products)) {
+            unset($option->choice_products);
+        }
+
+        return $option;
+    }
+
      /**
      * Adds the configurable product options to the SDK product as a buyer option
      */
@@ -65,9 +80,9 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
         $firstAttribute = reset($productOptions['attributes']);
 
         $sdkOption = new \GiveIt\SDK\Option(array(
-                                                'id'            => 'product_options',
+                                                'id'            => 'variants',
                                                 'type'          => 'layered',
-                                                'name'          => $this->helper->__('Product options'),
+                                                'name'          => $this->helper->__('Variants'),
                                                 'choices_title' => $firstAttribute['label'],
                      ));
 
@@ -77,13 +92,12 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
          */
         foreach ($firstAttribute['options'] as $id => $option) {
 
-           $choice = new \GiveIt\SDK\Choice(array(
-                                               'id'         => 'choice_' . $id,
-                                               'product_id' => $id,
-                                               'name'       => $option['label'],
-                                               'price'      => $this->_roundPrice($option['price']),
-                                               'choice_products' => $option['products'],
-                    ));
+            $choice = new \GiveIt\SDK\Choice(array(
+                                               'id'                 => 'choice_' . $option['id'],
+                                               'name'               => $option['label'],
+                                               'price'              => $this->_roundPrice($option['price']),
+                                               'choice_products'    => $option['products'],
+                      ));
 
             $this->_mainChoices[] = $choice;
         }
@@ -94,45 +108,14 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
 
         $sdkOption->addChoices($this->_mainChoices);
 
+        $sdkOption = $this->stripChoiceProductsField($sdkOption);
+
         if ($sdkOption->pricesVary()) {
             $this->addBuyerOption($sdkOption);
         } else {
             $this->addRecipientOption($sdkOption);
         }
     }
-
-     /**
-     * Add nested choices to the main choices
-     *
-     * @param array $productAttributes
-     * @param array $parentChoices
-     *
-    protected function _addNestedChoices($productAttributes, $parentChoices)
-    {
-        $choices = array();
-        $attribute = current($productAttributes);
-        foreach ($parentChoices as $parentChoice) {
-            foreach ($attribute['options'] as $id => $option) {
-                $choiceProducts = array_intersect($option['products'], $parentChoice->choice_products);
-                if (empty($choiceProducts)) {
-                    continue;
-                }
-                //The title of this (nested) choice has to be added to its parent
-                $parentChoice->choices_title = $attribute['label'];
-                $id = $this->_getSdkChoiceId($choiceProducts, $id);
-
-                $nestedChoice = $this->helper->getSdkChoice($id, $option['label'], $this->_roundPrice($option['price']),
-                    array('choice_products' => $choiceProducts));
-                $parentChoice->addChoice($nestedChoice);
-                $choices[] = $nestedChoice;
-            }
-        }
-
-        if (next($productAttributes)) {
-            $this->_addNestedChoices($productAttributes, $choices);
-        }
-    }
-*/
 
     /**
      * Add nested choices to the main choices
@@ -157,8 +140,8 @@ class Synocom_GiveIt_Model_Product_Type_Configurable
                 $parentChoice->choices_title = $attribute['label'];
 
                 $choice = new \GiveIt\SDK\Choice(array(
-                                                   'id'              => 'choice_' . $id,
-                                                   'product_id'      => $id,
+                                                   'id'              => 'choice_' . $option['id'],
+                                                   'product_id'      => $option['products'][0],
                                                    'name'            => $option['label'],
                                                    'price'           => $this->_roundPrice($option['price']),
                                                    'choice_products' => $choiceProducts,

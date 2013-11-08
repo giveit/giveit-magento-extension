@@ -10,13 +10,109 @@
  */
 class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
 
+    protected function getSelectedVariantProductId($item)
+    {
+        $chosen_options = array();
+
+        if (isset($item->selected_options->buyer->variants)) {
+            $chosen_options =  $item->selected_options->buyer->variants;
+        }
+
+        if (isset($item->selected_options->recipient->variants)) {
+            $chosen_options =  $item->selected_options->recipient->variants;
+        }
+
+        if (empty($chosen_options)) {
+            return 0;
+        }
+
+        foreach ($chosen_options as $option) {
+            if (isset($option->product_id)) {
+                return $option->product_id;
+            }
+        }
+
+        return 0;
+
+    }
+
+    protected function getNames($name)
+    {
+        return split($name, ' ', 1);
+    }
+
+    public function createGiveItOrder($sale) {
+print_r($sale);
+        $shoppingCart = array();
+
+        foreach ($sale->items as $item) {
+
+            $shoppingCart[] = array(
+                                'qty'        => $item->quantity,
+                                'product_id' => $this->getSelectedVariantProductId($item),
+                              );
+        }
+
+        $delivery               = $item->delivery;
+        $shippingAddress        = $sale->shipping_address;
+        $shippingDescription    = $delivery->name;
+        $shippingPrice          = $delivery->price / 100;
+        $names                  = split(' ', $shippingAddress->name, 1);
+
+        $orderShippingAddress   = array(
+            'firstname'             => $names[0],
+            'lastname'              => $names[1],
+            'country_id'            => $shippingAddress->country_code,
+            'region_id'             => '',
+            'region'                => $shippingAddress->province,
+            'city'                  => $shippingAddress->city,
+            'street'                => $shippingAddress->line_1,
+            'telephone'             => $shippingAddress->phone,
+            'postcode'              => $shippingAddress->postal_code,
+            'save_in_address_book'  => 0,
+            'is_default_billing'    => false,
+            'is_default_shipping'   => true,
+            'prefix'                => '',
+            'middlename'            => '',
+            'suffix'                => '',
+            'company'               => '',
+            'fax'                   => ''
+        );
+
+        $billingAddress = $orderShippingAddress;
+        $billingAddress['is_default_billing']  = true;
+        $billingAddress['is_default_shipping'] = false;
+
+        $shippingMethod = 'freeshipping_freeshipping';
+
+        $quote = $this->createQuote($shippingAddress->email, $shoppingCart, $orderShippingAddress, $billingAddress, $shippingMethod, false);
+
+        $quote->setShippingAmount($shippingPrice);
+        $quote->setBaseShippingAmount($shippingPrice);
+        $quote->setShippingInclTax($shippingPrice);
+        $quote->setBaseShippingInclTax($shippingPrice);
+        $quote->setShippingDescription($shippingDescription);
+
+        $quote->save();
+
+        Mage::log("created quote #" . $quote->getId());
+
+        $giveitPaymentMethod = Mage::getModel('synocom_giveit/method_giveit');
+        $paymentMethod = $giveitPaymentMethod->getCode();
+
+        $order =  $this->createOrder($quote->getId(), $paymentMethod, null, $shippingDescription, $shippingPrice);
+
+        Mage::log("created order #" . $order->getId());
+
+        return $order;
+    }
+
     /**
      * Create order base on Giveit Sale
      *
      * @param Synocom_GiveIt_Model_Giveit_Sale $sale
      * @return int
-     */
-    public function createGiveItOrder(Synocom_GiveIt_Model_Giveit_Sale $sale) {
+    public function OLD_createGiveItOrder(Synocom_GiveIt_Model_Giveit_Sale $sale) {
         $shoppingCart = array();
 
         foreach ($sale->getItems() as $item) {
@@ -25,12 +121,12 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
                             'product_id' => $item->getSelectedOptions()
                                                  ->getRecipient()
                                                  ->getVariants()
-                                                 ->getSku(),
+                                                 ->getProductId(),
                         );
 
             $shoppingCart[] = $product;
         }
-print_r($shoppingCart);
+
         $shippingDescription = $item->getDelivery()->getDescription();
         $shippingPrice = $item->getDelivery()->getFloatPrice();
 
@@ -69,6 +165,7 @@ print_r($shoppingCart);
         $paymentMethod = $giveitPaymentMethod->getCode();
         return $this->createOrder($quoteId, $paymentMethod, null, $shippingDescription, $shippingPrice);
     }
+*/
 
     /**
      * Prepare Quote order for not logged in customers
@@ -78,7 +175,7 @@ print_r($shoppingCart);
      * @param string $couponCode
      * @return int $quoteId
      */
-    public function prepareGuestOrder($email, array $shoppingCart, array $shippingAddress, array $billingAddress,
+    public function createQuote($email, array $shoppingCart, array $shippingAddress, array $billingAddress,
                                       $shippingMethod, $couponCode)
     {
         $quote = Mage::getModel('sales/quote');
@@ -117,9 +214,8 @@ print_r($shoppingCart);
         $quote->getShippingAddress()->setCollectShippingRates(true);
         $quote->getShippingAddress()->collectShippingRates();
         $quote->collectTotals();	// calls $address->collectTotals();
-        $quote->save();
 
-        return $quote->getId();
+        return $quote;
     }
 
     /**
@@ -193,6 +289,6 @@ print_r($shoppingCart);
         $order->save();
         $order->sendNewOrderEmail();
 
-        return $order->getId();
+        return $order;
     }
 }

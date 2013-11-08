@@ -14,6 +14,13 @@
  */
 class Synocom_GiveIt_Model_Giveit_Sale_Item_Selectedoptions_Recipient_Variants extends Mage_Core_Model_Abstract {
 
+    public function getProductId() {
+        $data = $this->getData();
+echo "variants\n";
+        print_r($data);
+
+    }
+
     /**
      * Get selected opiton SKU
      *
@@ -21,7 +28,7 @@ class Synocom_GiveIt_Model_Giveit_Sale_Item_Selectedoptions_Recipient_Variants e
      */
     public function getSku() {
         $data = $this->getData();
-var_dump($data);
+
         if (array_key_exists(0, $data)) {
             $nestedSelectedItem = array_pop($this->getData());
 
