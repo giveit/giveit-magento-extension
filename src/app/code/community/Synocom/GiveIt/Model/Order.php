@@ -10,6 +10,8 @@
  */
 class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
 
+    private $sale;
+
     protected function getSelectedVariantProductId($item)
     {
         $chosen_options = array();
@@ -41,8 +43,10 @@ class Synocom_GiveIt_Model_Order extends Mage_Sales_Model_Order {
         return split($name, ' ', 1);
     }
 
-    public function createGiveItOrder($sale) {
-print_r($sale);
+    public function createGiveItOrder($sale)
+    {
+        $this->sale = $sale;
+
         $shoppingCart = array();
 
         foreach ($sale->items as $item) {
@@ -89,8 +93,8 @@ print_r($sale);
 
         $quote->setShippingAmount($shippingPrice);
         $quote->setBaseShippingAmount($shippingPrice);
-        $quote->setShippingInclTax($shippingPrice);
         $quote->setBaseShippingInclTax($shippingPrice);
+        $quote->setShippingInclTax($shippingPrice);
         $quote->setShippingDescription($shippingDescription);
 
         $quote->save();
@@ -108,66 +112,6 @@ print_r($sale);
     }
 
     /**
-     * Create order base on Giveit Sale
-     *
-     * @param Synocom_GiveIt_Model_Giveit_Sale $sale
-     * @return int
-    public function OLD_createGiveItOrder(Synocom_GiveIt_Model_Giveit_Sale $sale) {
-        $shoppingCart = array();
-
-        foreach ($sale->getItems() as $item) {
-            $product = array(
-                            'qty'        => $item->getQuantity(),
-                            'product_id' => $item->getSelectedOptions()
-                                                 ->getRecipient()
-                                                 ->getVariants()
-                                                 ->getProductId(),
-                        );
-
-            $shoppingCart[] = $product;
-        }
-
-        $shippingDescription = $item->getDelivery()->getDescription();
-        $shippingPrice = $item->getDelivery()->getFloatPrice();
-
-        $saleShippingAddress = $sale->getShippingAddress();
-        $email = $saleShippingAddress->getEmail();
-
-        $shippingAddress = array(
-            'firstname'             => $saleShippingAddress->getFirstName(),
-            'lastname'              => $saleShippingAddress->getLastName(),
-            'country_id'            => $saleShippingAddress->getCountryCode(),
-            'region_id'             => '',
-            'region'                => $saleShippingAddress->getProvince(),
-            'city'                  => $saleShippingAddress->getCity(),
-            'street'                => $saleShippingAddress->getStreet(),
-            'telephone'             => $sale->getPhone(),
-            'postcode'              => $sale->getPostalCode(),
-            'save_in_address_book'  => 0,
-            'is_default_billing'    => false,
-            'is_default_shipping'   => true,
-            'prefix'                => '',
-            'middlename'            => '',
-            'suffix'                => '',
-            'company'               => '',
-            'fax'                   => ''
-        );
-
-        $billingAddress = $shippingAddress;
-        $billingAddress['is_default_billing'] = true;
-        $billingAddress['is_default_shipping'] = false;
-
-        $shippingMethod = 'freeshipping_freeshipping';
-
-        $quoteId = $this->prepareGuestOrder($email, $shoppingCart, $shippingAddress, $billingAddress, $shippingMethod, false);
-
-        $giveitPaymentMethod = Mage::getModel('synocom_giveit/method_giveit');
-        $paymentMethod = $giveitPaymentMethod->getCode();
-        return $this->createOrder($quoteId, $paymentMethod, null, $shippingDescription, $shippingPrice);
-    }
-*/
-
-    /**
      * Prepare Quote order for not logged in customers
      *
      * @param array $params
@@ -175,9 +119,12 @@ print_r($sale);
      * @param string $couponCode
      * @return int $quoteId
      */
-    public function createQuote($email, array $shoppingCart, array $shippingAddress, array $billingAddress,
-                                      $shippingMethod, $couponCode)
+    public function createQuote($email, array $shoppingCart, array $shippingAddress, array $billingAddress, $shippingMethod, $couponCode)
     {
+        $sale       = $this->sale;
+        $item       = $sale->items[0];
+        $delivery   = $items->delivery;
+
         $quote = Mage::getModel('sales/quote');
         $quote->setIsMultiShipping(false);
         $quote->setCheckoutMethod('guest');
@@ -189,11 +136,16 @@ print_r($sale);
         $quote->setStore(Mage::app()->getStore());
 
         $productModel = Mage::getModel('catalog/product');
-        foreach($shoppingCart as $cartItem) {
-            $product = $productModel->load($cartItem['product_id']);
+
+        foreach ($shoppingCart as $cartItem) {
+
+            $price     = ($item->total + $item->tax) / 100;
+            $product   = $productModel->load($cartItem['product_id']);
             $quoteItem = Mage::getModel('sales/quote_item')->setProduct($product);
             $quoteItem->setQuote($quote);
             $quoteItem->setQty($cartItem['qty']);
+            $quoteItem->setCustomPrice($price);
+            $quoteItem->setOriginalCustomPrice($price);
 
             $quote->addItem($quoteItem);
         }
@@ -228,8 +180,10 @@ print_r($sale);
      * @return int $orderId
      */
     public function createOrder($quoteId, $paymentMethod, $paymentData, $shippingDescription, $shippingPrice) {
+
         $quote = Mage::getModel('sales/quote')->load($quoteId);
         $items = $quote->getAllItems();
+
         $quote->reserveOrderId();
 
         $quotePayment = $quote->getPayment();
@@ -252,6 +206,7 @@ print_r($sale);
         if($quote->isVirtual() == 0) {
             $order->setShippingAddress($convertQuoteObj->addressToOrderAddress($quote->getShippingAddress()));
         }
+
         // set payment options
         $order->setPayment($convertQuoteObj->paymentToOrderPayment($quote->getPayment()));
         if ($paymentData) {
@@ -261,6 +216,7 @@ print_r($sale);
             $order->getPayment()->setCcExpYear($paymentData->ccExpYear);
             $order->getPayment()->setCcLast4(substr($paymentData->ccNumber,-4));
         }
+
         // convert quote items
         foreach ($items as $item) {
             // @var $item Mage_Sales_Model_Quote_Item
@@ -285,6 +241,7 @@ print_r($sale);
         $order->setShippingInclTax($shippingPrice);
         $order->setBaseShippingInclTax($shippingPrice);
         $order->setShippingDescription($shippingDescription);
+        $order->setTotalPaid($order->getGrandTotal());
 
         $order->save();
         $order->sendNewOrderEmail();

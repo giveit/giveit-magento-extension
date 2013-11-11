@@ -28,7 +28,8 @@ class Synocom_GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
     /**
      * Get product stock qty
      */
-    public function getProductStockQtyAction() {
+    public function getProductStockQtyAction()
+    {
         $response = null;
 
         try {
@@ -54,7 +55,8 @@ class Synocom_GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
     /**
      * Callback handler
      */
-    public function callbackHandlerAction() {
+    public function callbackAction()
+    {
         define('GIVEIT_DATA_KEY', $this->_helper()->getDataKey());
 
         // print_r($_POST); exit;
@@ -62,23 +64,39 @@ class Synocom_GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
         $giveit = new \GiveIt\SDK;
         $type   = $giveit->getCallbackType($_POST);
 
+        $this->getResponse()->setHeader('Content-type', 'application/json');
+
         try {
             if ($type == 'sale') {
-                $result = $giveit->parseCallback($_POST);
-              //  $result = Zend_Json::decode(Zend_Json::encode($result));
+                $sale = $giveit->parseCallback($_POST);
+                $order = Mage::getModel('synocom_giveit/order')->createGiveItOrder($sale);
 
-                // $sale = Mage::getModel('synocom_giveit/giveit_sale');
-                // $sale->setObject($result);
-                $order = Mage::getModel('synocom_giveit/order')->createGiveItOrder($result);
+                 $response = Mage::helper('core')->jsonEncode(array('status' => 'created', 'id' => $order->getId()));
+
             }
         } catch (Exception $e) {
             Mage::log($e->getMessage());
             Mage::log(Zend_Json::encode($result));
 
-            $this->getResponse()->setHeader('Content-type', 'application/json');
             $response = Mage::helper('core')->jsonEncode($e->getMessage());
             $this->getResponse()->setBody($response);
         }
+    }
+
+    public function versionAction()
+    {
+        $giveit = new \GiveIt\SDK;
+
+        $data = array(
+            'versions' => array(
+                'sdk'       => $giveit::VERSION,
+                'magento'   => Mage::getVersion(),
+            )
+        );
+
+        $response = Mage::helper('core')->jsonEncode($data);
+
+        $this->getResponse()->setBody($response)->setHeader('Content-type', 'application/json');
     }
 
     /**
