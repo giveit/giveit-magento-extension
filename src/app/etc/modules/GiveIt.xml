@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <GiveIt>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends></depends>
+            <version>0.9</version>
+        </GiveIt>
+    </modules>
+</config>

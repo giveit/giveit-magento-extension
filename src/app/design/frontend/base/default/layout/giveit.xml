@@ -4,33 +4,33 @@
     <PRODUCT_TYPE_simple>
 
         <reference name="product.info.extrahint">
-            <block type="synocom_giveit/button" name="giveit_button_1" as="giveit_button_1">
+            <block type="giveit/button" name="giveit_button_1" as="giveit_button_1">
                 <action method="setIsEnabled">
-                    <xpathConfig>synocom_giveit/button_position_simple/position_1</xpathConfig>
+                    <xpathConfig>giveit/button_position_simple/position_1</xpathConfig>
                 </action>
             </block>
         </reference>
 
         <reference name="product.info">
-            <block type="synocom_giveit/button" name="extra_buttons" as="extra_buttons">
+            <block type="giveit/button" name="extra_buttons" as="extra_buttons">
                 <action method="setIsEnabled">
-                    <xpathConfig>synocom_giveit/button_position_simple/position_2</xpathConfig>
+                    <xpathConfig>giveit/button_position_simple/position_2</xpathConfig>
                 </action>
             </block>
         </reference>
 
         <reference name="product.info.addtocart">
-            <block type="synocom_giveit/button" name="giveit_button_3" as="giveit_button_3">
+            <block type="giveit/button" name="giveit_button_3" as="giveit_button_3">
                 <action method="setIsEnabled">
-                    <xpathConfig>synocom_giveit/button_position_simple/position_3</xpathConfig>
+                    <xpathConfig>giveit/button_position_simple/position_3</xpathConfig>
                 </action>
             </block>
         </reference>
 
         <reference name="product.info">
-            <block type="synocom_giveit/button" name="giveit_custom_position" as="giveit_custom_position">
+            <block type="giveit/button" name="giveit_custom_position" as="giveit_custom_position">
                 <action method="setIsEnabled">
-                    <xpathConfig>synocom_giveit/button_position_simple/position_custom</xpathConfig>
+                    <xpathConfig>giveit/button_position_simple/position_custom</xpathConfig>
                 </action>
             </block>
         </reference>
@@ -40,38 +40,38 @@
     <PRODUCT_TYPE_configurable>
 
         <reference name="product.info.extrahint">
-            <block type="synocom_giveit/button" name="giveit_button_1" as="giveit_button_1">
+            <block type="giveit/button" name="giveit_button_1" as="giveit_button_1">
                 <action method="setIsEnabled">
-                    <xpathConfig>synocom_giveit/button_position_configurable/position_1</xpathConfig>
+                    <xpathConfig>giveit/button_position_configurable/position_1</xpathConfig>
                 </action>
             </block>
         </reference>
 
         <reference name="product.info.options.wrapper.bottom">
-            <block type="synocom_giveit/button" name="giveit_button_2" as="giveit_button_2" before="-">
+            <block type="giveit/button" name="giveit_button_2" as="giveit_button_2" before="-">
                 <action method="setIsEnabled">
-                    <xpathConfig>synocom_giveit/button_position_configurable/position_2</xpathConfig>
+                    <xpathConfig>giveit/button_position_configurable/position_2</xpathConfig>
                 </action>
             </block>
-            <block type="synocom_giveit/button" name="giveit_button_3" as="giveit_button_3" after="-">
+            <block type="giveit/button" name="giveit_button_3" as="giveit_button_3" after="-">
                 <action method="setIsEnabled">
-                    <xpathConfig>synocom_giveit/button_position_configurable/position_3</xpathConfig>
+                    <xpathConfig>giveit/button_position_configurable/position_3</xpathConfig>
                 </action>
             </block>
         </reference>
 
         <reference name="product.info.addtocart">
-            <block type="synocom_giveit/button" name="giveit_button_4" as="giveit_button_4">
+            <block type="giveit/button" name="giveit_button_4" as="giveit_button_4">
                 <action method="setIsEnabled">
-                    <xpathConfig>synocom_giveit/button_position_configurable/position_4</xpathConfig>
+                    <xpathConfig>giveit/button_position_configurable/position_4</xpathConfig>
                 </action>
             </block>
         </reference>
 
         <reference name="product.info">
-            <block type="synocom_giveit/button" name="giveit_custom_position" as="giveit_custom_position">
+            <block type="giveit/button" name="giveit_custom_position" as="giveit_custom_position">
                 <action method="setIsEnabled">
-                    <xpathConfig>synocom_giveit/button_position_configurable/position_custom</xpathConfig>
+                    <xpathConfig>giveit/button_position_configurable/position_custom</xpathConfig>
                 </action>
             </block>
         </reference>
