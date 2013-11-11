@@ -15,12 +15,10 @@
 class Synocom_GiveIt_Model_System_Config_Source_Button_Type
 {
 
-    const TYPE_WHITE  = 'white_rect_sm';
-    const TYPE_GREY   = 'grey_rect_sm';
-    const TYPE_BLACK  = 'black_rect_sm';
-    const TYPE_BLUE   = 'blue_rect_sm';
-    const TYPE_ORANGE = 'orange_rect_sm';
-    const TYPE_GREEN  = 'green_rect_sm';
+    const TYPE_WHITE_SM  = 'white_sm';
+    const TYPE_WHITE_LG  = 'white_lg';
+    const TYPE_BLACK_SM  = 'black_sm';
+    const TYPE_BLACK_LG  = 'black_lg';
 
     /**
      * Returns option list of button types for configuration
@@ -30,12 +28,10 @@ class Synocom_GiveIt_Model_System_Config_Source_Button_Type
     public function toOptionArray()
     {
         return array(
-            self::TYPE_WHITE => Mage::helper('synocom_giveit')->__('White'),
-            self::TYPE_GREY => Mage::helper('synocom_giveit')->__('Grey'),
-            self::TYPE_BLACK => Mage::helper('synocom_giveit')->__('Black'),
-            self::TYPE_BLUE => Mage::helper('synocom_giveit')->__('Blue'),
-            self::TYPE_ORANGE => Mage::helper('synocom_giveit')->__('Orange'),
-            self::TYPE_GREEN => Mage::helper('synocom_giveit')->__('Green'),
+            self::TYPE_WHITE_SM => Mage::helper('synocom_giveit')->__('White small'),
+            self::TYPE_WHITE_LG => Mage::helper('synocom_giveit')->__('White large'),
+            self::TYPE_BLACK_SM => Mage::helper('synocom_giveit')->__('Black small'),
+            self::TYPE_BLACK_LG => Mage::helper('synocom_giveit')->__('Black large'),
         );
     }
 
