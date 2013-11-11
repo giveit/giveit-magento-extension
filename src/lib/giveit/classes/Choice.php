@@ -15,6 +15,7 @@ class Choice extends Option {
         }
 
         if (isset($this->price) and ! is_int($this->price)) {
+            $this->addError("price for choice $this->id must be an integer");
             return false;
         }
 

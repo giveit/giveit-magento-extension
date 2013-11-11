@@ -23,10 +23,8 @@ class Sale extends Callback
 {
     public function parse($data)
     {
-        print_r($data);
-
-        $json   = $this->crypt->decode($data['data'], $this->parent->dataKey);
-        $sale   = $this->decodeJson($json);
+        $json      = $this->crypt->decode($data['data'], $this->parent->dataKey);
+        $sale_data = $this->decodeJson($json);
 
         switch (json_last_error()) {
             case JSON_ERROR_NONE:
@@ -57,6 +55,6 @@ class Sale extends Callback
                 break;
         }
 
-        return $sale;
+        return new \GiveIt\SDK\Sale($sale_data);
     }
 }

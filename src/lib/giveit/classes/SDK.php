@@ -15,7 +15,7 @@ namespace GiveIt;
 
 class SDK extends SDK\Base
 {
-    const   VERSION          = '1.1.0';
+    const   VERSION          = '1.1.5';
 
     public  $dataKey         = null;
     public  $publicKey       = null;
@@ -132,8 +132,9 @@ class SDK extends SDK\Base
 
     public function getButtonJS()
     {
-        $template = file_get_contents(__DIR__ . '/../templates/widget.js');
-        $text     = str_replace('$widgetUrl', $this->urls[$this->environment]['widget'], $template);
+        $text = file_get_contents(__DIR__ . '/../templates/widget.js');
+        $text = str_replace('$widgetUrl', $this->urls[$this->environment]['widget'], $text);
+        $text = str_replace('$public_api_key', $this->publicKey, $text);
 
         return $text;
     }
@@ -186,6 +187,41 @@ class SDK extends SDK\Base
         }
 
         return $this->payments;
+    }
+
+    public function verifyKeys()
+    {
+        $client         = SDK\Client::getInstance();
+        $authenticated  = $client->authenticate();
+
+        if (! $authenticated) {
+            $this->addError("unable to log in with private key");
+            return false;
+        }
+
+        $result = $client->sendGET('/retailers/me');
+
+       if (isset($result->errors)) {
+            foreach ($result->errors as $error) {
+                $this->addError($error);
+            }
+            return false;
+        }
+
+        // at this point we can assume that the private key is okay, verify the other two
+
+        if ($result->public_api_key != $this->publicKey) {
+            $this->addError("incorrect public key");
+            return false;
+        }
+
+        if ($result->data_key != $this->dataKey) {
+            $this->addError("incorrect data key");
+            return false;
+        }
+
+        return true;
+
     }
 }
 

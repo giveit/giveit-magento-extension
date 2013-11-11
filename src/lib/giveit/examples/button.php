@@ -1,31 +1,61 @@
 <?php
 
+ini_set('display_errors', true);
+ini_set('error_level', E_ALL);
+
 require_once 'init.php';
 
-$product = new \GiveIt\SDK\Product;
+use GiveIt\SDK\Product;
+use GiveIt\SDK\Option;
+use GiveIt\SDK\Choice;
+
+$product = new Product;
 
 // first, set the product details.
-$product->setProductDetails('4506',1950, 'Accidents', 'http://s3.amazonaws.com/threadless-shop/products/4506/636x460shirt_guys_01.jpg');
+$product->setProductDetails(array(
+            'code' => '4506',
+            'price' => 1950,
+            'name' => 'Accidents',
+            'image' => 'http://s3.amazonaws.com/threadless-shop/products/4506/636x460shirt_guys_01.jpg')
+);
 
 // next, add an option. In this case the mandatory Delivery Option.
-$delivery = $product->addBuyerOption('delivery', 'delivery', 'Delivery Option', null, true);
-$product->addChoice($delivery, 'europe', 'Europe', 900);
-$product->addChoice($delivery, 'usa', 'United States', 499);
+$delivery = new Option(array(
+                            'id'            => 'my_delivery_id',
+                            'type'          => 'layered_delivery',
+                            'name'          => 'Shipping',
+                            'tax_delivery'  => true
+                            ));
+
+$nl = new Choice(array('id'=> 'nl', 'name' => 'Netherlands', 'price' => 495));
+$be = new Choice(array('id'=> 'be', 'name' => 'Belgium',     'price' => 895));
+
+$delivery->addChoices(array($nl, $be));
+
 
 // now, another option. As with the other examples, the gender
-$gender = $product->addBuyerOption('gender', 'singly_choice', 'Shirt Type', null, true);
-$product->addChoice($gender, 'guys', 'Guys');
-$product->addChoice($gender, 'girly', 'Girly');
+$gender = new Option(array(
+                        'id'        => 'gender',
+                        'type'      => 'single_option',
+                        'name'      => 'Shirt Type',
+                        'mandatory' => true,
+                    ));
 
-// let's add another option, this time for the description type
-$delivery = $product->addBuyerOption('desc', 'description', 'Shirt Size', 'The shirt size will be picked by the recipient.');
+$product->addRecipientOption($gender);
 
-// at last, for the recipient we also need them to select the shirt size
-$size = $product->addRecipientOption('size', 'singly_choice', 'Shirt Size', null, true);
-$product->addChoice($size, 's', 'Small');
-$product->addChoice($size, 'm', 'Medium');
-$product->addChoice($size, 'l', 'Large');
-$product->addChoice($size, 'xl', 'Extra Large');
+// and last, for the recipient we also need them to select the shirt size
+$size = new Option(array(
+                        'id'        => 'size',
+                        'type'      => 'single_choice',
+                        'name'      => 'Shirt Size',
+                        'mandatory' => true,
+                  ));
+
+$size->addChoice(new Choice(array('id' => 's', 'name' => 'Small',    'price' => 123.345)));
+$size->addChoice(new Choice(array('id' => 'm', 'name' => 'Medium')));
+$size->addChoice(new Choice(array('id' => 'l', 'name' => 'Large')));
+
+$product->addRecipientOption($size);
 
 // validate the product before rendering
 
@@ -42,5 +72,5 @@ echo $giveIt->getButtonJS();
 
 echo $product->getButtonHTML();
 
-
+echo "\n\n";
 

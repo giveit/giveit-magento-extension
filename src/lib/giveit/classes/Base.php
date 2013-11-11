@@ -26,7 +26,7 @@ class Base
 
         $this->errors[] = $message;
 
-        trigger_error($message);
+        trigger_error('Give.it SDK: ' . $message);
 
         return true;
     }

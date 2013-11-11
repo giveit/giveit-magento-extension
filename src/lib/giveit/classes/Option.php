@@ -62,4 +62,33 @@ class Option extends Object {
         return $this;
     }
 
+    /**
+     * Checks whether the prices of choices for this option vary
+     */
+    public function pricesVary() {
+
+        foreach ($this->choices as $choice) {
+            if (isset($choice->price)) {
+
+                if (! isset($lastPrice)) {
+                    $lastPrice = $choice->price;
+                }
+
+                if ($choice->price != $lastPrice) {
+                    return true;
+                }
+
+                $lastPrice = $choice->price;
+            }
+
+            if (isset($choice->choices)) {
+                if ($choice->pricesVary()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
 }

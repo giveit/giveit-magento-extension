@@ -45,7 +45,16 @@ class Product extends Base
 
         return $this;
     }
-
+    
+    public function setCurrency($iso_code = 'USD'){
+        if (strlen($iso_code) == 3){
+            $this->data['currency'] = $iso_code;    
+        } else {
+            $this->addError("invalid currency $iso_code. Currency should be a 3-letter ISO code");
+        }
+        
+    }
+    
     /**
      * Add an option for the buyer
      * @return reference
@@ -58,11 +67,33 @@ class Product extends Base
      * Add an option for the recipient
      * @return reference
      */
-
     public function addRecipientOption($option){
+
+        // strip out prices on option and any choices
+        $option = $this->removePrice($option);
+
         return $this->addOption('recipient', $option);
     }
 
+    private function removePrice($option) {
+
+        if (isset($option->price)) {
+
+            if ($option->price != 0) {
+                trigger_error("removing non-zero price ($option->price) from recipient option ($option->id)", E_USER_WARNING);
+            }
+
+            unset($option->price);
+        }
+
+        if (isset($option->choices)) {
+            foreach ($option->choices as $choice) {
+                $this->removePrice($choice);
+            }
+        }
+
+        return $option;
+    }
 
     private function addOption($type, $option){
         if (is_array($option)){
@@ -174,14 +205,13 @@ class Product extends Base
         $crypt      = \GiveIt\SDK\Crypt::getInstance();
 
         if ($parent == false) {
-            $this->addError("GiveIt SDK must be instantiated to render buttons");
+            $this->addError("SDK must be instantiated to render buttons");
             return false;
         }
 
         $encrypted  = $crypt->encode(json_encode($this->data), $parent->dataKey);
 
         if ($encrypted == false) {
-
 
             if (! $this->renderErrors) {
                 return false;
@@ -194,7 +224,7 @@ class Product extends Base
 
         // $encrypted  = urlencode($encrypted);
 
-        $html = "<span class='giveit-button' data-giveit-buttontype='$buttonType' data-giveit-api-key='$parent->publicKey' data-giveit-data='$encrypted'></span>";
+        $html = "<span class='giveit-button' data-giveit-buttontype='$buttonType' data-giveit-data='$encrypted'></span>";
 
         return $html;
     }

@@ -2,7 +2,7 @@
 
 namespace GiveIt\SDK;
 
-class Object
+class Object extends Base
 {
     public function __construct($data)
     {

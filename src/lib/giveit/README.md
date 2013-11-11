@@ -29,9 +29,9 @@ create the product
 
 // first, set the product details.
     $product->setProductDetails(array(
-                'code' => '4506',
-                'price' => 1950,
-                'name' => 'Accidents',
+                'code' => '4506', 
+                'price' => 1950, 
+                'name' => 'Accidents', 
                 'image' => 'http://s3.amazonaws.com/threadless-shop/products/4506/636x460shirt_guys_01.jpg')
     );
 
@@ -46,15 +46,15 @@ create the product
     // add 2 choices to the delivery option
     $nl = new \GiveIt\SDK\Choice(Array('id'=> 'nl', 'name' => 'Netherlands', 'price' => 495));
     $be = new \GiveIt\SDK\Choice(Array('id'=> 'be', 'name' => 'Belgium', 'price' => 895));
-
+    
     $delivery->addChoices(array($nl,$be));
-
+    
     // add the delivery option to the product
     $product->addBuyerOption($delivery);
 
     //We should validate this product
     $result = $product->validate();
-
+    
     // is it valid, echo the button; if it is not, display the errors
     if ($result == true){
         $htmlFromProduct    = $product->getButtonHTML();
@@ -64,8 +64,8 @@ create the product
         $errorsHTML = $product->getErrorsHTML();
         echo $errorsHTML;
     }
-
+    
     // finally, now also include giveit.js so the button actually works
     $giveIt->outputButtonJS();
-
+    
 ```

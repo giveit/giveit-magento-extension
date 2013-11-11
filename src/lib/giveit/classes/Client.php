@@ -67,6 +67,13 @@ class Client extends Base
             return false;
         }
 
+        if (isset($result->errors)) {
+            foreach ($result->errors as $error) {
+                $this->addError($error);
+            }
+            return false;
+        }
+
         if ($result->result == 'ok') {
             $this->authenticated = true;
             return true;
