@@ -26,8 +26,8 @@ class Synocom_GiveIt_Model_System_Config_Source_Environment
     public function toOptionArray()
     {
         return array(
-            self::ENVIRONMENT_SANDBOX  => Mage::helper('synocom_giveit')->__('Sandbox'),
             self::ENVIRONMENT_LIVE   => Mage::helper('synocom_giveit')->__('Live'),
+            self::ENVIRONMENT_SANDBOX  => Mage::helper('synocom_giveit')->__('Sandbox'),
         );
     }
 
