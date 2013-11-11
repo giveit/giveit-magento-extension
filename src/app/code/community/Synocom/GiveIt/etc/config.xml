@@ -82,12 +82,12 @@
             <settings>
                 <enabled>1</enabled>
                 <enabled_api_orders>0</enabled_api_orders>
-                <environment>sandbox</environment>
-                <debug>1</debug>
+                <environment>live</environment>
+                <debug>0</debug>
             </settings>
             <button_settings>
                 <button_active>1</button_active>
-                <button_color>blue_rect_sm</button_color>
+                <button_color>white_sm</button_color>
             </button_settings>
         </synocom_giveit>
         <payment>
