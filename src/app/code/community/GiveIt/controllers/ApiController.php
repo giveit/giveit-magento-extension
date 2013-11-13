@@ -55,7 +55,7 @@ class GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
     /**
      * Callback handler
      */
-    public function callbackAction()
+    public function notificationsAction()
     {
         define('GIVEIT_DATA_KEY', $this->_helper()->getDataKey());
 
@@ -83,23 +83,7 @@ class GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
         }
     }
 
-    public function versionAction()
-    {
-        $giveit = new \GiveIt\SDK;
-
-        $data = array(
-            'versions' => array(
-                'sdk'       => $giveit::VERSION,
-                'magento'   => Mage::getVersion(),
-            )
-        );
-
-        $response = Mage::helper('core')->jsonEncode($data);
-
-        $this->getResponse()->setBody($response)->setHeader('Content-type', 'application/json');
-    }
-
-    public function versionAction()
+     public function versionAction()
     {
         $giveit = new \GiveIt\SDK;
 
