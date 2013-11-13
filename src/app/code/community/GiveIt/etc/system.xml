@@ -15,18 +15,15 @@
       <show_in_store>1</show_in_store>
       <tab>giveit</tab>
       <groups>
-        <information>
+        <installation>
           <label>Installation</label>
           <sort_order>0</sort_order>
           <show_in_default>1</show_in_default>
           <show_in_website>1</show_in_website>
           <show_in_store>1</show_in_store>
-          <comment>
-            <![CDATA[
-<iframe src="https://shops.give.it/prestashop/install" width="100%" height="600" frameborder="0" scrolling="auto" marginwidth="5" marginheight="5"></iframe>
-]]>
-</comment>
-        </information>
+          <frontend_type>text</frontend_type>
+          <frontend_model>giveit/adminhtml_system_config_form_field_install</frontend_model>
+         </installation>
         <help>
           <label>Help</label>
           <sort_order>1</sort_order>
@@ -174,8 +171,8 @@
           <show_in_default>1</show_in_default>
           <show_in_website>1</show_in_website>
           <show_in_store>1</show_in_store>
-        <comment>Select the position for the button for simple products.</comment>  
-	<fields>
+        <comment>Select the position for the button for simple products.</comment>
+  <fields>
             <position_1>
               <label>Position 1</label>
               <sort_order>5</sort_order>
@@ -186,7 +183,7 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <comment>Underneath the price.</comment>
-	    </position_1>
+      </position_1>
             <position_2>
               <label>Position 2</label>
               <sort_order>10</sort_order>

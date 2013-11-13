@@ -136,6 +136,6 @@ class GiveIt_Helper_Data
      */
     public function getCallbackUrl() {
         $selectedStoreId = Mage::app()->getRequest()->getParam('store');
-        return Mage::getStoreConfig('web/unsecure/base_url', $selectedStoreId) . 'giveit/api/notifications';
+        return Mage::getStoreConfig('web/unsecure/base_url', $selectedStoreId) . 'giveit/api/notifications ';
     }
 }
