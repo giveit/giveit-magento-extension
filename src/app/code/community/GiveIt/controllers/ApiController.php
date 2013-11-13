@@ -28,7 +28,7 @@ class GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
     /**
      * Get product stock qty
      */
-    public function getProductStockQtyAction()
+    public function stockAction()
     {
         $response = null;
 
