@@ -23,7 +23,7 @@
           <show_in_store>1</show_in_store>
           <frontend_type>text</frontend_type>
           <frontend_model>giveit/adminhtml_system_config_form_field_install</frontend_model>
-         </installation>
+        </installation>
         <help>
           <label>Help</label>
           <sort_order>1</sort_order>
@@ -32,9 +32,9 @@
           <show_in_store>1</show_in_store>
           <comment>
             <![CDATA[
-<iframe src="https://shops.give.it/prestashop/support" width="100%" height="600" frameborder="0" scrolling="auto" marginwidth="5" marginheight="5"></iframe>
-]]>
-</comment>
+            <iframe src="https://shops.give.it/prestashop/support" width="100%" height="600" frameborder="0" scrolling="auto" marginwidth="5" marginheight="5"></iframe>
+            ]]>
+          </comment>
         </help>
         <settings>
           <label>Settings</label>
@@ -47,13 +47,11 @@
               <label>Enabled</label>
               <sort_order>5</sort_order>
               <frontend_type>select</frontend_type>
-              <source_model>
-              adminhtml/system_config_source_yesno</source_model>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-              <comment>Here you can disable/enable the button
-              globally</comment>
+              <comment>Here you can disable/enable the button globally</comment>
             </enabled>
             <enabled_api_orders>
               <label>Enable orders in backoffice</label>
@@ -62,11 +60,8 @@
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-              <comment>This will make orders appear in you
-              backoffice automatically. More info on that topic is
-              here.</comment>
-              <source_model>
-              adminhtml/system_config_source_yesno</source_model>
+              <comment>This will make orders appear in you backoffice automatically. More info on that topic is here.</comment>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
             </enabled_api_orders>
             <public_key>
               <label>Public Key</label>
@@ -75,8 +70,7 @@
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-              <comment>Copy the public key from your technical
-              settings in your shops panel.</comment>
+              <comment>Copy the public key from your technical settings in your shops panel.</comment>
             </public_key>
             <private_key>
               <label>Private Key</label>
@@ -85,8 +79,7 @@
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-              <comment>Copy the private key from your technical
-              settings in your shops panel.</comment>
+              <comment>Copy the private key from your technical settings in your shops panel.</comment>
             </private_key>
             <data_key>
               <label>Data Key</label>
@@ -95,7 +88,7 @@
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <comment>Copy the data key from your technical
-              settings in your shops panel.</comment>
+                settings in your shops panel.</comment>
               <show_in_store>1</show_in_store>
             </data_key>
             <environment>
@@ -106,8 +99,7 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <comment>You should set this to LIVE. If you want to use sandbox contact our helpdesk.</comment>
-              <source_model>
-              giveit/system_config_source_environment</source_model>
+              <source_model>giveit/system_config_source_environment</source_model>
             </environment>
             <debug>
               <label>Debug</label>
@@ -117,15 +109,13 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <comment>Set this to NO unless you need to debug the install.</comment>
-              <source_model>
-              adminhtml/system_config_source_yesno</source_model>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
             </debug>
             <callback_url>
               <label>Callback URL</label>
               <sort_order>60</sort_order>
               <frontend_type>label</frontend_type>
-              <frontend_model>
-              giveit/adminhtml_system_config_form_field_notification</frontend_model>
+              <frontend_model>giveit/adminhtml_system_config_form_field_notification</frontend_model>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
@@ -148,8 +138,7 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <frontend_type>select</frontend_type>
-              <source_model>
-              adminhtml/system_config_source_yesno</source_model>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
             </button_active>
             <button_color>
               <label>Logo type</label>
@@ -160,8 +149,7 @@
               <show_in_store>1</show_in_store>
               <frontend_type>select</frontend_type>
               <comment>This will change the size and color of our Give.it logo inside the button.</comment>
-              <source_model>
-              giveit/system_config_source_button_type</source_model>
+              <source_model>giveit/system_config_source_button_type</source_model>
             </button_color>
           </fields>
         </button_settings>
@@ -171,25 +159,23 @@
           <show_in_default>1</show_in_default>
           <show_in_website>1</show_in_website>
           <show_in_store>1</show_in_store>
-        <comment>Select the position for the button for simple products.</comment>
-  <fields>
+          <comment>Select the position for the button for simple products.</comment>
+          <fields>
             <position_1>
               <label>Position 1</label>
               <sort_order>5</sort_order>
               <frontend_type>select</frontend_type>
-              <source_model>
-              adminhtml/system_config_source_yesno</source_model>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <comment>Underneath the price.</comment>
-      </position_1>
+            </position_1>
             <position_2>
               <label>Position 2</label>
               <sort_order>10</sort_order>
               <frontend_type>select</frontend_type>
-              <source_model>
-              adminhtml/system_config_source_yesno</source_model>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
@@ -199,8 +185,7 @@
               <label>Position 3</label>
               <sort_order>15</sort_order>
               <frontend_type>select</frontend_type>
-              <source_model>
-              adminhtml/system_config_source_yesno</source_model>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
@@ -210,8 +195,7 @@
               <label>Position custom</label>
               <sort_order>20</sort_order>
               <frontend_type>select</frontend_type>
-              <source_model>
-              adminhtml/system_config_source_yesno</source_model>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
@@ -220,7 +204,7 @@
         </button_position_simple>
         <button_position_configurable>
           <label>Button Position Settings - Configurable
-          Product</label>
+            Product</label>
           <sort_order>8</sort_order>
           <show_in_default>1</show_in_default>
           <show_in_website>1</show_in_website>
@@ -230,8 +214,7 @@
               <label>Position 1</label>
               <sort_order>5</sort_order>
               <frontend_type>select</frontend_type>
-              <source_model>
-              adminhtml/system_config_source_yesno</source_model>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
@@ -241,8 +224,7 @@
               <label>Position 2</label>
               <sort_order>10</sort_order>
               <frontend_type>select</frontend_type>
-              <source_model>
-              adminhtml/system_config_source_yesno</source_model>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
@@ -252,8 +234,7 @@
               <label>Position 3</label>
               <sort_order>15</sort_order>
               <frontend_type>select</frontend_type>
-              <source_model>
-              adminhtml/system_config_source_yesno</source_model>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
@@ -263,8 +244,7 @@
               <label>Position 4</label>
               <sort_order>20</sort_order>
               <frontend_type>select</frontend_type>
-              <source_model>
-              adminhtml/system_config_source_yesno</source_model>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
@@ -274,8 +254,7 @@
               <label>Position custom</label>
               <sort_order>25</sort_order>
               <frontend_type>select</frontend_type>
-              <source_model>
-              adminhtml/system_config_source_yesno</source_model>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
@@ -632,8 +611,7 @@
             <active translate="label">
               <label>Enabled</label>
               <frontend_type>select</frontend_type>
-              <source_model>
-              adminhtml/system_config_source_yesno</source_model>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
               <sort_order>10</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
@@ -642,8 +620,7 @@
             <order_status translate="label">
               <label>New order status</label>
               <frontend_type>select</frontend_type>
-              <source_model>
-              adminhtml/system_config_source_order_status_processing</source_model>
+              <source_model>adminhtml/system_config_source_order_status_processing</source_model>
               <sort_order>20</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
