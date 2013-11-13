@@ -99,6 +99,23 @@ class GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
         $this->getResponse()->setBody($response)->setHeader('Content-type', 'application/json');
     }
 
+    public function versionAction()
+    {
+        $giveit = new \GiveIt\SDK;
+
+        $data = array(
+            'versions' => array(
+                'sdk'       => $giveit::VERSION,
+                'magento'   => Mage::getVersion(),
+            )
+        );
+
+        $response = Mage::helper('core')->jsonEncode($data);
+
+        $this->getResponse()->setBody($response)->setHeader('Content-type', 'application/json');
+    }
+
+
     /**
      * Get data helper
      *

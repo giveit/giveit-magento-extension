@@ -1,4 +1,4 @@
-src/app/code/community/Synocom/GiveIt                       app/code/community/Synocom/GiveIt
+src/app/code/community/GiveIt                       app/code/community/GiveIt
 src/app/etc/modules/*                                       app/etc/modules/
 src/lib/giveit                                              lib/giveit
 src/app/design/frontend/base/default/layout/giveit.xml      app/design/frontend/base/default/layout/giveit.xml
