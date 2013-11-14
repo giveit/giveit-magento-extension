@@ -81,7 +81,7 @@
         <giveit>
             <settings>
                 <enabled>1</enabled>
-                <enabled_api_orders>0</enabled_api_orders>
+                <enabled_api_orders>1</enabled_api_orders>
                 <environment>live</environment>
                 <debug>0</debug>
             </settings>

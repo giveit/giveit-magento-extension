@@ -21,7 +21,7 @@ class GiveIt_Block_Adminhtml_System_Config_Form_Field_Install
         $key  =  Mage::getStoreConfig('giveit/settings/data_key');
 
         if ($key != '') {
-            return "You have already performed an installation with the Give.it shops website";
+            return "Your shop is set up on the <a href='http://shops.give.it'>Give.it Shops portal</a>";
         }
 
         $selectedStoreId    = Mage::app()->getRequest()->getParam('store');
