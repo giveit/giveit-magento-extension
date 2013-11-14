@@ -139,7 +139,7 @@ class GiveIt_Model_Order extends Mage_Sales_Model_Order {
 
         foreach ($shoppingCart as $cartItem) {
 
-            $price     = ($item->total + $item->tax) / 100;
+            $price     = ($item->details->price + $item->tax) / 100;
             $product   = $productModel->load($cartItem['product_id']);
             $quoteItem = Mage::getModel('sales/quote_item')->setProduct($product);
             $quoteItem->setQuote($quote);
