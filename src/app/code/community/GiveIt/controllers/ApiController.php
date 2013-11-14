@@ -69,10 +69,22 @@ class GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
         try {
             if ($type == 'sale') {
                 $sale = $giveit->parseCallback($_POST);
-                $order = Mage::getModel('giveit/order')->createGiveItOrder($sale);
 
-                 $response = Mage::helper('core')->jsonEncode(array('status' => 'created', 'id' => $order->getId()));
+                if (is_object($sale)) {
+                    $order    = Mage::getModel('giveit/order')->createGiveItOrder($sale);
+                    $response = array('status' => 'success', 'id' => $order->getId());
 
+                    Mage::log('successful sale callback');
+
+                } else {
+
+                    $response = array('error' => 'callback decode error - ' . $sale);
+
+                    Mage::log('callback JSON error - ' . $sale);
+
+                }
+
+                $this->getResponse()->setHeader('Content-type', 'application/json')->setBody(Mage::helper('core')->jsonEncode($response));
             }
         } catch (Exception $e) {
             Mage::log($e->getMessage());

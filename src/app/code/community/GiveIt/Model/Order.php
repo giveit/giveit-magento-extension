@@ -61,7 +61,7 @@ class GiveIt_Model_Order extends Mage_Sales_Model_Order {
         $shippingAddress        = $sale->shipping_address;
         $shippingDescription    = $delivery->name;
         $shippingPrice          = $delivery->price / 100;
-        $names                  = split(' ', $shippingAddress->name, 1);
+        $names                  = explode(' ', $shippingAddress->name, 1);
 
         $orderShippingAddress   = array(
             'firstname'             => $names[0],
@@ -123,7 +123,7 @@ class GiveIt_Model_Order extends Mage_Sales_Model_Order {
     {
         $sale       = $this->sale;
         $item       = $sale->items[0];
-        $delivery   = $items->delivery;
+        $delivery   = $item->delivery;
 
         $quote = Mage::getModel('sales/quote');
         $quote->setIsMultiShipping(false);
@@ -139,7 +139,7 @@ class GiveIt_Model_Order extends Mage_Sales_Model_Order {
 
         foreach ($shoppingCart as $cartItem) {
 
-            $price     = ($item->details->price + $item->tax) / 100;
+            $price     = ($item->total - $delivery->price + $item->tax) / 100;    // XXX: we assume here that no tax is charged on delivery
             $product   = $productModel->load($cartItem['product_id']);
             $quoteItem = Mage::getModel('sales/quote_item')->setProduct($product);
             $quoteItem->setQuote($quote);
