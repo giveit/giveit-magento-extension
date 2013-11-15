@@ -148,14 +148,12 @@ class GiveIt_Model_Product_Type_Configurable
 
 
                 $parentChoice->addChoice($choice);
-
-                $choices[] = $nestedChoice;
             }
         }
 
-        if (next($productAttributes)) {
-            $this->_addNestedChoices($productAttributes, $choices);
-        }
+        // if (next($productAttributes)) {
+            // $this->_addNestedChoices($productAttributes, $choices);
+        // }
     }
 
 
