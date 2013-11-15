@@ -3,10 +3,8 @@
 /**
  * GiveIt extension
  *
-
  * @package    GiveIt
-
-
+ * @copyright  Give.it
  */
 class GiveIt_Helper_Data
     extends Mage_Core_Helper_Data
@@ -104,7 +102,7 @@ class GiveIt_Helper_Data
 
         if (method_exists($coreHelper, 'useDbCompatibleMode') && $coreHelper->useDbCompatibleMode()) {
             return true;
-        } else if($this->isMagentoMinorVersion(4)){
+        } elseif ($this->isMagentoMinorVersion(4)){
             return true;
         }
 

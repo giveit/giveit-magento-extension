@@ -150,12 +150,7 @@ class GiveIt_Model_Product_Type_Configurable
                 $parentChoice->addChoice($choice);
             }
         }
-
-        // if (next($productAttributes)) {
-            // $this->_addNestedChoices($productAttributes, $choices);
-        // }
     }
-
 
     /**
      * Get choice ID for SDK
@@ -164,7 +159,8 @@ class GiveIt_Model_Product_Type_Configurable
      * @param $id
      * @return string
      */
-    protected function _getSdkChoiceId($options, $id) {
+    protected function _getSdkChoiceId($options, $id)
+    {
         if (count($options) == 1) {
             $productId = array_pop($options);
             $product = Mage::getModel('catalog/product')->load($productId);
@@ -185,21 +181,4 @@ class GiveIt_Model_Product_Type_Configurable
         $jsonConfig = $block->getJsonConfig();
         return Mage::helper('core')->jsonDecode($jsonConfig);
     }
-
-    /**
-     * Clone array of objects
-     *
-     * @param array $arrayToClone
-     * @return array
-     */
-    protected function _cloneArrayOfObjects(array $arrayToClone) {
-        $clonedArray = array();
-
-        foreach ($arrayToClone as $object) {
-            $clonedArray[] = clone $object;
-        }
-
-        return $clonedArray;
-    }
-
 }

@@ -193,7 +193,7 @@ class GiveIt_Model_Order extends Mage_Sales_Model_Order {
         // convert quote to order
         $convertQuoteObj = Mage::getSingleton('sales/convert_quote');
 
-        if($quote->isVirtual() == 0) {
+        if ($quote->isVirtual() == 0) {
             $order = $convertQuoteObj->addressToOrder($quote->getShippingAddress());
         } else {
             $order = $convertQuoteObj->addressToOrder($quote->getBillingAddress());
@@ -203,7 +203,7 @@ class GiveIt_Model_Order extends Mage_Sales_Model_Order {
 
         // convert quote addresses
         $order->setBillingAddress($convertQuoteObj->addressToOrderAddress($quote->getBillingAddress()));
-        if($quote->isVirtual() == 0) {
+        if ($quote->isVirtual() == 0) {
             $order->setShippingAddress($convertQuoteObj->addressToOrderAddress($quote->getShippingAddress()));
         }
 
@@ -219,7 +219,6 @@ class GiveIt_Model_Order extends Mage_Sales_Model_Order {
 
         // convert quote items
         foreach ($items as $item) {
-            // @var $item Mage_Sales_Model_Quote_Item
             $orderItem = $convertQuoteObj->itemToOrderItem($item);
             if ($item->getParentItem()) {
                 $orderItem->setParentItem($order->getItemByQuoteItemId($item->getParentItem()->getId()));

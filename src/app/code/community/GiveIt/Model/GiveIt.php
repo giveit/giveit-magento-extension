@@ -75,7 +75,7 @@ class GiveIt_Model_GiveIt
      */
     public function setJsOutput($value)
     {
-        if(is_bool($value)){
+        if (is_bool($value)){
             $this->_jsOutput = $value;
         }
     }

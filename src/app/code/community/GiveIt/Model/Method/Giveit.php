@@ -9,8 +9,7 @@
  *
  */
 
-class GiveIt_Model_Method_Giveit extends Mage_Payment_Model_Method_Abstract {
-
+class GiveIt_Model_Method_Giveit extends Mage_Payment_Model_Method_Abstract
+{
     protected $_code = 'giveit_payment';
-
 }

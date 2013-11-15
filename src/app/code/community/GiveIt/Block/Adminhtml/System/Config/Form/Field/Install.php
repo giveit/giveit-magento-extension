@@ -35,7 +35,7 @@ class GiveIt_Block_Adminhtml_System_Config_Form_Field_Install
                                     'user_email'        => $user->getEmail(),
                               ));
 
-        return "\n<iframe src='https://shops.give.it/magento/install?$append' width='100%' height='600' frameborder='0' scrolling='auto' marginwidth='5' marginheight='5'></iframe>\n";
+        return "\n<iframe src='https://shops.give.it/magento/install?{$append}' width='100%' height='600' frameborder='0' scrolling='auto' marginwidth='5' marginheight='5'></iframe>\n";
     }
 
 }

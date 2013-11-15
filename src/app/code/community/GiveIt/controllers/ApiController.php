@@ -46,10 +46,12 @@ class GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
 
         $crypt = \GiveIt\SDK\Crypt::getInstance();
         $encryptedResponse = $crypt->encode($response, $this->_helper()->getDataKey());
+        $json = Mage::helper('core')->jsonEncode($encryptedResponse);
 
-        $this->getResponse()->setHeader('Content-type', 'application/json');
-        $response = Mage::helper('core')->jsonEncode($encryptedResponse);
-        $this->getResponse()->setBody($response);
+        $this->getResponse()
+             ->setHeader('Content-type', 'application/json')
+             ->setBody($json)
+             ;
     }
 
     /**
@@ -81,7 +83,7 @@ class GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
 
                     Mage::log('callback JSON error - ' . $sale);
 
-                    $response->setHeader('Status', 500);
+                    $response->setHttpResponseCode(500);
 
                 }
 
@@ -91,11 +93,13 @@ class GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
 
             $data = array('error' => $e->getMessage);
 
-            $response->setHeader('Status', 500);
+            $response->setHttpResponseCode(500);
 
         }
 
-        $response->setHeader('Content-type', 'application/json')->setBody(Mage::helper('core')->jsonEncode($data));
+        $response->setHeader('Content-type', 'application/json')
+                 ->setBody(Mage::helper('core')->jsonEncode($data))
+                 ;
 
     }
 
@@ -112,7 +116,10 @@ class GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
 
         $response = Mage::helper('core')->jsonEncode($data);
 
-        $this->getResponse()->setBody($response)->setHeader('Content-type', 'application/json');
+        $this->getResponse()
+             ->setHeader('Content-type', 'application/json')
+             ->setBody($response)
+             ;
     }
 
 

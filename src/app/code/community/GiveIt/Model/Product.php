@@ -18,7 +18,8 @@ class GiveIt_Model_Product extends Mage_Core_Model_Abstract {
      * @return array
      * @throws Mage_Exception
      */
-    public function getProductStockQty($sku) {
+    public function getProductStockQty($sku)
+    {
         $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $sku);
 
         if ($product) {
@@ -49,7 +50,8 @@ class GiveIt_Model_Product extends Mage_Core_Model_Abstract {
      * @return int
      * @throws Mage_Exception
      */
-    public function getSimpleProductStockQty(Mage_Catalog_Model_Product $product) {
+    public function getSimpleProductStockQty(Mage_Catalog_Model_Product $product)
+    {
         $productStock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($product);
 
         if ($productStock) {
@@ -65,12 +67,14 @@ class GiveIt_Model_Product extends Mage_Core_Model_Abstract {
      * @param Mage_Catalog_Model_Product_Type_Configurable $product
      * @return array
      */
-    public function getConfigurableProductStockQty(Mage_Catalog_Model_Product_Type_Configurable $product) {
+    public function getConfigurableProductStockQty(Mage_Catalog_Model_Product_Type_Configurable $product)
+    {
         $configurableProduct = Mage::getModel('catalog/product_type_configurable')->setProduct($product);
 
         $simpleProducts = $configurableProduct->getUsedProductCollection()
-            ->addAttributeToSelect('*')
-            ->addFilterByRequiredOptions();
+                                              ->addAttributeToSelect('*')
+                                              ->addFilterByRequiredOptions()
+                                              ;
 
         $productsQty = array();
         foreach ($simpleProducts as $simpleProduct) {

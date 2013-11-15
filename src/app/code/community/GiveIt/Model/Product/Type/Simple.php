@@ -23,13 +23,10 @@ class GiveIt_Model_Product_Type_Simple
     public function setProductDetails($productArray = array())
     {
         $product = reset($productArray);
-        /* @var $product Mage_Catalog_Model_Product */
-
-        // $code = $product->getSku();
-        $code  = $product->getId();
-        $price = $this->_roundPrice($product->getFinalPrice());
-        $name  = $product->getName();
-        $image = $product->getImageUrl();
+        $code    = $product->getId();
+        $price   = $this->_roundPrice($product->getFinalPrice());
+        $name    = $product->getName();
+        $image   = $product->getImageUrl();
 
         $productOptions = array(
             'code'  => $code,
