@@ -42,10 +42,10 @@ class GiveIt_Model_Product_Type_Abstract
             $xmlPath = sprintf($xmlPathTemplate, $i);
             $config = Mage::getStoreConfig($xmlPath);
 
-            if ($config['name'] == '')                                                { continue; }
-            if ($config['country'] == '')                                             { continue; }
-            if ($config['price'] == '')                                               { continue; }
-            if ($config['tax_percentage'] < 0 || $config['tax_percentage'] > 100)     { continue; }
+            if ($config['name'] == '')                                       { continue; }
+            if ($config['country'] == '')                                    { continue; }
+            if ($config['price'] == '')                                      { continue; }
+            if ($config['tax_percent'] < 0 || $config['tax_percent'] > 100)  { continue; }
 
             $config['id'] = 'option' . $i;
 
@@ -68,10 +68,10 @@ class GiveIt_Model_Product_Type_Abstract
 
                 $choice->addChoice(
                             new \GiveIt\SDK\Choice(array(
-                                                'id'                => $option['id'],
-                                                'name'              => $option['name'],
-                                                'price'             => $this->_roundPrice($option['price']),
-                                                'tax_percentage'    => (int) $option['tax_percentage'],
+                                                'id'             => $option['id'],
+                                                'name'           => $option['name'],
+                                                'price'          => $this->_roundPrice($option['price']),
+                                                'tax_percent'    => (int) $option['tax_percent'],
                            ))
                 );
             }

@@ -99,7 +99,7 @@ class GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
 
     }
 
-     public function versionAction()
+    public function versionAction()
     {
         $giveit = new \GiveIt\SDK;
         $data   = array(
