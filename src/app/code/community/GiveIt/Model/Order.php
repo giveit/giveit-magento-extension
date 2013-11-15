@@ -10,7 +10,7 @@
  */
 class GiveIt_Model_Order extends Mage_Sales_Model_Order {
 
-    private $sale;
+    protected $sale;
 
     protected function getSelectedVariantProductId($item)
     {
@@ -241,10 +241,11 @@ class GiveIt_Model_Order extends Mage_Sales_Model_Order {
         $order->setShippingInclTax($shippingPrice);
         $order->setBaseShippingInclTax($shippingPrice);
         $order->setShippingDescription($shippingDescription);
-        $order->setTotalPaid($order->getGrandTotal());
+        $order->setGrandTotal($this->sale->total / 100);
+        $order->setTotalPaid($this->sale->total / 100);
+        $order->setTotalDue(0);
 
         $order->save();
-        $order->sendNewOrderEmail();
 
         return $order;
     }

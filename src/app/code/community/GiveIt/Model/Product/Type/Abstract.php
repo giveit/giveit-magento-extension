@@ -31,48 +31,53 @@ class GiveIt_Model_Product_Type_Abstract
 
         $delivery = new \GiveIt\SDK\Option(array(
                                                   'id'          => 'delivery',
-                                                  'type'        => 'delivery',
+                                                  'type'        => 'layered_delivery',
                                                   'name'        => 'Delivery'
                     ));
 
-        $choices  = array();
+        $countries      = array();
 
         foreach (range(1, self::MAX_DELIVERY_OPTIONS) as $i) {
 
             $xmlPath = sprintf($xmlPathTemplate, $i);
             $config = Mage::getStoreConfig($xmlPath);
 
-            if ($config) {
-                $id = $config['delivery_option_choice'];
-                $name = $config['delivery_option_name'];
-                $price = $this->_roundPrice($config['delivery_option_price']);
-                $taxPercentage = $config['delivery_option_tax_percentage'];
+            if ($config['name'] == '')                                                { continue; }
+            if ($config['country'] == '')                                             { continue; }
+            if ($config['price'] == '')                                               { continue; }
+            if ($config['tax_percentage'] < 0 || $config['tax_percentage'] > 100)     { continue; }
 
-                if (empty($id)) {
-                    continue;
-                }
+            $config['id'] = 'option' . $i;
 
-                if (empty($name)) {
-                    continue;
-                }
+            $countries[$config['country']][] = $config;
+        }
 
-                if (empty($price) && $price !== 0) {
-                    continue;
-                }
+        $country_count = 0;
 
-                if ($taxPercentage < 0 || $taxPercentage > 100) {
-                    continue;
-                }
+        foreach ($countries as $country => $options) {
 
-                $choice = new \GiveIt\SDK\Choice(array(
-                                                    'id'            => $id,
-                                                    'name'          => $name,
-                                                    'price'         => $price,
-                                                    'tax_percent'   => (int)$taxPercentage,
-                          ));
+            $countryName = Mage::app()->getLocale()->getCountryTranslation($country);
 
-                $delivery->addChoice($choice);
+            $choice = new \GiveIt\SDK\Choice(array(
+                                                'id'            => $country,
+                                                'name'          => $countryName,
+                                                'choices_title' => $countryName,
+                      ));
+
+            foreach ($options as $option) {
+
+                $choice->addChoice(
+                            new \GiveIt\SDK\Choice(array(
+                                                'id'                => $option['id'],
+                                                'name'              => $option['name'],
+                                                'price'             => $this->_roundPrice($option['price']),
+                                                'tax_percentage'    => (int) $option['tax_percentage'],
+                           ))
+                );
             }
+
+
+            $delivery->addChoice($choice);
         }
 
         $this->addBuyerOption($delivery);

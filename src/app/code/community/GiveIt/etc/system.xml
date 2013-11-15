@@ -258,31 +258,32 @@
           <show_in_website>1</show_in_website>
           <show_in_store>1</show_in_store>
           <fields>
-            <delivery_option_choice>
-              <label>Option ID</label>
-              <sort_order>30</sort_order>
+            <name>
+              <label>Name</label>
+              <sort_order>20</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_choice>
-            <delivery_option_name>
-              <label>Option Name</label>
+            </name>
+            <country>
+              <label>Country</label>
+              <sort_order>30</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_country</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </country>
+            <price>
+              <label>Price</label>
               <sort_order>40</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_name>
-            <delivery_option_price>
-              <label>Option Price</label>
-              <sort_order>50</sort_order>
-              <frontend_type>text</frontend_type>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </delivery_option_price>
-            <delivery_option_tax_percentage>
+            </price>
+            <tax_percentage>
               <label>Tax Percentage</label>
               <sort_order>60</sort_order>
               <frontend_type>text</frontend_type>
@@ -290,7 +291,7 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
-            </delivery_option_tax_percentage>
+            </tax_percentage>
           </fields>
         </delivery_option_1>
         <delivery_option_2>
@@ -299,32 +300,33 @@
           <show_in_default>1</show_in_default>
           <show_in_website>1</show_in_website>
           <show_in_store>1</show_in_store>
-          <fields>
-            <delivery_option_choice>
-              <label>Option ID</label>
-              <sort_order>30</sort_order>
+            <fields>
+            <name>
+              <label>Name</label>
+              <sort_order>20</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_choice>
-            <delivery_option_name>
-              <label>Option Name</label>
+            </name>
+            <country>
+              <label>Country</label>
+              <sort_order>30</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_country</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </country>
+            <price>
+              <label>Price</label>
               <sort_order>40</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_name>
-            <delivery_option_price>
-              <label>Option Price</label>
-              <sort_order>50</sort_order>
-              <frontend_type>text</frontend_type>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </delivery_option_price>
-            <delivery_option_tax_percentage>
+            </price>
+            <tax_percentage>
               <label>Tax Percentage</label>
               <sort_order>60</sort_order>
               <frontend_type>text</frontend_type>
@@ -332,7 +334,7 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
-            </delivery_option_tax_percentage>
+            </tax_percentage>
           </fields>
         </delivery_option_2>
         <delivery_option_3>
@@ -341,32 +343,33 @@
           <show_in_default>1</show_in_default>
           <show_in_website>1</show_in_website>
           <show_in_store>1</show_in_store>
-          <fields>
-            <delivery_option_choice>
-              <label>Option ID</label>
-              <sort_order>30</sort_order>
+           <fields>
+            <name>
+              <label>Name</label>
+              <sort_order>20</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_choice>
-            <delivery_option_name>
-              <label>Option Name</label>
+            </name>
+            <country>
+              <label>Country</label>
+              <sort_order>30</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_country</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </country>
+            <price>
+              <label>Price</label>
               <sort_order>40</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_name>
-            <delivery_option_price>
-              <label>Option Price</label>
-              <sort_order>50</sort_order>
-              <frontend_type>text</frontend_type>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </delivery_option_price>
-            <delivery_option_tax_percentage>
+            </price>
+            <tax_percentage>
               <label>Tax Percentage</label>
               <sort_order>60</sort_order>
               <frontend_type>text</frontend_type>
@@ -374,7 +377,7 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
-            </delivery_option_tax_percentage>
+            </tax_percentage>
           </fields>
         </delivery_option_3>
         <delivery_option_4>
@@ -384,31 +387,32 @@
           <show_in_website>1</show_in_website>
           <show_in_store>1</show_in_store>
           <fields>
-            <delivery_option_choice>
-              <label>Option ID</label>
-              <sort_order>30</sort_order>
+            <name>
+              <label>Name</label>
+              <sort_order>20</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_choice>
-            <delivery_option_name>
-              <label>Option Name</label>
+            </name>
+            <country>
+              <label>Country</label>
+              <sort_order>30</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_country</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </country>
+            <price>
+              <label>Price</label>
               <sort_order>40</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_name>
-            <delivery_option_price>
-              <label>Option Price</label>
-              <sort_order>50</sort_order>
-              <frontend_type>text</frontend_type>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </delivery_option_price>
-            <delivery_option_tax_percentage>
+            </price>
+            <tax_percentage>
               <label>Tax Percentage</label>
               <sort_order>60</sort_order>
               <frontend_type>text</frontend_type>
@@ -416,7 +420,7 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
-            </delivery_option_tax_percentage>
+            </tax_percentage>
           </fields>
         </delivery_option_4>
         <delivery_option_5>
@@ -425,32 +429,33 @@
           <show_in_default>1</show_in_default>
           <show_in_website>1</show_in_website>
           <show_in_store>1</show_in_store>
-          <fields>
-            <delivery_option_choice>
-              <label>Option ID</label>
-              <sort_order>30</sort_order>
+           <fields>
+            <name>
+              <label>Name</label>
+              <sort_order>20</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_choice>
-            <delivery_option_name>
-              <label>Option Name</label>
+            </name>
+            <country>
+              <label>Country</label>
+              <sort_order>30</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_country</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </country>
+            <price>
+              <label>Price</label>
               <sort_order>40</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_name>
-            <delivery_option_price>
-              <label>Option Price</label>
-              <sort_order>50</sort_order>
-              <frontend_type>text</frontend_type>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </delivery_option_price>
-            <delivery_option_tax_percentage>
+            </price>
+            <tax_percentage>
               <label>Tax Percentage</label>
               <sort_order>60</sort_order>
               <frontend_type>text</frontend_type>
@@ -458,7 +463,7 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
-            </delivery_option_tax_percentage>
+            </tax_percentage>
           </fields>
         </delivery_option_5>
         <delivery_option_6>
@@ -467,32 +472,33 @@
           <show_in_default>1</show_in_default>
           <show_in_website>1</show_in_website>
           <show_in_store>1</show_in_store>
-          <fields>
-            <delivery_option_choice>
-              <label>Option ID</label>
-              <sort_order>30</sort_order>
+           <fields>
+            <name>
+              <label>Name</label>
+              <sort_order>20</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_choice>
-            <delivery_option_name>
-              <label>Option Name</label>
+            </name>
+            <country>
+              <label>Country</label>
+              <sort_order>30</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_country</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </country>
+            <price>
+              <label>Price</label>
               <sort_order>40</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_name>
-            <delivery_option_price>
-              <label>Option Price</label>
-              <sort_order>50</sort_order>
-              <frontend_type>text</frontend_type>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </delivery_option_price>
-            <delivery_option_tax_percentage>
+            </price>
+            <tax_percentage>
               <label>Tax Percentage</label>
               <sort_order>60</sort_order>
               <frontend_type>text</frontend_type>
@@ -500,7 +506,7 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
-            </delivery_option_tax_percentage>
+            </tax_percentage>
           </fields>
         </delivery_option_6>
         <delivery_option_7>
@@ -510,31 +516,32 @@
           <show_in_website>1</show_in_website>
           <show_in_store>1</show_in_store>
           <fields>
-            <delivery_option_choice>
-              <label>Option ID</label>
-              <sort_order>30</sort_order>
+            <name>
+              <label>Name</label>
+              <sort_order>20</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_choice>
-            <delivery_option_name>
-              <label>Option Name</label>
+            </name>
+            <country>
+              <label>Country</label>
+              <sort_order>30</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_country</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </country>
+            <price>
+              <label>Price</label>
               <sort_order>40</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_name>
-            <delivery_option_price>
-              <label>Option Price</label>
-              <sort_order>50</sort_order>
-              <frontend_type>text</frontend_type>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </delivery_option_price>
-            <delivery_option_tax_percentage>
+            </price>
+            <tax_percentage>
               <label>Tax Percentage</label>
               <sort_order>60</sort_order>
               <frontend_type>text</frontend_type>
@@ -542,7 +549,7 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
-            </delivery_option_tax_percentage>
+            </tax_percentage>
           </fields>
         </delivery_option_7>
         <delivery_option_8>
@@ -551,32 +558,33 @@
           <show_in_default>1</show_in_default>
           <show_in_website>1</show_in_website>
           <show_in_store>1</show_in_store>
-          <fields>
-            <delivery_option_choice>
-              <label>Option ID</label>
-              <sort_order>30</sort_order>
+           <fields>
+            <name>
+              <label>Name</label>
+              <sort_order>20</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_choice>
-            <delivery_option_name>
-              <label>Option Name</label>
+            </name>
+            <country>
+              <label>Country</label>
+              <sort_order>30</sort_order>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_country</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </country>
+            <price>
+              <label>Price</label>
               <sort_order>40</sort_order>
               <frontend_type>text</frontend_type>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </delivery_option_name>
-            <delivery_option_price>
-              <label>Option Price</label>
-              <sort_order>50</sort_order>
-              <frontend_type>text</frontend_type>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </delivery_option_price>
-            <delivery_option_tax_percentage>
+            </price>
+            <tax_percentage>
               <label>Tax Percentage</label>
               <sort_order>60</sort_order>
               <frontend_type>text</frontend_type>
@@ -584,7 +592,7 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
-            </delivery_option_tax_percentage>
+            </tax_percentage>
           </fields>
         </delivery_option_8>
       </groups>
