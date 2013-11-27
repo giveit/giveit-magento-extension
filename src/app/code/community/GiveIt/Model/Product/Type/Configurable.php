@@ -95,6 +95,7 @@ class GiveIt_Model_Product_Type_Configurable
                                                'id'                 => 'choice_' . $option['id'],
                                                'name'               => $option['label'],
                                                'price'              => $this->_roundPrice($option['price']),
+                                               'product_id'         => $option['products'][0],
                                                'choice_products'    => $option['products'],
                       ));
 
