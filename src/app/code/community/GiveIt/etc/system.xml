@@ -32,7 +32,7 @@
           <show_in_store>1</show_in_store>
           <comment>
             <![CDATA[
-            <iframe src="https://shops.give.it/prestashop/support" width="100%" height="600" frameborder="0" scrolling="auto" marginwidth="5" marginheight="5"></iframe>
+            <iframe src="https://shops.give.it/magento/support" width="100%" height="600" frameborder="0" scrolling="auto" marginwidth="5" marginheight="5"></iframe>
             ]]>
           </comment>
         </help>
