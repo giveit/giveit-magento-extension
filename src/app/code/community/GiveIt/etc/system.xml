@@ -283,7 +283,7 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
             </price>
-            <tax_percent>
+             <tax_percent>
               <label>Tax Percent</label>
               <sort_order>60</sort_order>
               <frontend_type>text</frontend_type>
@@ -292,6 +292,15 @@
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
             </tax_percent>
+            <free_above>
+              <label>Free Above</label>
+              <sort_order>60</sort_order>
+              <frontend_type>text</frontend_type>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>validate-digits</validate>
+            </free_above>
           </fields>
         </delivery_option_1>
         <delivery_option_2>
@@ -335,6 +344,15 @@
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
             </tax_percent>
+             <free_above>
+              <label>Free Above</label>
+              <sort_order>60</sort_order>
+              <frontend_type>text</frontend_type>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>validate-digits</validate>
+            </free_above>
           </fields>
         </delivery_option_2>
         <delivery_option_3>
@@ -378,7 +396,16 @@
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
             </tax_percent>
-          </fields>
+              <free_above>
+              <label>Free Above</label>
+              <sort_order>60</sort_order>
+              <frontend_type>text</frontend_type>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>validate-digits</validate>
+            </free_above>
+         </fields>
         </delivery_option_3>
         <delivery_option_4>
           <label>Delivery Option 4</label>
@@ -421,7 +448,16 @@
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
             </tax_percent>
-          </fields>
+               <free_above>
+              <label>Free Above</label>
+              <sort_order>60</sort_order>
+              <frontend_type>text</frontend_type>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>validate-digits</validate>
+            </free_above>
+        </fields>
         </delivery_option_4>
         <delivery_option_5>
           <label>Delivery Option 5</label>
@@ -464,7 +500,16 @@
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
             </tax_percent>
-          </fields>
+              <free_above>
+              <label>Free Above</label>
+              <sort_order>60</sort_order>
+              <frontend_type>text</frontend_type>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>validate-digits</validate>
+            </free_above>
+         </fields>
         </delivery_option_5>
         <delivery_option_6>
           <label>Delivery Option 6</label>
@@ -507,7 +552,16 @@
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
             </tax_percent>
-          </fields>
+            <free_above>
+              <label>Free Above</label>
+              <sort_order>60</sort_order>
+              <frontend_type>text</frontend_type>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>validate-digits</validate>
+            </free_above>
+           </fields>
         </delivery_option_6>
         <delivery_option_7>
           <label>Delivery Option 7</label>
@@ -550,6 +604,15 @@
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
             </tax_percent>
+             <free_above>
+              <label>Free Above</label>
+              <sort_order>60</sort_order>
+              <frontend_type>text</frontend_type>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>validate-digits</validate>
+            </free_above>
           </fields>
         </delivery_option_7>
         <delivery_option_8>
@@ -593,7 +656,16 @@
               <show_in_store>1</show_in_store>
               <validate>validate-digits</validate>
             </tax_percent>
-          </fields>
+              <free_above>
+              <label>Free Above</label>
+              <sort_order>60</sort_order>
+              <frontend_type>text</frontend_type>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>validate-digits</validate>
+            </free_above>
+         </fields>
         </delivery_option_8>
       </groups>
     </giveit>

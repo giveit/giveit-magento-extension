@@ -27,7 +27,11 @@ class GiveIt_Model_Product_Type_Abstract
      */
     public function addDeliveryOptions()
     {
-        $xmlPathTemplate = 'giveit/delivery_option_%s';
+     
+	
+	$productPrice = $this->data['details']['price'];
+
+	$xmlPathTemplate = 'giveit/delivery_option_%s';
 
         $delivery = new \GiveIt\SDK\Option(array(
                                                   'id'          => 'delivery',
@@ -65,12 +69,18 @@ class GiveIt_Model_Product_Type_Abstract
                       ));
 
             foreach ($options as $option) {
+		
+		$optionPrice = $this->_roundPrice($option['price']);
+
+		if((int)($option['free_above']*100) > 0 && $productPrice > (int)($option['free_above'] * 100 )){
+			$optionPrice = 0;
+		}
 
                 $choice->addChoice(
                             new \GiveIt\SDK\Choice(array(
                                                 'id'             => $option['id'],
                                                 'name'           => $option['name'],
-                                                'price'          => $this->_roundPrice($option['price']),
+                                                'price'          => $optionPrice,
                                                 'tax_percent'    => (int) $option['tax_percent'],
                            ))
                 );
