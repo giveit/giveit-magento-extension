@@ -111,6 +111,8 @@ class GiveIt_ApiController extends Mage_Core_Controller_Front_Action {
                 'sdk'       => $giveit::VERSION,
                 'module'    => (string) Mage::getConfig()->getModuleConfig("GiveIt")->version,
                 'magento'   => Mage::getVersion(),
+                'php'       => phpversion(),
+                'php-sapi'  => php_sapi_name(),
             )
         );
 
