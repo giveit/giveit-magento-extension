@@ -147,9 +147,13 @@ class GiveIt_Model_Product_Type_Configurable
                                                    'id'              => 'choice_' . $option['id'],
                                                    'product_id'      => $option['products'][0],
                                                    'name'            => $option['label'],
-                                                   'price'           => $this->_roundPrice($option['price']),
                                                    'choice_products' => $choiceProducts,
-                          ));
+                                                 ));
+                          
+                // add the price if the option has one
+                if (isset($option['price'])) {
+                    $choice->price = $this->_roundPrice($option['price']);
+                }
 
 
                 $parentChoice->addChoice($choice);
