@@ -94,10 +94,14 @@ class GiveIt_Model_Product_Type_Configurable
             $choice = new \GiveIt\SDK\Choice(array(
                                                'id'                 => 'choice_' . $option['id'],
                                                'name'               => $option['label'],
-                                               'price'              => $this->_roundPrice($option['price']),
                                                'product_id'         => $option['products'][0],
                                                'choice_products'    => $option['products'],
-                      ));
+                                             ));
+
+            // add the price if the option has one
+            if (isset($option['price'])) {
+                $choice->price = $this->_roundPrice($option['price']);
+            }
 
             $this->_mainChoices[] = $choice;
         }
