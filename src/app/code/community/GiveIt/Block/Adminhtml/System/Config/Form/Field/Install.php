@@ -29,7 +29,7 @@ class GiveIt_Block_Adminhtml_System_Config_Form_Field_Install
         $append             = http_build_query(array(
                                     'website'           => urlencode(Mage::getStoreConfig('web/unsecure/base_url', $selectedStoreId)),
                                     'name'              => urlencode(Mage::getStoreConfig('general/store_information/name', $selectedStoreId)),
-                                    'currency'          => Mage::app()->getStore($selectedStoreID)->getCurrentCurrencyCode(),
+                                    'currency'          => Mage::app()->getStore($selectedStoreId)->getCurrentCurrencyCode(),
                                     'user_first_name'   => $user->getFirstname(),
                                     'user_last_name'    => $user->getLastname(),
                                     'user_email'        => $user->getEmail(),
